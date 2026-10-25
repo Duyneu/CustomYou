@@ -23,9 +23,40 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Vui lòng nhập đầy đủ Email và Mật khẩu.");
         }
 
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
           where: { email: credentials.email.trim().toLowerCase() },
         });
+
+        // Nếu database mới kết nối chưa có người dùng nào, tự động khởi tạo tài khoản quản trị
+        if (!user) {
+          try {
+            const userCount = await prisma.user.count();
+            const cleanEmail = credentials.email.trim().toLowerCase();
+            if (userCount === 0 && (cleanEmail === "admin@myhub.local" || cleanEmail.includes("@"))) {
+              const passwordHash = await bcrypt.hash(credentials.password, 10);
+              user = await prisma.user.create({
+                data: {
+                  email: cleanEmail,
+                  name: "Chủ Nhân MyHub",
+                  passwordHash,
+                  twoFactorEnabled: false,
+                  settings: {
+                    create: {
+                      fiscalMonthStartDay: 1,
+                      currency: "VND",
+                      locale: "vi",
+                      theme: "dark",
+                      accentColor: "emerald",
+                      budgetAlertThreshold: 80,
+                    },
+                  },
+                },
+              });
+            }
+          } catch (e) {
+            console.error("Auto-seed admin error:", e);
+          }
+        }
 
         if (!user || !user.passwordHash) {
           throw new Error("Tài khoản hoặc mật khẩu không chính xác.");
