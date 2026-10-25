@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { TopNavbar } from "@/components/layout/top-navbar";
+import { GlobalSearchDialog } from "@/components/layout/global-search-dialog";
 
 export const dynamic = "force-dynamic";
 
@@ -25,6 +26,7 @@ export default async function DashboardLayout({
 
     return (
       <div className="flex min-h-screen">
+        <GlobalSearchDialog />
         {/* Sidebar cố định */}
         <AppSidebar />
 
