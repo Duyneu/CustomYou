@@ -3,6 +3,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { prisma } from "./prisma";
 
+// Chỉ cho phép duy nhất một chủ sở hữu truy cập hệ thống
+export const ALLOWED_OWNER_EMAIL = (process.env.DEFAULT_ADMIN_EMAIL || "admin@example.com")
+  .trim()
+  .toLowerCase();
+
 export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
@@ -23,21 +28,46 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Vui lòng nhập đầy đủ Email và Mật khẩu.");
         }
 
+        const cleanEmail = credentials.email.trim().toLowerCase();
+
+        // Kiểm soát đơn người dùng (Single-user strict gatekeeper)
+        if (cleanEmail !== ALLOWED_OWNER_EMAIL) {
+          throw new Error("Truy cập bị từ chối: Bảng điều khiển MyHub chỉ dành riêng cho chủ nhân.");
+        }
+
         let user = await prisma.user.findUnique({
-          where: { email: credentials.email.trim().toLowerCase() },
+          where: { email: ALLOWED_OWNER_EMAIL },
         });
 
-        // Nếu database mới kết nối chưa có người dùng nào, tự động khởi tạo tài khoản quản trị
+        // Tự động nâng cấp tài khoản cũ nếu còn lưu admin@myhub.local
+        if (!user) {
+          const oldAdmin = await prisma.user.findUnique({
+            where: { email: "admin@myhub.local" },
+          });
+
+          if (oldAdmin) {
+            const passwordHash = await bcrypt.hash(credentials.password, 12);
+            user = await prisma.user.update({
+              where: { id: oldAdmin.id },
+              data: {
+                email: ALLOWED_OWNER_EMAIL,
+                name: "Hữu Duy",
+                passwordHash,
+              },
+            });
+          }
+        }
+
+        // Nếu database mới kết nối chưa có người dùng nào, tự động khởi tạo tài khoản chủ nhân
         if (!user) {
           try {
             const userCount = await prisma.user.count();
-            const cleanEmail = credentials.email.trim().toLowerCase();
-            if (userCount === 0 && (cleanEmail === "admin@myhub.local" || cleanEmail.includes("@"))) {
-              const passwordHash = await bcrypt.hash(credentials.password, 10);
+            if (userCount === 0) {
+              const passwordHash = await bcrypt.hash(credentials.password, 12);
               user = await prisma.user.create({
                 data: {
-                  email: cleanEmail,
-                  name: "Chủ Nhân MyHub",
+                  email: ALLOWED_OWNER_EMAIL,
+                  name: "Hữu Duy",
                   passwordHash,
                   twoFactorEnabled: false,
                   settings: {
@@ -54,7 +84,7 @@ export const authOptions: NextAuthOptions = {
               });
             }
           } catch (e) {
-            console.error("Auto-seed admin error:", e);
+            console.error("Auto-seed owner error:", e);
           }
         }
 
@@ -74,9 +104,9 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          name: user.name || "Chủ nhân MyHub",
+          name: user.name || "Hữu Duy",
           twoFactorEnabled: user.twoFactorEnabled,
-          twoFactorVerified: !user.twoFactorEnabled, // Nếu không bật 2FA thì coi như đã verify
+          twoFactorVerified: !user.twoFactorEnabled,
         };
       },
     }),
@@ -107,7 +137,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret:
-    process.env.NEXTAUTH_SECRET ||
-    "0000000000000000000000000000000000000000000000000000000000000000",
+  secret: process.env.NEXTAUTH_SECRET || "0000000000000000000000000000000000000000000000000000000000000000",
 };

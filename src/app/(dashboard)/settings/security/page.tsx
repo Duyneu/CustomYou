@@ -122,7 +122,7 @@ export default function SecuritySettingsPage() {
                 </div>
                 <div>
                   <span className="text-muted-foreground block">Tài khoản:</span>
-                  <span className="font-mono text-foreground">admin@myhub.local</span>
+                  <span className="font-mono text-foreground">admin@example.com</span>
                 </div>
               </div>
             </div>

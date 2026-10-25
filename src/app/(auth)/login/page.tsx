@@ -13,8 +13,8 @@ function LoginForm() {
   const initialStep = searchParams.get("step") === "2fa" ? 2 : 1;
 
   const [step, setStep] = useState<1 | 2>(initialStep as 1 | 2);
-  const [email, setEmail] = useState("admin@myhub.local");
-  const [password, setPassword] = useState("MyHub@2026!");
+  const [email, setEmail] = useState("admin@example.com");
+  const [password, setPassword] = useState("");
   const [twoFactorCode, setTwoFactorCode] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -118,7 +118,7 @@ function LoginForm() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@myhub.local"
+              placeholder="admin@example.com"
             />
           </div>
 
@@ -143,16 +143,6 @@ function LoginForm() {
             {loading ? "Đang xác thực..." : "Tiếp tục vào bảng điều khiển"}
             <ArrowRight className="w-3.5 h-3.5 ml-2" />
           </Button>
-
-          {/* Tài khoản mẫu */}
-          <div className="pt-4 border-t border-border text-center space-y-1">
-            <div className="text-xs text-muted-foreground">
-              Tài khoản mẫu mặc định
-            </div>
-            <div className="text-xs font-mono text-foreground">
-              admin@myhub.local / MyHub@2026!
-            </div>
-          </div>
         </form>
       ) : (
         /* Bước 2: Xác thực 2FA TOTP */

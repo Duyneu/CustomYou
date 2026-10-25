@@ -6,19 +6,29 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Bắt đầu khởi tạo dữ liệu mẫu cho MyHub...");
 
-  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || "admin@myhub.local";
-  const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD || "MyHub@2026!";
+  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || "admin@example.com";
+  const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD || "REDACTED_PASS";
+
+  // Dọn dẹp tài khoản demo cũ nếu có
+  const oldAdmin = await prisma.user.findUnique({ where: { email: "admin@myhub.local" } });
+  if (oldAdmin && oldAdmin.email !== adminEmail) {
+    await prisma.user.update({
+      where: { id: oldAdmin.id },
+      data: { email: adminEmail, name: "Hữu Duy" },
+    });
+  }
 
   // 1. Tạo hoặc cập nhật tài khoản người dùng duy nhất
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
+  const passwordHash = await bcrypt.hash(adminPassword, 12);
   const user = await prisma.user.upsert({
     where: { email: adminEmail },
     update: {
+      name: "Hữu Duy",
       passwordHash,
     },
     create: {
       email: adminEmail,
-      name: "Chủ Nhân MyHub",
+      name: "Hữu Duy",
       passwordHash,
       twoFactorEnabled: false,
     },

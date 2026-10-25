@@ -38,8 +38,8 @@ ENCRYPTION_MASTER_KEY="111111111111111111111111111111111111111111111111111111111
 BANK_WEBHOOK_SECRET="REDACTED_SECRET"
 
 # Tài khoản mặc định khi chạy seed
-DEFAULT_ADMIN_EMAIL="admin@myhub.local"
-DEFAULT_ADMIN_PASSWORD="MyHub@2026!"
+DEFAULT_ADMIN_EMAIL="admin@example.com"
+DEFAULT_ADMIN_PASSWORD="REDACTED_PASS"
 ```
 
 ### 2. Đồng bộ Database & Khởi tạo Dữ liệu mẫu (Seed)
@@ -88,11 +88,12 @@ MyHub thiết kế sẵn kiến trúc **BankProvider Adapter** để tích hợp
 
 ---
 
-## 🔑 Tài Khoản Đăng Nhập Mặc Định
+## 🔑 Quyền Truy Cập Chủ Sở Hữu (Single-User Lock)
 
-- **Email**: `admin@myhub.local`
-- **Mật khẩu**: `MyHub@2026!`
-- **Bảo mật 2FA**: Kích hoạt tại `/settings/security` qua ứng dụng Google Authenticator.
+Hệ thống được thiết lập chế độ bảo mật nghiêm ngặt chỉ dành riêng cho một chủ nhân duy nhất:
+- **Email chủ nhân**: `admin@example.com`
+- Mọi nỗ lực đăng nhập bằng bất kỳ tài khoản email nào khác đều sẽ bị từ chối truy cập ngay lập tức.
+- **Bảo mật 2FA**: Có thể kích hoạt thêm tại `/settings/security` qua ứng dụng Google Authenticator.
 
 ---
 
