@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import { formatVND } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
@@ -23,15 +21,15 @@ export function CurrencyDisplay({
   const isZero = formatted === "0 ₫";
 
   const sizeClasses = {
-    sm: "text-sm font-medium",
-    md: "text-base font-semibold",
-    lg: "text-xl font-bold tracking-tight",
-    xl: "text-3xl font-extrabold tracking-tight",
+    sm: "text-xs font-normal",
+    md: "text-sm font-medium",
+    lg: "text-lg font-semibold tracking-tight",
+    xl: "text-2xl font-bold tracking-tight",
   };
 
   const typeClasses = {
-    INCOME: "text-emerald-600 dark:text-emerald-400",
-    EXPENSE: "text-rose-600 dark:text-rose-400",
+    INCOME: "text-emerald-700 dark:text-emerald-400",
+    EXPENSE: "text-neutral-900 dark:text-neutral-100",
     NEUTRAL: "text-foreground",
   };
 
@@ -44,7 +42,7 @@ export function CurrencyDisplay({
   return (
     <span
       className={cn(
-        "inline-flex items-baseline tabular-nums",
+        "inline-flex items-baseline tabular-nums font-mono",
         sizeClasses[size],
         typeClasses[type],
         className

@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <SessionProvider>
           <ThemeProvider defaultTheme="dark">
-            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-zinc-950 dark:to-slate-900 transition-colors">
+            <div className="min-h-screen bg-background text-foreground antialiased">
               {children}
             </div>
           </ThemeProvider>

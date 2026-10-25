@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { Sun, Moon, Search, LogOut, User } from "lucide-react";
+import { Sun, Moon, Search, LogOut } from "lucide-react";
 import { useTheme } from "@/components/providers/theme-provider";
 import { getTimeOfDayGreeting } from "@/lib/formatters";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ export function TopNavbar() {
   const { data: session } = useSession();
   const { theme, setTheme } = useTheme();
   const [currentTime, setCurrentTime] = useState("");
-  const [greeting, setGreeting] = useState("Xin chào!");
+  const [greeting, setGreeting] = useState("Xin chào");
 
   useEffect(() => {
     const updateTime = () => {
@@ -23,7 +23,7 @@ export function TopNavbar() {
           second: "2-digit",
         })
       );
-      setGreeting(getTimeOfDayGreeting(session?.user?.name || "Chủ nhân"));
+      setGreeting(getTimeOfDayGreeting(session?.user?.name || "Bạn"));
     };
 
     updateTime();
@@ -36,70 +36,60 @@ export function TopNavbar() {
   };
 
   return (
-    <header className="sticky top-0 z-20 w-full glass-panel border-b border-white/10 dark:border-white/5 px-4 lg:px-8 py-3 transition-colors">
-      <div className="flex items-center justify-between max-w-7xl mx-auto gap-4">
-        {/* Left: Dynamic Greeting & Realtime Clock */}
-        <div className="pl-12 lg:pl-0">
-          <h1 className="text-base lg:text-lg font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+    <header className="sticky top-0 z-20 w-full bg-background/95 backdrop-blur-sm border-b border-border px-4 lg:px-8 py-3">
+      <div className="flex items-center justify-between max-w-6xl mx-auto gap-4">
+        {/* Left: Greeting & Current Time */}
+        <div className="pl-12 lg:pl-0 flex items-baseline gap-3">
+          <span className="text-sm font-semibold text-foreground">
             {greeting}
-          </h1>
-          <p className="text-xs text-muted-foreground flex items-center gap-2">
-            <span className="tabular-nums font-mono">{currentTime}</span>
-            <span>•</span>
-            <span className="flex items-center gap-1 text-emerald-500 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              MyHub An Toàn
-            </span>
-          </p>
+          </span>
+          <span className="text-xs text-muted-foreground tabular-nums font-mono">
+            {currentTime}
+          </span>
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {/* Quick Search Shortcut */}
           <button
             onClick={() => {
               window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
             }}
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-input bg-background/50 hover:bg-accent text-muted-foreground text-xs transition-colors shadow-sm"
+            className="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-md border border-border bg-card text-muted-foreground text-xs hover:border-foreground/30 transition-colors"
           >
-            <Search className="w-3.5 h-3.5 text-muted-foreground" />
-            <span>Tìm kiếm...</span>
-            <kbd className="px-1.5 py-0.5 rounded bg-muted text-[10px] font-semibold text-muted-foreground">
+            <Search className="w-3.5 h-3.5" />
+            <span>Tìm kiếm</span>
+            <kbd className="px-1 py-0.5 rounded bg-muted text-[10px] text-muted-foreground font-mono">
               Ctrl K
             </kbd>
           </button>
 
-          {/* Theme Toggle - Tĩnh, nhẹ nhàng, dứt khoát */}
+          {/* Theme Toggle */}
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="rounded-xl hover:bg-white/50 dark:hover:bg-slate-800/50"
-            title="Đổi giao diện sáng/tối"
+            className="rounded-lg h-8 w-8 text-muted-foreground hover:text-foreground"
+            title="Chuyển chế độ sáng và tối"
           >
             {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-amber-400" />
+              <Sun className="w-4 h-4" />
             ) : (
-              <Moon className="w-4 h-4 text-slate-700" />
+              <Moon className="w-4 h-4" />
             )}
           </Button>
 
-          {/* User Session Profile & Logout */}
-          <div className="flex items-center gap-2 pl-2 border-l border-white/10">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-white text-xs font-bold shadow-sm">
-              <User className="w-4 h-4" />
-            </div>
-
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              className="text-muted-foreground hover:text-red-500 hover:bg-red-500/10 rounded-xl"
-              title="Đăng xuất khỏi MyHub"
-            >
-              <LogOut className="w-4 h-4" />
-            </Button>
-          </div>
+          {/* Logout */}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="text-xs text-muted-foreground hover:text-foreground h-8 px-2.5"
+            title="Đăng xuất"
+          >
+            <LogOut className="w-3.5 h-3.5 mr-1.5" />
+            <span>Đăng xuất</span>
+          </Button>
         </div>
       </div>
     </header>

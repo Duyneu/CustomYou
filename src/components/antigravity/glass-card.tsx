@@ -3,17 +3,16 @@ import { cn } from "@/lib/utils";
 
 export interface GlassCardProps extends React.HTMLAttributes<HTMLDivElement> {
   glow?: boolean;
-  enableTilt?: boolean; // giữ prop để tương thích giao diện nhưng dùng CSS tĩnh
+  enableTilt?: boolean;
 }
 
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ className, children, glow = false, enableTilt, ...props }, ref) => {
+  ({ className, children, glow, enableTilt, ...props }, ref) => {
     return (
       <div
         ref={ref}
         className={cn(
-          "glass-card rounded-2xl p-6 relative overflow-hidden transition-all duration-200",
-          glow && "hover:border-emerald-500/40 hover:shadow-antigravity-glow",
+          "minimal-surface p-6 rounded-xl border border-border bg-card text-card-foreground",
           className
         )}
         {...props}
