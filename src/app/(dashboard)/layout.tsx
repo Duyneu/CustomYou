@@ -19,11 +19,6 @@ export default async function DashboardLayout({
       redirect("/login");
     }
 
-    // Nếu người dùng bật 2FA nhưng chưa xác thực 2FA thành công trong phiên này
-    if (session.user.twoFactorEnabled && !session.user.twoFactorVerified) {
-      redirect("/login?step=2fa");
-    }
-
     return (
       <div className="flex min-h-screen">
         <GlobalSearchDialog />

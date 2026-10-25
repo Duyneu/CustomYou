@@ -2,20 +2,13 @@
 
 import React, { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Lock, Mail, KeyRound, AlertCircle, ArrowRight, ShieldCheck } from "lucide-react";
+import { AlertCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 function LoginForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const hasStep2FA = searchParams.get("step") === "2fa";
-
   const [email, setEmail] = useState("admin@example.com");
   const [password, setPassword] = useState("");
-  const [twoFactorCode, setTwoFactorCode] = useState("");
-  const [show2FA, setShow2FA] = useState(hasStep2FA);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,25 +22,19 @@ function LoginForm() {
         redirect: false,
         email: email.trim(),
         password: password,
-        code: twoFactorCode.trim() || undefined,
       });
 
       if (res?.error) {
-        if (res.error === "2FA_REQUIRED") {
-          setShow2FA(true);
-          setError("Tài khoản đã kích hoạt 2FA. Vui lòng nhập mã 6 số từ Google Authenticator.");
-        } else {
-          setError(res.error);
-        }
+        setError(res.error);
         setLoading(false);
         return;
       }
 
       if (res?.ok) {
-        // Sử dụng window.location.href để điều hướng tải lại toàn bộ phiên và cookie NextAuth
+        // Tải lại toàn bộ trang vào dashboard và làm mới phiên làm việc
         window.location.href = "/dashboard";
       } else {
-        setError("Không thể đăng nhập, vui lòng kiểm tra lại thông tin.");
+        setError("Không thể đăng nhập, vui lòng kiểm tra lại mật khẩu.");
         setLoading(false);
       }
     } catch (err: any) {
@@ -97,32 +84,12 @@ function LoginForm() {
           <Input
             type="password"
             required
-            autoFocus={!hasStep2FA}
+            autoFocus
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
           />
         </div>
-
-        {/* Ô nhập mã 2FA (hiển thị khi tài khoản bật 2FA hoặc người dùng mở) */}
-        {show2FA && (
-          <div className="space-y-1.5 pt-1">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-foreground flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                Mã xác thực 2FA (Google Authenticator)
-              </label>
-            </div>
-            <Input
-              type="text"
-              autoFocus={hasStep2FA}
-              value={twoFactorCode}
-              onChange={(e) => setTwoFactorCode(e.target.value)}
-              placeholder="123456"
-              className="text-center tracking-widest font-mono text-sm"
-            />
-          </div>
-        )}
 
         <Button
           type="submit"
@@ -132,22 +99,11 @@ function LoginForm() {
           {loading ? "Đang xác thực..." : "Tiếp tục vào bảng điều khiển"}
           <ArrowRight className="w-3.5 h-3.5 ml-2" />
         </Button>
-
-        {/* Nút bật/tắt ô 2FA thủ công */}
-        <div className="text-center pt-1">
-          <button
-            type="button"
-            onClick={() => setShow2FA(!show2FA)}
-            className="text-[11px] text-muted-foreground hover:text-foreground transition-colors"
-          >
-            {show2FA ? "Ẩn ô mã 2FA" : "Nhập thêm mã xác thực 2FA?"}
-          </button>
-        </div>
       </form>
 
       {/* Footer Security Notice */}
       <div className="mt-6 pt-3 border-t border-border text-center text-xs text-muted-foreground">
-        Mã hóa AES-256-GCM theo Nghị định 13/2023/NĐ-CP
+        Bảo mật độc quyền theo Nghị định 13/2023/NĐ-CP
       </div>
     </div>
   );
