@@ -1,7 +1,4 @@
-"use client";
-
 import React from "react";
-import { motion, staggerContainerVariants, staggerItemVariants } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 interface AnimatedContainerProps {
@@ -13,18 +10,8 @@ interface AnimatedContainerProps {
 export function AnimatedContainer({
   children,
   className,
-  delay = 0,
 }: AnimatedContainerProps) {
-  return (
-    <motion.div
-      variants={staggerContainerVariants}
-      initial="hidden"
-      animate="show"
-      className={cn("w-full", className)}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={cn("w-full space-y-8", className)}>{children}</div>;
 }
 
 interface AnimatedItemProps {
@@ -33,9 +20,5 @@ interface AnimatedItemProps {
 }
 
 export function AnimatedItem({ children, className }: AnimatedItemProps) {
-  return (
-    <motion.div variants={staggerItemVariants} className={cn("w-full", className)}>
-      {children}
-    </motion.div>
-  );
+  return <div className={cn("w-full", className)}>{children}</div>;
 }

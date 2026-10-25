@@ -1,12 +1,9 @@
-"use client";
-
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { motion, HTMLMotionProps } from "motion/react";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-xl text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 select-none active:scale-[0.98]",
   {
     variants: {
       variant: {
@@ -44,17 +41,13 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, children, ...props }, ref) => {
+  ({ className, variant, size, ...props }, ref) => {
     return (
-      <motion.button
-        whileTap={{ scale: 0.97 }}
-        transition={{ type: "spring", stiffness: 550, damping: 30 }}
+      <button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        {...(props as any)}
-      >
-        {children}
-      </motion.button>
+        {...props}
+      />
     );
   }
 );

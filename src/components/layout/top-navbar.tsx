@@ -2,11 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { Sun, Moon, Search, LogOut, ShieldCheck, User } from "lucide-react";
+import { Sun, Moon, Search, LogOut, User } from "lucide-react";
 import { useTheme } from "@/components/providers/theme-provider";
 import { getTimeOfDayGreeting } from "@/lib/formatters";
 import { Button } from "@/components/ui/button";
-import { motion, AnimatePresence } from "@/lib/motion";
 
 export function TopNavbar() {
   const { data: session } = useSession();
@@ -37,7 +36,7 @@ export function TopNavbar() {
   };
 
   return (
-    <header className="sticky top-0 z-20 w-full glass-panel border-b border-white/10 dark:border-white/5 px-4 lg:px-8 py-3 transition-all">
+    <header className="sticky top-0 z-20 w-full glass-panel border-b border-white/10 dark:border-white/5 px-4 lg:px-8 py-3 transition-colors">
       <div className="flex items-center justify-between max-w-7xl mx-auto gap-4">
         {/* Left: Dynamic Greeting & Realtime Clock */}
         <div className="pl-12 lg:pl-0">
@@ -47,9 +46,9 @@ export function TopNavbar() {
           <p className="text-xs text-muted-foreground flex items-center gap-2">
             <span className="tabular-nums font-mono">{currentTime}</span>
             <span>•</span>
-            <span className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              MyHub Active
+            <span className="flex items-center gap-1 text-emerald-500 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              MyHub An Toàn
             </span>
           </p>
         </div>
@@ -61,7 +60,7 @@ export function TopNavbar() {
             onClick={() => {
               window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
             }}
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-input bg-background/50 hover:bg-accent text-muted-foreground text-xs transition-all shadow-sm"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-input bg-background/50 hover:bg-accent text-muted-foreground text-xs transition-colors shadow-sm"
           >
             <Search className="w-3.5 h-3.5 text-muted-foreground" />
             <span>Tìm kiếm...</span>
@@ -70,37 +69,19 @@ export function TopNavbar() {
             </kbd>
           </button>
 
-          {/* Theme Toggle with Animate UI Spin & Swap */}
+          {/* Theme Toggle - Tĩnh, nhẹ nhàng, dứt khoát */}
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="rounded-xl hover:bg-white/50 dark:hover:bg-slate-800/50 relative overflow-hidden"
+            className="rounded-xl hover:bg-white/50 dark:hover:bg-slate-800/50"
             title="Đổi giao diện sáng/tối"
           >
-            <AnimatePresence mode="wait" initial={false}>
-              {theme === "dark" ? (
-                <motion.div
-                  key="moon"
-                  initial={{ rotate: -90, scale: 0.5, opacity: 0 }}
-                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                  exit={{ rotate: 90, scale: 0.5, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  <Sun className="w-4 h-4 text-amber-400" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="sun"
-                  initial={{ rotate: 90, scale: 0.5, opacity: 0 }}
-                  animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                  exit={{ rotate: -90, scale: 0.5, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  <Moon className="w-4 h-4 text-slate-700" />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-700" />
+            )}
           </Button>
 
           {/* User Session Profile & Logout */}
