@@ -1,0 +1,467 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ----------------------------------------------------
+// 1. NGƯỜI DÙNG & BẢO MẬT (Single-User + 2FA TOTP)
+// ----------------------------------------------------
+enum UserRole {
+  OWNER
+}
+
+model User {
+  id                   String       @id @default(uuid())
+  email                String       @unique
+  name                 String?
+  passwordHash         String
+  twoFactorEnabled     Boolean      @default(false)
+  twoFactorSecret      String?      // Mã hóa AES-256-GCM
+  twoFactorBackupCodes String[]     @default([])
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+
+  settings             UserSettings?
+  accounts             Account[]
+  transactions         Transaction[]
+  categories           Category[]
+  autoRules            AutoClassificationRule[]
+  budgets              Budget[]
+  savingsGoals         SavingsGoal[]
+  debtsLoans           DebtLoan[]
+  bankConfigs          BankProviderConfig[]
+  webhookAuditLogs     WebhookAuditLog[]
+  todos                Todo[]
+  habits               Habit[]
+  notes                Note[]
+  dashboardWidgets     DashboardWidget[]
+  auditLogs            AuditLog[]
+}
+
+model UserSettings {
+  id                   String    @id @default(uuid())
+  userId               String    @unique
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fiscalMonthStartDay  Int       @default(1)
+  currency             String    @default("VND")
+  locale               String    @default("vi")
+  theme                String    @default("dark")
+  accentColor          String    @default("emerald")
+  weeklySummaryEmail   Boolean   @default(false)
+  budgetAlertThreshold Int       @default(80)
+  updatedAt            DateTime  @updatedAt
+}
+
+// ----------------------------------------------------
+// 2. TÀI CHÍNH & VÍ
+// ----------------------------------------------------
+enum AccountType {
+  BANK
+  CASH
+  E_WALLET
+  CREDIT_CARD
+  INVESTMENT
+}
+
+model Account {
+  id                  String       @id @default(uuid())
+  userId              String
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                String
+  type                AccountType  @default(BANK)
+  bankCode            String?
+  accountNumberMasked String?
+  encryptedAccountNum String?
+  balance             BigInt       @default(0)
+  initialBalance      BigInt       @default(0)
+  currency            String       @default("VND")
+  color               String?
+  icon                String?
+  isExcludedFromTotal Boolean      @default(false)
+  isActive            Boolean      @default(true)
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  transactions        Transaction[]
+  debtsLoans          DebtLoan[]
+
+  @@index([userId, type])
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
+
+enum TransactionSource {
+  MANUAL
+  WEBHOOK
+  CSV_IMPORT
+}
+
+model Transaction {
+  id                   String            @id @default(uuid())
+  userId               String
+  user                 User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accountId            String
+  account              Account           @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  targetAccountId      String?
+  categoryId           String?
+  category             Category?         @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  amount               BigInt
+  type                 TransactionType
+  date                 DateTime
+  note                 String?
+  source               TransactionSource @default(MANUAL)
+  
+  externalTxId         String?
+  providerConfigId     String?
+  providerConfig       BankProviderConfig? @relation(fields: [providerConfigId], references: [id], onDelete: SetNull)
+  rawPayload           Json?
+  
+  isExcludedFromBudget Boolean           @default(false)
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  @@unique([userId, externalTxId], name: "unique_external_tx")
+  @@index([userId, date])
+  @@index([accountId, date])
+  @@index([categoryId])
+}
+
+model Category {
+  id            String          @id @default(uuid())
+  userId        String
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String
+  type          TransactionType @default(EXPENSE)
+  icon          String?
+  color         String?
+  parentId      String?
+  parent        Category?       @relation("CategoryHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children      Category[]      @relation("CategoryHierarchy")
+  isSystem      Boolean         @default(false)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  transactions  Transaction[]
+  budgets       Budget[]
+  autoRules     AutoClassificationRule[]
+
+  @@unique([userId, name, type])
+}
+
+enum MatchField {
+  DESCRIPTION
+  AMOUNT
+  BANK_CODE
+}
+
+enum MatchOperator {
+  CONTAINS
+  STARTS_WITH
+  REGEX
+  EQUALS
+}
+
+model AutoClassificationRule {
+  id               String        @id @default(uuid())
+  userId           String
+  user             User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  priority         Int           @default(0)
+  name             String
+  matchField       MatchField    @default(DESCRIPTION)
+  operator         MatchOperator @default(CONTAINS)
+  pattern          String
+  targetCategoryId String
+  targetCategory   Category      @relation(fields: [targetCategoryId], references: [id], onDelete: Cascade)
+  isActive         Boolean       @default(true)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  @@index([userId, priority])
+}
+
+model Budget {
+  id                String       @id @default(uuid())
+  userId            String
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  categoryId        String
+  category          Category     @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  month             Int
+  year              Int
+  limitAmount       BigInt
+  alert80Triggered  Boolean      @default(false)
+  alert100Triggered Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+
+  @@unique([userId, categoryId, month, year])
+  @@index([userId, month, year])
+}
+
+enum GoalStatus {
+  IN_PROGRESS
+  COMPLETED
+  PAUSED
+}
+
+model SavingsGoal {
+  id            String       @id @default(uuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String
+  targetAmount  BigInt
+  currentAmount BigInt       @default(0)
+  targetDate    DateTime?
+  status        GoalStatus   @default(IN_PROGRESS)
+  color         String?
+  icon          String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum DebtType {
+  LENT
+  BORROWED
+}
+
+enum DebtStatus {
+  ACTIVE
+  SETTLED
+  OVERDUE
+}
+
+model DebtLoan {
+  id               String       @id @default(uuid())
+  userId           String
+  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type             DebtType     @default(BORROWED)
+  counterpartyName String
+  contactPhone     String?
+  totalAmount      BigInt
+  paidAmount       BigInt       @default(0)
+  dueDate          DateTime?
+  status           DebtStatus   @default(ACTIVE)
+  note             String?
+  linkedAccountId  String?
+  linkedAccount    Account?     @relation(fields: [linkedAccountId], references: [id], onDelete: SetNull)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  @@index([userId, status, dueDate])
+}
+
+// ----------------------------------------------------
+// 3. KẾT NỐI NGÂN HÀNG & WEBHOOK ADAPTERS
+// ----------------------------------------------------
+enum BankProviderType {
+  SEPAY_WEBHOOK
+  CASSO_WEBHOOK
+  CUSTOM_WEBHOOK
+  CSV_STATEMENT
+  MANUAL
+}
+
+model BankProviderConfig {
+  id                  String           @id @default(uuid())
+  userId              String
+  user                User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerType        BankProviderType
+  providerName        String
+  bankCode            String
+  accountNumberMasked String
+  encryptedApiKey     String?
+  encryptedSecretKey  String?
+  webhookEndpoint     String?
+  isActive            Boolean          @default(true)
+  metadata            Json?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  transactions        Transaction[]
+  auditLogs           WebhookAuditLog[]
+
+  @@unique([userId, providerType, accountNumberMasked])
+}
+
+enum WebhookStatus {
+  SUCCESS
+  DUPLICATE
+  INVALID_AUTH
+  PARSE_ERROR
+  FAILED
+}
+
+model WebhookAuditLog {
+  id                String              @id @default(uuid())
+  userId            String
+  user              User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerConfigId  String?
+  providerConfig    BankProviderConfig? @relation(fields: [providerConfigId], references: [id], onDelete: SetNull)
+  providerName      String
+  endpointCalled    String
+  ipAddress         String?
+  headers           Json
+  rawPayload        String              @db.Text
+  signatureReceived String?
+  status            WebhookStatus
+  transactionId     String?
+  errorMessage      String?
+  createdAt         DateTime            @default(now())
+
+  @@index([userId, createdAt])
+  @@index([status])
+}
+
+// ----------------------------------------------------
+// 4. NĂNG SUẤT: TO-DO, HABITS, NOTES
+// ----------------------------------------------------
+enum TodoPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TodoStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+model Todo {
+  id          String        @id @default(uuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  priority    TodoPriority  @default(MEDIUM)
+  status      TodoStatus    @default(TODO)
+  dueDate     DateTime?
+  tags        String[]      @default([])
+  completedAt DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([userId, status, dueDate])
+}
+
+enum HabitFrequency {
+  DAILY
+  WEEKDAYS
+  WEEKENDS
+  CUSTOM
+}
+
+model Habit {
+  id            String         @id @default(uuid())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String
+  description   String?
+  color         String?
+  icon          String?
+  frequency     HabitFrequency @default(DAILY)
+  currentStreak Int            @default(0)
+  longestStreak Int            @default(0)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  logs          HabitLog[]
+
+  @@index([userId, isActive])
+}
+
+model HabitLog {
+  id        String   @id @default(uuid())
+  habitId   String
+  habit     Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  date      String
+  completed Boolean  @default(true)
+  note      String?
+  createdAt DateTime @default(now())
+
+  @@unique([habitId, date])
+  @@index([date])
+}
+
+model Note {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  content   String   @db.Text
+  isPinned  Boolean  @default(false)
+  tags      String[] @default([])
+  color     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, isPinned, updatedAt])
+}
+
+// ----------------------------------------------------
+// 5. CÁ NHÂN HÓA DASHBOARD (WIDGET LAYOUT)
+// ----------------------------------------------------
+enum WidgetType {
+  TOTAL_BALANCE
+  MONTHLY_EXPENSE
+  BUDGET_OVERVIEW
+  TODAY_TASKS
+  HABIT_TRACKER
+  SAVINGS_PROGRESS
+  RECENT_TRANSACTIONS
+  CASHFLOW_CHART
+  QUICK_NOTE
+}
+
+model DashboardWidget {
+  id          String     @id @default(uuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type        WidgetType
+  colSpan     Int        @default(1)
+  rowSpan     Int        @default(1)
+  orderIndex  Int        @default(0)
+  isVisible   Boolean    @default(true)
+  customTitle String?
+  config      Json?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([userId, orderIndex])
+}
+
+// ----------------------------------------------------
+// 6. NHẬT KÝ KIỂM TOÁN HỆ THỐNG & NGHỊ ĐỊNH 13/2023/NĐ-CP
+// ----------------------------------------------------
+enum AuditAction {
+  LOGIN_SUCCESS
+  LOGIN_FAILED
+  TWO_FACTOR_VERIFY
+  EXPORT_PERSONAL_DATA
+  PURGE_ALL_DATA
+  BANK_WEBHOOK_RECEIVED
+  UPDATE_SECURITY_SETTINGS
+}
+
+model AuditLog {
+  id        String      @id @default(uuid())
+  userId    String?
+  user      User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    AuditAction
+  details   String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime    @default(now())
+
+  @@index([action, createdAt])
+}
