@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import {
@@ -13,9 +13,38 @@ import {
   LogIn,
   Eye,
   EyeOff,
-  Sparkles,
   Shield,
+  Sun,
+  Moon,
 } from "lucide-react";
+import { useTheme } from "@/components/providers/theme-provider";
+
+function ThemeToggleButton() {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="absolute top-5 right-5 z-30 p-2.5 rounded-full bg-white/75 dark:bg-white/[0.08] backdrop-blur-md border border-purple-500/20 dark:border-white/15 text-foreground hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer"
+      title={theme === "dark" ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối"}
+      aria-label="Đổi giao diện sáng/tối"
+    >
+      {theme === "dark" ? (
+        <Sun className="w-4 h-4 text-amber-300" />
+      ) : (
+        <Moon className="w-4 h-4 text-purple-600" />
+      )}
+    </button>
+  );
+}
 
 function LoginForm() {
   const [username, setUsername] = useState("admin@example.com");
@@ -125,9 +154,9 @@ function LoginForm() {
       <button
         type="button"
         onClick={handleReopen}
-        className="glass-reopen relative z-10 flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white/[0.08] backdrop-blur-[24px] backdrop-saturate-[190%] border border-white/20 text-white font-medium shadow-[0_15px_35px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:bg-white/[0.15] hover:scale-105 active:scale-95 transition-all duration-200"
+        className="glass-reopen relative z-10 flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white/80 dark:bg-white/[0.08] backdrop-blur-[24px] border border-purple-500/20 dark:border-white/20 text-foreground dark:text-white font-medium shadow-[0_15px_35px_rgba(112,50,180,0.15),inset_0_1px_1px_rgba(255,255,255,0.8)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:bg-white dark:hover:bg-white/[0.15] hover:scale-105 active:scale-95 transition-all duration-200"
       >
-        <LogIn className="w-4 h-4 text-purple-300" />
+        <LogIn className="w-4 h-4 text-purple-600 dark:text-purple-300" />
         <span>Đăng nhập Custom You</span>
       </button>
     );
@@ -149,13 +178,13 @@ function LoginForm() {
         aria-hidden="true"
       >
         <div
-          className="absolute -top-16 -left-16 w-84 h-84 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 opacity-45 group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 ease-out blur-[55px] will-change-transform"
+          className="absolute -top-16 -left-16 w-84 h-84 rounded-full bg-gradient-to-tr from-purple-400 via-indigo-300 to-fuchsia-300 dark:from-purple-600 dark:via-indigo-600 dark:to-fuchsia-500 opacity-55 dark:opacity-45 group-hover:opacity-80 dark:group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 ease-out blur-[65px] will-change-transform"
         />
         <div
-          className="absolute -bottom-16 -right-16 w-84 h-84 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 opacity-40 group-hover:opacity-70 group-hover:scale-110 transition-all duration-500 ease-out blur-[60px] will-change-transform"
+          className="absolute -bottom-16 -right-16 w-84 h-84 rounded-full bg-gradient-to-br from-fuchsia-400 via-purple-300 to-indigo-400 dark:from-fuchsia-600 dark:via-purple-600 dark:to-indigo-800 opacity-50 dark:opacity-40 group-hover:opacity-75 dark:group-hover:opacity-70 group-hover:scale-110 transition-all duration-500 ease-out blur-[70px] will-change-transform"
         />
         <div
-          className="absolute w-64 h-64 rounded-full bg-purple-500/25 opacity-30 group-hover:opacity-55 group-hover:scale-120 transition-all duration-700 ease-out blur-[50px] will-change-transform"
+          className="absolute w-64 h-64 rounded-full bg-purple-500/20 dark:bg-purple-500/25 opacity-35 dark:opacity-30 group-hover:opacity-60 dark:group-hover:opacity-55 group-hover:scale-120 transition-all duration-700 ease-out blur-[55px] will-change-transform"
         />
       </div>
 
@@ -169,16 +198,10 @@ function LoginForm() {
       */}
       <div
         ref={cardRef}
-        className={`glass-panel relative z-10 w-full p-7 sm:p-9 rounded-[32px] text-white transition-all duration-300 ease-out will-change-transform ${
+        className={`glass-panel relative z-10 w-full p-7 sm:p-9 rounded-[32px] text-foreground dark:text-white transition-all duration-300 ease-out will-change-transform ${
           isClosing ? "animate-card-exit" : "animate-card-entry"
         }`}
         style={{
-          background:
-            "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(255, 255, 255, 0.02) 100%), rgba(16, 7, 34, 0.38)",
-          backdropFilter: "blur(28px) saturate(190%) brightness(106%)",
-          WebkitBackdropFilter: "blur(28px) saturate(190%) brightness(106%)",
-          boxShadow:
-            "0 25px 55px -12px rgba(0, 0, 0, 0.75), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.35)",
           transform: "translateZ(0)",
         }}
       >
@@ -190,14 +213,14 @@ function LoginForm() {
           type="button"
           onClick={handleClose}
           aria-label="Đóng bảng đăng nhập"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-white/[0.08] hover:bg-white/[0.22] border border-white/15 hover:border-white/40 transition-all duration-200 hover:rotate-90 hover:scale-105 z-10 cursor-pointer"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/20 dark:text-white/70 dark:hover:text-white dark:bg-white/[0.08] dark:hover:bg-white/[0.22] dark:border-white/15 dark:hover:border-white/40 transition-all duration-200 hover:rotate-90 hover:scale-105 z-10 cursor-pointer"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Brand Header & Security Pill */}
         <div className="flex flex-col items-center mb-6 text-center">
-          <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-white/30 border-t-white/60 mb-3 bg-[#180733]/90 shadow-[0_8px_24px_rgba(168,85,247,0.45),inset_0_1px_1px_rgba(255,255,255,0.45)] flex items-center justify-center transition-transform duration-200 hover:scale-105">
+          <div className="relative w-14 h-14 rounded-2xl overflow-hidden border border-purple-500/20 dark:border-white/30 border-t-white/90 mb-3 bg-white/90 dark:bg-[#180733]/90 shadow-[0_8px_24px_rgba(168,85,247,0.3),inset_0_1px_1px_rgba(255,255,255,0.7)] flex items-center justify-center transition-transform duration-200 hover:scale-105">
             <Image
               src="/logo-mark.png"
               alt="Custom You"
@@ -208,15 +231,15 @@ function LoginForm() {
             />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.06] border border-white/12 text-[11px] text-purple-200/90 font-mono shadow-xs mb-2">
-            <Shield className="w-3 h-3 text-purple-400" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-500/10 dark:bg-white/[0.06] border border-purple-500/20 dark:border-white/12 text-[11px] text-purple-700 dark:text-purple-200/90 font-mono shadow-xs mb-2">
+            <Shield className="w-3 h-3 text-purple-600 dark:text-purple-400" />
             <span>Tài khoản độc lập · AES-256</span>
           </div>
 
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground drop-shadow-xs">
             {isTwoFactorStep ? "Xác thực hai bước" : "Chào mừng trở lại"}
           </h1>
-          <p className="text-xs text-purple-200/80 mt-1 font-medium drop-shadow-xs">
+          <p className="text-xs text-purple-700/80 dark:text-purple-200/80 mt-1 font-medium">
             {isTwoFactorStep
               ? "Nhập mã bảo mật từ ứng dụng Google Authenticator"
               : "Đăng nhập để vào Bảng điều khiển Custom You"}
@@ -225,8 +248,8 @@ function LoginForm() {
 
         {/* Validation / Error Notice */}
         {error && (
-          <div className="mb-5 p-3 rounded-2xl border border-red-400/40 bg-red-950/60 backdrop-blur-md text-red-200 text-xs flex items-center gap-2.5 shadow-sm">
-            <AlertCircle className="w-4 h-4 shrink-0 text-red-300" />
+          <div className="mb-5 p-3 rounded-2xl border border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-300 text-xs flex items-center gap-2.5 shadow-xs">
+            <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{error}</span>
           </div>
         )}
@@ -237,11 +260,11 @@ function LoginForm() {
             <>
               {/* 1. Username / Email Input Capsule */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-white/85 pl-1 block">
+                <label className="text-xs font-medium text-foreground/85 dark:text-white/85 pl-1 block">
                   Tài khoản hoặc Email
                 </label>
-                <div className="relative flex items-center rounded-2xl bg-white/[0.05] hover:bg-white/[0.08] focus-within:bg-white/[0.09] border border-white/15 focus-within:border-purple-400/80 transition-all duration-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] focus-within:shadow-[0_0_20px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] group">
-                  <div className="pl-3.5 pr-1 text-white/60 group-focus-within:text-purple-300 transition-colors">
+                <div className="relative flex items-center rounded-2xl bg-white/70 hover:bg-white/90 focus-within:bg-white dark:bg-white/[0.05] dark:hover:bg-white/[0.08] dark:focus-within:bg-white/[0.09] border border-purple-500/20 dark:border-white/15 focus-within:border-purple-500 dark:focus-within:border-purple-400/80 transition-all duration-200 shadow-xs focus-within:shadow-[0_0_20px_rgba(168,85,247,0.25)] group">
+                  <div className="pl-3.5 pr-1 text-muted-foreground group-focus-within:text-purple-600 dark:group-focus-within:text-purple-300 transition-colors">
                     <User className="w-4 h-4" />
                   </div>
                   <input
@@ -250,7 +273,7 @@ function LoginForm() {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="admin@example.com"
-                    className="w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none font-sans drop-shadow-xs"
+                    className="w-full bg-transparent px-2.5 py-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground/60 dark:placeholder:text-white/35 outline-none font-sans"
                   />
                 </div>
               </div>
@@ -258,7 +281,7 @@ function LoginForm() {
               {/* 2. Password Input Capsule with Eye Visibility Toggle */}
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between pl-1">
-                  <label className="text-xs font-medium text-white/85">
+                  <label className="text-xs font-medium text-foreground/85 dark:text-white/85">
                     Mật khẩu
                   </label>
                   <a
@@ -267,13 +290,13 @@ function LoginForm() {
                       e.preventDefault();
                       alert("Mật khẩu tài khoản chủ nhân đã được mã hóa an toàn.");
                     }}
-                    className="text-[11px] text-purple-300 hover:text-white hover:underline transition-colors"
+                    className="text-[11px] text-purple-600 dark:text-purple-300 hover:text-purple-800 dark:hover:text-white hover:underline transition-colors font-medium"
                   >
                     Quên mật khẩu?
                   </a>
                 </div>
-                <div className="relative flex items-center rounded-2xl bg-white/[0.05] hover:bg-white/[0.08] focus-within:bg-white/[0.09] border border-white/15 focus-within:border-purple-400/80 transition-all duration-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] focus-within:shadow-[0_0_20px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] group">
-                  <div className="pl-3.5 pr-1 text-white/60 group-focus-within:text-purple-300 transition-colors">
+                <div className="relative flex items-center rounded-2xl bg-white/70 hover:bg-white/90 focus-within:bg-white dark:bg-white/[0.05] dark:hover:bg-white/[0.08] dark:focus-within:bg-white/[0.09] border border-purple-500/20 dark:border-white/15 focus-within:border-purple-500 dark:focus-within:border-purple-400/80 transition-all duration-200 shadow-xs focus-within:shadow-[0_0_20px_rgba(168,85,247,0.25)] group">
+                  <div className="pl-3.5 pr-1 text-muted-foreground group-focus-within:text-purple-600 dark:group-focus-within:text-purple-300 transition-colors">
                     <Lock className="w-4 h-4" />
                   </div>
                   <input
@@ -282,12 +305,12 @@ function LoginForm() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none font-sans drop-shadow-xs"
+                    className="w-full bg-transparent px-2.5 py-3 text-sm text-foreground dark:text-white placeholder:text-muted-foreground/60 dark:placeholder:text-white/35 outline-none font-sans"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="pr-3.5 text-white/50 hover:text-white transition-colors focus:outline-none"
+                    className="pr-3.5 text-muted-foreground hover:text-foreground dark:text-white/50 dark:hover:text-white transition-colors focus:outline-none"
                     aria-label={showPassword ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                   >
                     {showPassword ? (
@@ -301,12 +324,12 @@ function LoginForm() {
 
               {/* 3. Remember Me Checkbox */}
               <div className="flex items-center pt-0.5">
-                <label className="flex items-center gap-2.5 cursor-pointer select-none text-xs text-white/85 hover:text-white transition-colors">
+                <label className="flex items-center gap-2.5 cursor-pointer select-none text-xs text-foreground/85 dark:text-white/85 hover:text-foreground dark:hover:text-white transition-colors">
                   <input
                     type="checkbox"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
-                    className="w-4 h-4 rounded-md border-white/30 bg-white/[0.06] text-purple-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-purple-500"
+                    className="w-4 h-4 rounded-md border-purple-500/30 dark:border-white/30 bg-white/80 dark:bg-white/[0.06] text-purple-600 focus:ring-0 focus:ring-offset-0 cursor-pointer accent-purple-600"
                   />
                   <span>Duy trì đăng nhập trên thiết bị này</span>
                 </label>
@@ -329,9 +352,9 @@ function LoginForm() {
               </button>
 
               {/* 5. Footer info */}
-              <div className="pt-3 flex items-center justify-between text-[11px] text-white/60 border-t border-white/10">
+              <div className="pt-3 flex items-center justify-between text-[11px] text-muted-foreground dark:text-white/60 border-t border-border/70 dark:border-white/10">
                 <div className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span>Máy chủ trực tuyến</span>
                 </div>
                 <span>Chủ nhân: admin@example.com</span>
@@ -340,16 +363,16 @@ function LoginForm() {
           ) : (
             /* 2FA Step for Owner Security */
             <>
-              <div className="p-3.5 rounded-2xl bg-white/[0.05] border border-white/15 text-xs space-y-1 mb-2 backdrop-blur-md">
-                <div className="text-white/70">Tài khoản chủ nhân:</div>
-                <div className="font-medium font-mono text-purple-200">{username}</div>
+              <div className="p-3.5 rounded-2xl bg-purple-500/[0.06] dark:bg-white/[0.05] border border-purple-500/20 dark:border-white/15 text-xs space-y-1 mb-2">
+                <div className="text-muted-foreground dark:text-white/70">Tài khoản chủ nhân:</div>
+                <div className="font-medium font-mono text-purple-700 dark:text-purple-200">{username}</div>
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-white/85 pl-1 block text-center">
+                <label className="text-xs font-medium text-foreground/85 dark:text-white/85 pl-1 block text-center">
                   Mã 6 chữ số từ Google Authenticator
                 </label>
-                <div className="relative flex items-center rounded-2xl bg-white/[0.06] border border-white/20 focus-within:border-purple-400 focus-within:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-200">
+                <div className="relative flex items-center rounded-2xl bg-white/75 dark:bg-white/[0.06] border border-purple-500/20 dark:border-white/20 focus-within:border-purple-500 dark:focus-within:border-purple-400 focus-within:shadow-[0_0_20px_rgba(168,85,247,0.3)] transition-all duration-200">
                   <input
                     type="text"
                     required
@@ -358,9 +381,9 @@ function LoginForm() {
                     value={twoFactorCode}
                     onChange={(e) => setTwoFactorCode(e.target.value)}
                     placeholder="123 456"
-                    className="w-full bg-transparent py-3 text-center font-mono tracking-widest text-xl text-white outline-none"
+                    className="w-full bg-transparent py-3 text-center font-mono tracking-widest text-xl text-foreground dark:text-white outline-none"
                   />
-                  <div className="pr-3.5 text-purple-300 pointer-events-none">
+                  <div className="pr-3.5 text-purple-600 dark:text-purple-300 pointer-events-none">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                 </div>
@@ -381,7 +404,7 @@ function LoginForm() {
                   setTwoFactorCode("");
                   setError(null);
                 }}
-                className="w-full py-2.5 text-xs text-white/70 hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                className="w-full py-2.5 text-xs text-muted-foreground hover:text-foreground dark:text-white/70 dark:hover:text-white flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Quay lại bước trước
@@ -396,10 +419,29 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full relative flex items-center justify-center p-4 sm:p-6 bg-[#070210] bg-[url('/mountains.svg')] bg-cover bg-center bg-no-repeat overflow-x-clip selection:bg-purple-600 selection:text-white">
+    <div className="min-h-screen w-full relative flex items-center justify-center p-4 sm:p-6 bg-[#f6f2fd] dark:bg-[#070210] transition-colors duration-300 overflow-x-clip selection:bg-purple-600 selection:text-white">
+      {/* Background Graphic Mountain Backdrop: Adaptive opacity */}
+      <div
+        className="absolute inset-0 bg-[url('/mountains.svg')] bg-cover bg-center bg-no-repeat opacity-25 dark:opacity-85 pointer-events-none transition-opacity duration-300"
+        aria-hidden="true"
+      />
+
+      {/* Ambient Depth Aurora pools */}
+      <div
+        className="absolute -top-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-gradient-to-tr from-purple-400/30 via-indigo-300/25 to-fuchsia-300/30 dark:from-purple-700/25 dark:via-indigo-600/20 dark:to-fuchsia-600/25 blur-[90px] pointer-events-none transition-all duration-300"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute -bottom-32 -right-32 w-[30rem] h-[30rem] rounded-full bg-gradient-to-br from-fuchsia-300/30 via-purple-300/25 to-indigo-300/30 dark:from-fuchsia-700/25 dark:via-purple-700/20 dark:to-indigo-800/25 blur-[90px] pointer-events-none transition-all duration-300"
+        aria-hidden="true"
+      />
+
+      {/* Quick Theme Toggle Button */}
+      <ThemeToggleButton />
+
       <Suspense
         fallback={
-          <div className="text-xs text-white/60">Đang tải giao diện...</div>
+          <div className="text-xs text-muted-foreground">Đang tải giao diện...</div>
         }
       >
         <LoginForm />
