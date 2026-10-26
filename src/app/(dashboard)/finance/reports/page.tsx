@@ -120,7 +120,7 @@ export default function ReportsPage() {
             Đang tải dữ liệu biểu đồ...
           </div>
         ) : (
-          <div className="h-72 w-full pt-4">
+          <div className="h-72 w-full pt-4 pointer-events-none select-none">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={trends} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} opacity={0.15} />
@@ -138,8 +138,8 @@ export default function ReportsPage() {
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: 11, paddingTop: 10 }} />
-                <Bar dataKey="income" name="Thu nhập" fill="#10b981" radius={[3, 3, 0, 0]} />
-                <Bar dataKey="expense" name="Chi phí" fill="#71717a" radius={[3, 3, 0, 0]} />
+                <Bar dataKey="income" name="Thu nhập" fill="#10b981" radius={[3, 3, 0, 0]} activeBar={false} isAnimationActive={false} />
+                <Bar dataKey="expense" name="Chi phí" fill="#71717a" radius={[3, 3, 0, 0]} activeBar={false} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -167,7 +167,7 @@ export default function ReportsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-6 items-center">
-            <div className="sm:col-span-6 h-60">
+            <div className="sm:col-span-6 h-60 pointer-events-none select-none">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie

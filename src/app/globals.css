@@ -100,6 +100,16 @@
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
+/* Triệt tiêu hoàn toàn con trỏ / cột hover xám trong Recharts */
+.recharts-tooltip-cursor,
+.recharts-rectangle.recharts-tooltip-cursor,
+.recharts-active-bar {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  fill: transparent !important;
+}
+
 .minimal-surface:hover {
   border-color: hsl(var(--foreground) / 0.25);
 }
