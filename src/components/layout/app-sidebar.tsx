@@ -76,11 +76,11 @@ export function AppSidebar() {
   ];
 
   const SidebarContent = (
-    <div className="flex flex-col h-full bg-card border-r border-border">
+    <div className="flex flex-col h-full glass-chrome border-r border-border/80">
       {/* Brand Header */}
-      <div className="p-4 flex items-center justify-between border-b border-border">
+      <div className="p-4 flex items-center justify-between border-b border-border/70">
         <Link href="/dashboard" className="flex items-center gap-2.5 group">
-          <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-border/80 flex-shrink-0 bg-[#180733]">
+          <div className="relative w-8 h-8 rounded-xl overflow-hidden border border-white/25 bg-[#180733] flex-shrink-0 shadow-[0_4px_16px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] transition-transform duration-200 group-hover:scale-105">
             <Image
               src="/logo-mark.png"
               alt="Custom You"
@@ -91,17 +91,17 @@ export function AppSidebar() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-sm tracking-tight text-foreground leading-tight">
+            <span className="font-bold text-sm tracking-tight text-foreground leading-tight drop-shadow-sm">
               CUSTOM YOU
             </span>
-            <span className="text-[11px] text-muted-foreground leading-tight">
-              Bảng điều khiển cá nhân
+            <span className="text-[11px] text-purple-300/80 leading-tight font-medium">
+              Personal Platform
             </span>
           </div>
         </Link>
         <button
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden p-1.5 rounded-md hover:bg-muted text-muted-foreground"
+          className="lg:hidden p-1.5 rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.1] text-muted-foreground hover:text-white transition-colors"
           aria-label="Đóng menu"
         >
           <X className="w-4 h-4" />
@@ -109,26 +109,26 @@ export function AppSidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto p-3 space-y-6">
+      <nav className="flex-1 overflow-y-auto p-3 space-y-5">
         <div>
           <Link
             href="/dashboard"
             onClick={() => setMobileOpen(false)}
             className={cn(
-              "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors",
+              "flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm transition-all duration-150",
               pathname === "/dashboard"
-                ? "bg-primary text-primary-foreground font-medium"
-                : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                ? "bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white font-medium shadow-[0_4px_16px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.4)] border border-white/20"
+                : "text-muted-foreground hover:text-foreground hover:bg-white/[0.05] hover:border-white/10 border border-transparent"
             )}
           >
-            <LayoutDashboard className="w-4 h-4" />
+            <LayoutDashboard className="w-4 h-4 text-purple-400" />
             <span>Tổng quan</span>
           </Link>
         </div>
 
         {sections.map((section, idx) => (
           <div key={idx} className="space-y-1">
-            <div className="px-3 pb-1 text-xs text-muted-foreground font-medium">
+            <div className="px-3 pb-1 text-[11px] text-muted-foreground/75 font-semibold uppercase tracking-wider">
               {section.title}
             </div>
             <div className="space-y-0.5">
@@ -141,22 +141,22 @@ export function AppSidebar() {
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
                     className={cn(
-                      "flex items-center justify-between px-3 py-1.5 rounded-lg text-sm transition-colors",
+                      "flex items-center justify-between px-3 py-1.5 rounded-xl text-sm transition-all duration-150",
                       isActive
-                        ? "bg-primary text-primary-foreground font-medium"
-                        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                        ? "bg-gradient-to-r from-purple-600/90 to-fuchsia-600/90 text-white font-medium shadow-[0_4px_16px_rgba(168,85,247,0.3),inset_0_1px_1px_rgba(255,255,255,0.35)] border border-white/20"
+                        : "text-muted-foreground hover:text-foreground hover:bg-white/[0.05] hover:border-white/10 border border-transparent"
                     )}
                   >
                     <div className="flex items-center gap-2.5">
-                      <Icon className="w-4 h-4" />
+                      <Icon className={cn("w-4 h-4", isActive ? "text-white" : "text-purple-400/80")} />
                       <span>{item.title}</span>
                     </div>
                     {item.badge && (
                       <span className={cn(
-                        "px-1.5 py-0.2 rounded text-[10px] border",
+                        "px-1.5 py-0.5 rounded-md text-[10px] font-mono border",
                         isActive
-                          ? "bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
-                          : "bg-secondary text-muted-foreground border-border"
+                          ? "bg-white/20 text-white border-white/30"
+                          : "bg-white/[0.06] text-purple-300 border-white/15"
                       )}>
                         {item.badge}
                       </span>
@@ -169,13 +169,16 @@ export function AppSidebar() {
         ))}
       </nav>
 
-      {/* Footer System Status */}
-      <div className="p-4 border-t border-border">
-        <div className="text-xs text-muted-foreground space-y-1">
-          <div className="text-foreground font-medium">
-            Tài khoản độc lập
+      {/* Footer System Status with Tactile Frosted Pill */}
+      <div className="p-3 border-t border-border/70">
+        <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-xs text-muted-foreground space-y-1">
+          <div className="text-foreground font-medium flex items-center justify-between">
+            <span>Tài khoản độc lập</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
           </div>
-          <div>Mã hóa AES-256-GCM</div>
+          <div className="text-[11px] text-muted-foreground/80 font-mono">
+            Mã hóa AES-256-GCM
+          </div>
         </div>
       </div>
     </div>
@@ -187,7 +190,7 @@ export function AppSidebar() {
       <div className="lg:hidden fixed top-3 left-3 z-50">
         <button
           onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-lg bg-card border border-border text-foreground"
+          className="p-2 rounded-xl glass-chrome border border-white/15 text-foreground shadow-md active:scale-95 transition-all"
           aria-label="Mở danh mục điều hướng"
         >
           <Menu className="w-4 h-4" />
@@ -198,7 +201,7 @@ export function AppSidebar() {
       {mobileOpen && (
         <div
           onClick={() => setMobileOpen(false)}
-          className="lg:hidden fixed inset-0 z-40 bg-black/40 backdrop-blur-xs"
+          className="lg:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity"
         />
       )}
 
@@ -210,7 +213,7 @@ export function AppSidebar() {
       {/* Mobile Drawer */}
       <aside
         className={cn(
-          "lg:hidden fixed inset-y-0 left-0 z-50 w-64 shadow-xl transition-transform duration-200 ease-out",
+          "lg:hidden fixed inset-y-0 left-0 z-50 w-64 shadow-2xl transition-transform duration-250 ease-out",
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >

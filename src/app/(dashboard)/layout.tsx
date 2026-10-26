@@ -20,15 +20,23 @@ export default async function DashboardLayout({
     }
 
     return (
-      <div className="flex min-h-screen">
+      <div className="relative flex min-h-screen bg-background text-foreground overflow-x-clip selection:bg-purple-600 selection:text-white">
+        {/* Subtle Ambient Depth Canvas for Believable Glass Frosting (Zero CPU overhead static gradients) */}
+        <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+          <div className="absolute -top-36 -left-36 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-purple-700/10 via-indigo-600/8 to-transparent blur-[130px] dark:from-purple-700/15 dark:via-indigo-600/10" />
+          <div className="absolute top-1/4 -right-44 w-[580px] h-[580px] rounded-full bg-gradient-to-br from-fuchsia-600/8 via-purple-700/6 to-transparent blur-[140px] dark:from-fuchsia-600/12 dark:via-purple-700/10" />
+          <div className="absolute -bottom-36 left-1/4 w-[680px] h-[680px] rounded-full bg-gradient-to-tr from-indigo-700/8 via-purple-800/8 to-transparent blur-[150px] dark:from-indigo-700/10 dark:via-purple-800/12" />
+        </div>
+
         <GlobalSearchDialog />
-        {/* Sidebar cố định */}
+
+        {/* Persistent Frosted Sidebar */}
         <AppSidebar />
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col lg:pl-64 min-w-0">
+        <div className="relative z-10 flex-1 flex flex-col lg:pl-60 min-w-0">
           <TopNavbar />
-          <main className="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+          <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
             {children}
           </main>
         </div>

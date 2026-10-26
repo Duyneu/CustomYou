@@ -1,4 +1,3 @@
-/* Hallmark · genre: modern-minimal · built: MyHub Redesign · floor: 0 FAIL */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,36 +32,36 @@
     --input: 265 20% 89%;
     --ring: 271 81% 54%;
 
-    --radius: 0.625rem;
+    --radius: 0.875rem;
   }
 
   .dark {
-    --background: 268 62% 6%; /* #0c0618 Deep obsidian violet */
-    --foreground: 270 20% 96%; /* #f5f2f8 Crisp pearl white */
+    --background: 268 62% 5%; /* #090314 Deep obsidian violet */
+    --foreground: 270 20% 98%; /* #fbf9ff Crisp pearl white */
 
-    --card: 268 50% 9.5%; /* #150b26 Deep midnight card surface */
-    --card-foreground: 270 20% 96%;
+    --card: 268 50% 9%; /* Base fallback */
+    --card-foreground: 270 20% 98%;
 
-    --popover: 268 50% 9.5%;
-    --popover-foreground: 270 20% 96%;
+    --popover: 268 50% 9%;
+    --popover-foreground: 270 20% 98%;
 
-    --primary: 271 81% 60%; /* #a855f7 Electric Violet Accent */
+    --primary: 271 81% 60%; /* #a855f7 Electric Violet */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 268 40% 14%; /* #1e1136 Neutral dark purple surface */
-    --secondary-foreground: 270 20% 92%;
+    --secondary: 268 40% 13%;
+    --secondary-foreground: 270 20% 94%;
 
-    --muted: 268 40% 13%;
-    --muted-foreground: 265 18% 62%; /* #9d91b3 Subtle violet-gray */
+    --muted: 268 35% 12%;
+    --muted-foreground: 265 18% 66%; /* #a296bd Subtle lilac-gray */
 
-    --accent: 268 45% 15%;
+    --accent: 268 45% 16%;
     --accent-foreground: 271 81% 75%;
 
-    --destructive: 0 62% 45%;
+    --destructive: 0 62% 48%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 268 35% 17%; /* #281745 Hairline dark violet border */
-    --input: 268 35% 17%;
+    --border: 268 35% 18%; /* Hairline dark violet */
+    --input: 268 35% 18%;
     --ring: 271 81% 60%;
   }
 }
@@ -81,7 +80,7 @@
     @apply bg-background text-foreground font-sans antialiased min-h-screen selection:bg-purple-700 selection:text-white dark:selection:bg-purple-600 dark:selection:text-white;
   }
 
-  /* Interactive element focus states per Hallmark Rule 6 */
+  /* Interactive element focus states per accessibility standards */
   a:focus-visible,
   button:focus-visible,
   input:focus-visible,
@@ -90,48 +89,136 @@
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
   }
-}
 
-/* Minimalist Refined Surfaces */
-.minimal-surface {
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.75rem; /* 12px for card */
-  transition: border-color 0.15s ease, background-color 0.15s ease;
-}
-
-/* Glassmorphism Keyframe Animations */
-@keyframes cardEntry {
-  0% {
-    opacity: 0;
-    transform: scale(0);
+  /* Frosted Glass Select Dropdowns */
+  select {
+    @apply rounded-xl border border-white/15 bg-white/[0.04] dark:bg-white/[0.04] px-2.5 py-1 text-xs text-foreground outline-none transition-colors;
   }
-  100% {
-    opacity: 1;
-    transform: scale(1);
+
+  select option {
+    background-color: #140827;
+    color: #fbf9ff;
   }
 }
 
-@keyframes cardExit {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0);
-  }
+/* ==========================================================================
+   Apple-Grade Glassmorphism System
+   Four core ingredients: Frost, Translucency, Lit Edge Hairline, Layered Depth
+   ========================================================================== */
+
+/* Tier 1: Glass Chrome (Fixed Navbar, Persistent Sidebar) */
+.glass-chrome {
+  background: rgba(14, 5, 28, 0.72);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
+  backdrop-filter: blur(14px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.08);
 }
 
-.animate-card-entry {
-  animation: cardEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+:root:not(.dark) .glass-chrome {
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  border-color: rgba(0, 0, 0, 0.08);
 }
 
-.animate-card-exit {
-  animation: cardExit 0.4s ease forwards;
+/* Tier 2: Glass Cards (Dashboard Cards, Content Panels) */
+.glass-card,
+.dark .minimal-surface,
+.dark .bg-card {
+  position: relative;
+  background-image: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    rgba(168, 85, 247, 0.03) 45%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  background-color: rgba(20, 9, 40, 0.58);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.24);
+  border-left: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow:
+    0 12px 32px -8px rgba(0, 0, 0, 0.55),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
-/* Glassmorphism Specular Sweep & Masked Rim */
+.glass-card:hover,
+.dark .minimal-surface:hover,
+.dark .bg-card:hover {
+  border-top-color: rgba(255, 255, 255, 0.4);
+  border-left-color: rgba(255, 255, 255, 0.24);
+  box-shadow:
+    0 18px 42px -10px rgba(0, 0, 0, 0.65),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+:root:not(.dark) .glass-card,
+:root:not(.dark) .minimal-surface {
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.06),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Tier 3: Glass Overlay / Modals / Command Palette */
+.glass-overlay {
+  background: rgba(16, 6, 32, 0.86);
+  -webkit-backdrop-filter: blur(24px) saturate(190%) brightness(105%);
+  backdrop-filter: blur(24px) saturate(190%) brightness(105%);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 25px 60px -15px rgba(0, 0, 0, 0.85),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4);
+  transform: translateZ(0);
+}
+
+:root:not(.dark) .glass-overlay {
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1.5px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.15);
+}
+
+/* Tier 4: Interactive Glass Controls (Pill Badges, Buttons, Inputs) */
+.glass-input {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fbf9ff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.glass-input:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(168, 85, 247, 0.7);
+  box-shadow:
+    0 0 16px rgba(168, 85, 247, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Auth Card Specular Sweep & Masked Rim */
 .glass-panel {
   position: relative;
   isolation: isolate;
@@ -195,6 +282,37 @@
   will-change: transform;
 }
 
+/* Glassmorphism Keyframe Animations */
+@keyframes cardEntry {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.animate-card-entry {
+  animation: cardEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-card-exit {
+  animation: cardExit 0.4s ease forwards;
+}
+
 @keyframes sweepAnimation {
   0%, 100% {
     transform: skewX(-15deg) translateX(-120%);
@@ -204,14 +322,19 @@
   }
 }
 
-/* Glassmorphism Accessibility & Reduced Transparency */
+/* Accessibility & Non-negotiable Fallbacks (Glassmorphism Skill Contract) */
 @media (prefers-reduced-transparency: reduce) {
+  .glass-card,
+  .glass-chrome,
+  .glass-overlay,
   .glass-panel,
-  .glass-reopen {
-    background: #120824 !important;
+  .glass-reopen,
+  .dark .minimal-surface,
+  .dark .bg-card {
+    background: #140a28 !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    color: #f5f0ff !important;
+    color: #fbf9ff !important;
   }
   .glass-panel::after {
     display: none !important;
@@ -219,6 +342,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .glass-card,
+  .dark .bg-card,
   .animate-card-entry,
   .animate-card-exit,
   .glass-sweep-track::before {
@@ -226,15 +351,16 @@
     transition: none !important;
     transform: none !important;
   }
-  .ambient-liquid-layer {
-    filter: none !important;
-  }
 }
 
 @supports not (backdrop-filter: blur(1px)) {
+  .glass-card,
+  .glass-chrome,
+  .glass-overlay,
   .glass-panel,
-  .glass-reopen {
-    background-color: rgba(18, 8, 36, 0.92);
+  .glass-reopen,
+  .dark .bg-card {
+    background-color: rgba(18, 8, 36, 0.94);
   }
 }
 
@@ -248,14 +374,10 @@
   fill: transparent !important;
 }
 
-.minimal-surface:hover {
-  border-color: hsl(var(--foreground) / 0.25);
-}
-
 /* Thin clean scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -263,10 +385,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted-foreground) / 0.25);
+  background: rgba(162, 150, 189, 0.25);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--muted-foreground) / 0.45);
+  background: rgba(162, 150, 189, 0.45);
 }

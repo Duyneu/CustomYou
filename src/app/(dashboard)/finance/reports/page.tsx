@@ -29,13 +29,13 @@ interface CategoryExpense {
 }
 
 const MONOCHROME_COLORS = [
-  "#18181b", // zinc-900
-  "#52525b", // zinc-600
-  "#71717a", // zinc-500
-  "#a1a1aa", // zinc-400
-  "#d4d4d8", // zinc-300
-  "#3f3f46", // zinc-700
-  "#27272a", // zinc-800
+  "#a855f7", // Electric Purple
+  "#c084fc", // Light Purple
+  "#9333ea", // Deep Violet
+  "#d946ef", // Fuchsia
+  "#818cf8", // Indigo
+  "#f472b6", // Rose Pink
+  "#a1a1aa", // Muted Slate
 ];
 
 export default function ReportsPage() {
