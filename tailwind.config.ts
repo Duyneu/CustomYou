@@ -64,34 +64,15 @@ const config: Config = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        xl: "12px", // Card: 12px
+        lg: "8px",  // Input / Button: 8px
+        md: "6px",  // Badge: 6px
+        sm: "4px",
       },
       boxShadow: {
-        "antigravity-sm": "0 8px 24px -4px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04)",
-        "antigravity-md": "0 16px 36px -6px rgba(0, 0, 0, 0.12), 0 4px 12px -2px rgba(0, 0, 0, 0.06)",
-        "antigravity-lg": "0 24px 50px -12px rgba(0, 0, 0, 0.25), 0 8px 16px -4px rgba(0, 0, 0, 0.1)",
-        "antigravity-glow": "0 0 40px -10px rgba(16, 185, 129, 0.35)",
-        "glass-inset": "inset 0 1px 1px 0 rgba(255, 255, 255, 0.15)",
-      },
-      keyframes: {
-        float: {
-          "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-6px)" },
-        },
-        shimmer: {
-          "100%": { transform: "translateX(100%)" },
-        },
-        pulseGlow: {
-          "0%, 100%": { opacity: "0.6" },
-          "50%": { opacity: "1" },
-        },
-      },
-      animation: {
-        float: "float 6s ease-in-out infinite",
-        shimmer: "shimmer 2s infinite",
-        "pulse-glow": "pulseGlow 3s ease-in-out infinite",
+        // Chỉ dùng shadow cho phần tử thực sự nổi: dropdown, menu, modal, tooltip
+        modal: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)",
+        dropdown: "0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04)",
       },
       backdropBlur: {
         xs: "2px",

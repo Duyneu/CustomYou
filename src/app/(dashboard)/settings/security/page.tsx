@@ -137,7 +137,7 @@ export default function SecuritySettingsPage() {
       )}
 
       {/* 2FA Card */}
-      <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-border">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />

@@ -100,7 +100,7 @@ export default function SavingsGoalsPage() {
       </div>
 
       {/* Danh sách mục tiêu */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-xs text-muted-foreground">Đang tải mục tiêu...</div>
         ) : goals.length === 0 ? (

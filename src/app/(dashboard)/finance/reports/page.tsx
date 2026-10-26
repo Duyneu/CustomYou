@@ -74,30 +74,30 @@ export default function ReportsPage() {
 
       {/* 3 Thẻ chỉ số tổng kết 6 tháng */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-4 rounded-lg border border-border bg-card">
+        <div className="p-5 rounded-xl border border-border bg-card">
           <div className="text-xs text-muted-foreground">Tổng thu nhập 6 tháng</div>
-          <div className="text-xl font-semibold font-mono tracking-tight text-foreground mt-1">
+          <div className="text-xl font-semibold font-mono tracking-tight text-foreground mt-1 tabular-nums">
             {formatVND(totalIncome6M.toString())}
           </div>
         </div>
 
-        <div className="p-4 rounded-lg border border-border bg-card">
+        <div className="p-5 rounded-xl border border-border bg-card">
           <div className="text-xs text-muted-foreground">Tổng chi tiêu 6 tháng</div>
-          <div className="text-xl font-semibold font-mono tracking-tight text-foreground mt-1">
+          <div className="text-xl font-semibold font-mono tracking-tight text-foreground mt-1 tabular-nums">
             {formatVND(totalExpense6M.toString())}
           </div>
         </div>
 
-        <div className="p-4 rounded-lg border border-border bg-card">
+        <div className="p-5 rounded-xl border border-border bg-card">
           <div className="text-xs text-muted-foreground">Dòng tiền thuần tích lũy</div>
-          <div className={`text-xl font-semibold font-mono tracking-tight mt-1 ${net6M >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"}`}>
+          <div className={`text-xl font-semibold font-mono tracking-tight mt-1 tabular-nums ${net6M >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"}`}>
             {formatVND(net6M.toString())}
           </div>
         </div>
       </div>
 
       {/* Biểu đồ xu hướng 6 tháng */}
-      <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-border">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-foreground" />
@@ -144,7 +144,7 @@ export default function ReportsPage() {
       </div>
 
       {/* Cơ cấu danh mục chi tiêu */}
-      <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-border">
           <div className="flex items-center gap-2">
             <PieIcon className="w-4 h-4 text-foreground" />

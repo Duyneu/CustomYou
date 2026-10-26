@@ -96,8 +96,7 @@
 .minimal-surface {
   background: hsl(var(--card));
   border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 1px 2px -1px rgba(0, 0, 0, 0.02);
+  border-radius: 0.75rem; /* 12px for card */
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 

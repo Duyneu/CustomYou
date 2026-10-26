@@ -128,10 +128,10 @@ export default function AccountsPage() {
       </div>
 
       {/* Tổng tài sản tóm tắt */}
-      <div className="p-4 rounded-lg border border-border bg-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="p-5 rounded-xl border border-border bg-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <span className="text-xs text-muted-foreground block">Tổng số dư khả dụng</span>
-          <span className="text-2xl font-semibold font-mono tracking-tight text-foreground">
+          <span className="text-2xl font-bold font-mono tracking-tight text-foreground">
             {formatVND(totalBalance.toString())}
           </span>
         </div>
@@ -148,8 +148,8 @@ export default function AccountsPage() {
       </div>
 
       {/* Danh sách tài khoản */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
+        <div className="px-5 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
           <span>Tên và nguồn tiền</span>
           <span>Số dư khả dụng</span>
         </div>
@@ -163,9 +163,9 @@ export default function AccountsPage() {
         ) : (
           <div className="divide-y divide-border">
             {accounts.map((acc) => (
-              <div key={acc.id} className="p-4 flex items-center justify-between hover:bg-muted/30 transition-colors">
+              <div key={acc.id} className="px-5 py-3.5 flex items-center justify-between hover:bg-muted/20 transition-colors">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-md bg-secondary flex items-center justify-center text-muted-foreground shrink-0">
+                  <div className="text-muted-foreground shrink-0">
                     {acc.type === "BANK" && <Building2 className="w-4 h-4" />}
                     {acc.type === "E_WALLET" && <CreditCard className="w-4 h-4" />}
                     {acc.type === "CASH" && <Banknote className="w-4 h-4" />}

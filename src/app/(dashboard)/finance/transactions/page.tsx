@@ -192,7 +192,7 @@ export default function TransactionsPage() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="p-3 rounded-lg border border-border bg-card space-y-3">
+      <div className="p-4 rounded-xl border border-border bg-card space-y-3">
         <form onSubmit={handleSearchSubmit} className="flex flex-wrap items-center gap-2">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -208,7 +208,7 @@ export default function TransactionsPage() {
           <select
             value={filterType}
             onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
-            className="h-8 text-xs px-2.5 rounded-md border border-input bg-background text-foreground"
+            className="h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
           >
             <option value="">Tất cả loại giao dịch</option>
             <option value="EXPENSE">Khoản chi</option>
@@ -219,7 +219,7 @@ export default function TransactionsPage() {
           <select
             value={filterAccount}
             onChange={(e) => { setFilterAccount(e.target.value); setPage(1); }}
-            className="h-8 text-xs px-2.5 rounded-md border border-input bg-background text-foreground"
+            className="h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
           >
             <option value="">Tất cả tài khoản</option>
             {accounts.map((a) => (
@@ -230,7 +230,7 @@ export default function TransactionsPage() {
           <select
             value={filterCategory}
             onChange={(e) => { setFilterCategory(e.target.value); setPage(1); }}
-            className="h-8 text-xs px-2.5 rounded-md border border-input bg-background text-foreground"
+            className="h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
           >
             <option value="">Tất cả danh mục</option>
             {categories.map((c) => (
@@ -245,7 +245,7 @@ export default function TransactionsPage() {
       </div>
 
       {/* Transaction List */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
           <span className="col-span-2">Ngày</span>
           <span className="col-span-3">Nội dung & Danh mục</span>

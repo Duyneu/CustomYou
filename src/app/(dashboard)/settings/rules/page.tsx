@@ -161,7 +161,7 @@ export default function RulesPage() {
       </div>
 
       {/* Rules List */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
           <span className="col-span-3">Tên quy tắc</span>
           <span className="col-span-4">Điều kiện so khớp</span>

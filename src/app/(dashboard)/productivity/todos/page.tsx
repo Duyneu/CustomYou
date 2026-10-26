@@ -135,27 +135,27 @@ export default function TodosPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex rounded-md border border-border p-0.5 bg-muted/40">
+          <div className="flex rounded-lg border border-border p-0.5 bg-muted/40">
             <button
               onClick={() => setFilterStatus("ACTIVE")}
-              className={`px-2.5 py-1 text-xs rounded font-medium transition-colors ${
-                filterStatus === "ACTIVE" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
+                filterStatus === "ACTIVE" ? "bg-background text-foreground border border-border/60" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Chưa làm
             </button>
             <button
               onClick={() => setFilterStatus("DONE")}
-              className={`px-2.5 py-1 text-xs rounded font-medium transition-colors ${
-                filterStatus === "DONE" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
+                filterStatus === "DONE" ? "bg-background text-foreground border border-border/60" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Đã xong
             </button>
             <button
               onClick={() => setFilterStatus("ALL")}
-              className={`px-2.5 py-1 text-xs rounded font-medium transition-colors ${
-                filterStatus === "ALL" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
+                filterStatus === "ALL" ? "bg-background text-foreground border border-border/60" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Tất cả
@@ -170,7 +170,7 @@ export default function TodosPage() {
       </div>
 
       {/* Danh sách nhiệm vụ */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-xs text-muted-foreground">Đang tải danh sách công việc...</div>
         ) : filteredTodos.length === 0 ? (

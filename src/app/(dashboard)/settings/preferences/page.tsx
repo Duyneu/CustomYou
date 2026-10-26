@@ -29,7 +29,7 @@ export default function PreferencesPage() {
         </p>
       </div>
 
-      <div className="p-5 rounded-lg border border-border bg-card space-y-6">
+      <div className="p-5 rounded-xl border border-border bg-card space-y-6">
         {/* Chủ đề giao diện */}
         <div className="space-y-2 pb-5 border-b border-border">
           <label className="text-xs font-semibold text-foreground">Chủ đề giao diện</label>

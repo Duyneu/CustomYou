@@ -115,23 +115,23 @@ export default function DebtsPage() {
 
       {/* Tóm tắt 2 bên */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-4 rounded-lg border border-border bg-card space-y-1">
+        <div className="p-5 rounded-xl border border-border bg-card space-y-1">
           <span className="text-xs text-muted-foreground">Người khác nợ bạn (Cần thu)</span>
-          <div className="text-2xl font-semibold font-mono text-emerald-600 dark:text-emerald-400">
+          <div className="text-2xl font-bold font-mono tracking-tight text-foreground tabular-nums">
             {formatVND(totalLent.toString())}
           </div>
         </div>
 
-        <div className="p-4 rounded-lg border border-border bg-card space-y-1">
+        <div className="p-5 rounded-xl border border-border bg-card space-y-1">
           <span className="text-xs text-muted-foreground">Bạn nợ người khác (Cần trả)</span>
-          <div className="text-2xl font-semibold font-mono text-foreground">
+          <div className="text-2xl font-bold font-mono tracking-tight text-foreground tabular-nums">
             {formatVND(totalBorrowed.toString())}
           </div>
         </div>
       </div>
 
       {/* Danh sách khoản nợ */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
           <span className="col-span-4">Đối tác & Ghi chú</span>
           <span className="col-span-3">Hạn thanh toán</span>

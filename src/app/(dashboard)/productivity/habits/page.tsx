@@ -101,7 +101,7 @@ export default function HabitsPage() {
       </div>
 
       {/* Danh sách thói quen */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
           <span>Tên thói quen</span>
           <span>Chuỗi kiên trì & Điểm danh</span>

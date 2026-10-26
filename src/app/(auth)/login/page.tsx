@@ -52,7 +52,7 @@ function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto p-6 bg-card border border-border rounded-xl shadow-sm">
+    <div className="w-full max-w-sm mx-auto p-6 bg-card border border-border rounded-xl">
       {/* Header */}
       <div className="space-y-1 mb-6">
         <h1 className="text-xl font-semibold tracking-tight text-foreground flex items-center gap-2">

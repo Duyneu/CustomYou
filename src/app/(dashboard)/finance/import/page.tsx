@@ -187,7 +187,7 @@ export default function CsvImportPage() {
       )}
 
       {/* Bước 1: Chọn tài khoản và tải file */}
-      <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1">
             <label className="text-xs font-medium text-foreground">
@@ -196,7 +196,7 @@ export default function CsvImportPage() {
             <select
               value={selectedAccountId}
               onChange={(e) => setSelectedAccountId(e.target.value)}
-              className="w-full h-8 text-xs px-2.5 rounded-md border border-input bg-background text-foreground"
+              className="w-full h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
             >
               {accounts.map((a) => (
                 <option key={a.id} value={a.id}>{a.name}</option>
@@ -222,7 +222,7 @@ export default function CsvImportPage() {
       {headers.length > 0 && rawRows.length > 0 && (
         <div className="space-y-6">
           {/* Mapping Columns Card */}
-          <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+          <div className="p-5 rounded-xl border border-border bg-card space-y-4">
             <div className="flex items-center gap-2 pb-2 border-b border-border">
               <FileSpreadsheet className="w-4 h-4 text-foreground" />
               <h2 className="text-sm font-semibold text-foreground">
@@ -287,7 +287,7 @@ export default function CsvImportPage() {
           </div>
 
           {/* Preview Table */}
-          <div className="rounded-lg border border-border bg-card overflow-hidden">
+          <div className="rounded-xl border border-border bg-card overflow-hidden">
             <div className="px-4 py-3 border-b border-border flex items-center justify-between">
               <span className="text-xs font-medium text-muted-foreground">
                 Xem trước {previewRows.length} trên tổng số {rawRows.length} dòng

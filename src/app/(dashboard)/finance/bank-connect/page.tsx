@@ -109,7 +109,7 @@ export default function BankConnectPage() {
         {/* Cột trái: Cấu hình Webhook Adapter */}
         <div className="lg:col-span-7 space-y-6">
           {/* Card Webhook endpoints */}
-          <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+          <div className="p-5 rounded-xl border border-border bg-card space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-border">
               <div className="flex items-center gap-2">
                 <Building2 className="w-4 h-4 text-foreground" />
@@ -185,7 +185,7 @@ export default function BankConnectPage() {
           </div>
 
           {/* Chính sách bảo mật tài khoản */}
-          <div className="p-4 rounded-lg border border-border bg-card space-y-2">
+          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
             <div className="flex items-center gap-2 text-xs font-medium text-foreground">
               <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Tiêu chuẩn bảo mật và quyền riêng tư</span>
@@ -198,7 +198,7 @@ export default function BankConnectPage() {
 
         {/* Cột phải: Trình tạo mã VietQR */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+          <div className="p-5 rounded-xl border border-border bg-card space-y-4">
             <div className="flex items-center justify-between pb-2 border-b border-border">
               <div className="flex items-center gap-2">
                 <QrCode className="w-4 h-4 text-foreground" />
@@ -255,7 +255,7 @@ export default function BankConnectPage() {
                 <img
                   src={qrImageUrl}
                   alt="VietQR Transfer"
-                  className="w-48 h-auto rounded border border-border bg-white p-2 shadow-sm"
+                  className="w-48 h-auto rounded-lg border border-border bg-white p-2"
                 />
               ) : (
                 <div className="h-48 flex items-center justify-center text-xs text-muted-foreground">

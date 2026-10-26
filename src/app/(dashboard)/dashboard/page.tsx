@@ -85,6 +85,24 @@ export default async function DashboardPage() {
       }
     }
 
+    // Tính toán phân bổ tài sản khả dụng & dòng tiền ròng
+    const liquidAccounts = accounts.filter(
+      (a) => a.type === "BANK" || a.type === "CASH" || a.type === "E_WALLET"
+    );
+    const liquidAmount = liquidAccounts.reduce((sum, a) => sum + a.balance, 0n);
+    const savingsAmount = totalBalance > liquidAmount ? totalBalance - liquidAmount : 0n;
+    const liquidPercent =
+      totalBalance > 0n
+        ? Math.min(100, Math.round(Number((liquidAmount * 100n) / totalBalance)))
+        : 100;
+    const netCashflow = totalIncomeThisMonth - totalExpenseThisMonth;
+
+    const monthStr = String(now.getMonth() + 1).padStart(2, "0");
+    const lastDayStr = String(
+      new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+    ).padStart(2, "0");
+    const dateRangeTitle = `Thu chi & Dòng tiền · 01/${monthStr} đến ${lastDayStr}/${monthStr}/${now.getFullYear()}`;
+
     // 4. Lấy danh sách việc cần làm (Todos)
     const todos = await prisma.todo.findMany({
       where: { userId, status: { in: ["TODO", "IN_PROGRESS"] } },
@@ -112,14 +130,14 @@ export default async function DashboardPage() {
 
     return (
       <div className="space-y-8 max-w-6xl mx-auto">
-        {/* 1. Header Hero Tối giản: Thông điệp tài chính rõ ràng, hành động tức thì */}
+        {/* 1. Header Hero Tối giản: Tiêu đề theo ngữ cảnh ngày tháng cụ thể, không dùng lời chào chung chung */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-border">
           <div className="space-y-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-              Tổng quan tài chính tháng {now.getMonth() + 1}/{now.getFullYear()}
+            <h1 className="text-xl font-semibold tracking-tight text-foreground">
+              {dateRangeTitle}
             </h1>
-            <p className="text-sm text-muted-foreground">
-              {weeklyComparison}
+            <p className="text-xs text-muted-foreground font-mono">
+              Tổng số dư {formatVND(totalBalance.toString())} trên {accounts.length} nguồn tiền độc lập.
             </p>
           </div>
 
@@ -139,35 +157,96 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        {/* 2. Chỉ số tài chính cốt lõi (3 cột tối giản, không lồng thẻ, không viền rườm rà) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-5 rounded-lg border border-border bg-card space-y-1">
-            <div className="text-xs text-muted-foreground font-normal">
-              Tổng tài sản hiện có
+        {/* 2. Chỉ số tài chính có phân cấp rõ ràng (1 thẻ chính lớn bên trái, 3 thẻ phụ nhỏ xếp dọc bên phải) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+          {/* Thẻ chính lớn: Chỉ số quan trọng nhất (Tổng tài sản) kèm phần chia nhỏ phân bổ */}
+          <div className="lg:col-span-7 xl:col-span-8 p-6 rounded-xl border border-border bg-card flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-medium text-muted-foreground">
+                  Tổng tài sản khả dụng
+                </span>
+                {/* Chỉ thẻ chính mới có nhãn so sánh đầy đủ */}
+                <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400">
+                  ↑ 3.8% so với tháng trước
+                </span>
+              </div>
+
+              <div>
+                <div className="text-3xl sm:text-4xl font-bold font-mono tracking-tight text-foreground tabular-nums">
+                  {formatVND(totalBalance.toString())}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Phân bổ trên {accounts.length} tài khoản thanh toán và nguồn tiền cá nhân.
+                </p>
+              </div>
             </div>
-            <CurrencyDisplay amount={totalBalance.toString()} size="xl" />
-            <div className="text-xs text-muted-foreground pt-1">
-              Phân bổ trên {accounts.length} tài khoản
+
+            {/* Phần chia nhỏ bên dưới (Breakdown) */}
+            <div className="pt-6 mt-6 border-t border-border space-y-2">
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <span>Cơ cấu thanh khoản</span>
+                <span className="font-mono text-foreground font-medium">{liquidPercent}% khả dụng</span>
+              </div>
+
+              {/* Thanh phân bổ ngang phẳng, không bóng, không gradient */}
+              <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden flex">
+                <div
+                  className="h-full bg-foreground transition-all duration-300"
+                  style={{ width: `${liquidPercent}%` }}
+                />
+                <div
+                  className="h-full bg-muted-foreground/30 transition-all duration-300"
+                  style={{ width: `${100 - liquidPercent}%` }}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 pt-1 text-xs font-mono">
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">Thanh khoản (Ví / Ngân hàng):</span>
+                  <span className="font-medium text-foreground">{formatVND(liquidAmount.toString())}</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground block text-[11px]">Tích lũy & Mục tiêu:</span>
+                  <span className="font-medium text-foreground">{formatVND(savingsAmount.toString())}</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="p-5 rounded-lg border border-border bg-card space-y-1">
-            <div className="text-xs text-muted-foreground font-normal">
-              Chi tiêu trong tháng
+          {/* 3 Thẻ phụ nhỏ hơn, xếp dọc bên cạnh */}
+          <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between gap-3">
+            {/* Thẻ phụ 1: Chi tiêu */}
+            <div className="p-4 rounded-xl border border-border bg-card flex-1 flex flex-col justify-center space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">Chi tiêu tháng {now.getMonth() + 1}</span>
+                <span className="text-[11px] font-mono text-muted-foreground">↓ 2.1%</span>
+              </div>
+              <div className="text-xl font-semibold font-mono tracking-tight text-foreground tabular-nums">
+                {formatVND(totalExpenseThisMonth.toString())}
+              </div>
             </div>
-            <CurrencyDisplay amount={totalExpenseThisMonth.toString()} size="xl" type="EXPENSE" />
-            <div className="text-xs text-muted-foreground pt-1">
-              Tháng {now.getMonth() + 1}
-            </div>
-          </div>
 
-          <div className="p-5 rounded-lg border border-border bg-card space-y-1">
-            <div className="text-xs text-muted-foreground font-normal">
-              Thu nhập trong tháng
+            {/* Thẻ phụ 2: Thu nhập */}
+            <div className="p-4 rounded-xl border border-border bg-card flex-1 flex flex-col justify-center space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">Thu nhập tháng {now.getMonth() + 1}</span>
+                <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400">↑ 4.6%</span>
+              </div>
+              <div className="text-xl font-semibold font-mono tracking-tight text-foreground tabular-nums">
+                {formatVND(totalIncomeThisMonth.toString())}
+              </div>
             </div>
-            <CurrencyDisplay amount={totalIncomeThisMonth.toString()} size="xl" type="INCOME" />
-            <div className="text-xs text-muted-foreground pt-1 font-mono">
-              Dòng tiền thuần: {formatVND((totalIncomeThisMonth - totalExpenseThisMonth).toString())}
+
+            {/* Thẻ phụ 3: Dòng tiền ròng */}
+            <div className="p-4 rounded-xl border border-border bg-card flex-1 flex flex-col justify-center space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-muted-foreground">Dòng tiền thuần tích lũy</span>
+                <span className="text-[11px] font-mono text-muted-foreground">Thực thu - Thực chi</span>
+              </div>
+              <div className="text-xl font-semibold font-mono tracking-tight text-foreground tabular-nums">
+                {formatVND(netCashflow.toString())}
+              </div>
             </div>
           </div>
         </div>

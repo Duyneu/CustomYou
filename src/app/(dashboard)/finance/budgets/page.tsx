@@ -154,20 +154,20 @@ export default function BudgetsPage() {
       </div>
 
       {/* Tóm tắt tổng thể */}
-      <div className="p-5 rounded-lg border border-border bg-card space-y-4">
+      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
           <div>
             <div className="text-xs text-muted-foreground">Tổng chi tiêu so với hạn mức</div>
-            <div className="text-2xl font-semibold font-mono tracking-tight text-foreground mt-0.5">
+            <div className="text-2xl font-semibold font-mono tracking-tight text-foreground mt-0.5 tabular-nums">
               {formatVND(totalSpent.toString())} <span className="text-sm font-normal text-muted-foreground">/ {formatVND(totalLimit.toString())}</span>
             </div>
           </div>
           <div className="font-mono text-sm font-medium text-foreground">
-            {overallPercent}% hoàn thành
+            {overallPercent}% đã dùng
           </div>
         </div>
 
-        <div className="w-full h-2 rounded-full bg-secondary overflow-hidden">
+        <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden">
           <div
             className={`h-full transition-all duration-300 ${
               overallPercent >= 100
@@ -182,7 +182,7 @@ export default function BudgetsPage() {
       </div>
 
       {/* Danh sách ngân sách theo danh mục */}
-      <div className="rounded-lg border border-border bg-card overflow-hidden">
+      <div className="rounded-xl border border-border bg-card overflow-hidden">
         <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
           <span>Danh mục chi tiêu</span>
           <span>Thực tế / Hạn mức</span>

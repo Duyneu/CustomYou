@@ -174,7 +174,7 @@ export function AppSidebar() {
       <div className="lg:hidden fixed top-3 left-3 z-50">
         <button
           onClick={() => setMobileOpen(true)}
-          className="p-2 rounded-lg bg-card border border-border shadow-sm text-foreground"
+          className="p-2 rounded-lg bg-card border border-border text-foreground"
           aria-label="Mở danh mục điều hướng"
         >
           <Menu className="w-4 h-4" />

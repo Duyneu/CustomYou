@@ -123,7 +123,7 @@ export default function NotesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 min-h-[500px]">
         {/* Cột danh sách ghi chú */}
-        <div className="md:col-span-4 rounded-lg border border-border bg-card overflow-hidden flex flex-col">
+        <div className="md:col-span-4 rounded-xl border border-border bg-card overflow-hidden flex flex-col">
           <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground">
             Danh sách ({notes.length})
           </div>
@@ -160,7 +160,7 @@ export default function NotesPage() {
         </div>
 
         {/* Cột trình soạn thảo ghi chú */}
-        <div className="md:col-span-8 rounded-lg border border-border bg-card p-5 flex flex-col space-y-4">
+        <div className="md:col-span-8 rounded-xl border border-border bg-card p-5 flex flex-col space-y-4">
           {activeNote ? (
             <>
               <div className="flex items-center justify-between pb-3 border-b border-border">
