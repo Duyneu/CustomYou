@@ -38,6 +38,9 @@ model User {
   todos                Todo[]
   habits               Habit[]
   notes                Note[]
+  courses              Course[]
+  studyLogs            StudyLog[]
+  studyMaterials       StudyMaterial[]
   dashboardWidgets     DashboardWidget[]
   auditLogs            AuditLog[]
 }
@@ -464,4 +467,69 @@ model AuditLog {
   createdAt DateTime    @default(now())
 
   @@index([action, createdAt])
+}
+
+// ----------------------------------------------------
+// 7. NHẬT KÝ HỌC TẬP & LỊCH HỌC (ACADEMIC HUB)
+// ----------------------------------------------------
+model Course {
+  id               String          @id @default(uuid())
+  userId           String
+  user             User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  code             String?         // Mã môn (VD: CS101, MIS201)
+  name             String          // Tên môn học
+  credits          Int             @default(3) // Số tín chỉ
+  instructor       String?         // Giảng viên
+  room             String?         // Phòng học / Giảng đường
+  dayOfWeek        Int             // 2 = Thứ 2, 3 = Thứ 3, ..., 8 = Chủ nhật
+  startTime        String          // "07:30"
+  endTime          String          // "10:00"
+  color            String?         // Mã màu đại diện
+  targetGrade      String?         // Mục tiêu điểm: A, B+, 4.0
+  totalLessons     Int             @default(15) // Tổng số buổi
+  completedLessons Int             @default(0)  // Số buổi đã học
+  status           String          @default("IN_PROGRESS") // IN_PROGRESS, COMPLETED
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  studyLogs        StudyLog[]
+  materials        StudyMaterial[]
+
+  @@index([userId, dayOfWeek])
+}
+
+model StudyLog {
+  id             String    @id @default(uuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId       String?
+  course         Course?   @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  title          String    // Tiêu đề buổi học / ôn tập
+  content        String    @db.Text // Nội dung kiến thức cốt lõi
+  hoursSpent     Float     @default(1.5) // Thời gian học (giờ)
+  date           DateTime  @default(now())
+  homework       String?   // Bài tập về nhà
+  homeworkDue    DateTime? // Hạn nộp bài tập
+  isHomeworkDone Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([userId, date])
+}
+
+model StudyMaterial {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId    String?
+  course      Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  title       String   // Tên tài liệu / giáo trình / đề thi
+  category    String   @default("SLIDE") // SLIDE, EXAM_PREP, BOOK, SUMMARY, LINK
+  urlOrPath   String?  // Link tài liệu hoặc Google Drive
+  summary     String?  @db.Text // Tóm tắt kiến thức trọng tâm
+  isImportant Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId, courseId])
 }

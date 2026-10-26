@@ -11,7 +11,8 @@ import {
   PieChart,
   Target,
   FileSpreadsheet,
-  Building2,
+  GraduationCap,
+  BarChart3,
   CheckSquare,
   Flame,
   FileText,
@@ -44,8 +45,15 @@ export function AppSidebar() {
 
   const sections: NavSection[] = [
     {
-      title: "Tài chính",
+      title: "Học tập",
       items: [
+        { title: "Nhật ký & Môn học", href: "/study", icon: GraduationCap, badge: "Mới" },
+      ],
+    },
+    {
+      title: "Tài chính & Theo dõi",
+      items: [
+        { title: "Theo dõi & Biểu đồ", href: "/tracker", icon: BarChart3, badge: "Hub" },
         { title: "Ví và tài khoản", href: "/finance/accounts", icon: Wallet },
         { title: "Giao dịch", href: "/finance/transactions", icon: Receipt },
         { title: "Ngân sách tháng", href: "/finance/budgets", icon: PieChart },
@@ -53,7 +61,6 @@ export function AppSidebar() {
         { title: "Mục tiêu tích lũy", href: "/finance/goals", icon: Target },
         { title: "Sổ nợ và vay", href: "/finance/debts", icon: Scale },
         { title: "Nhập sao kê CSV", href: "/finance/import", icon: FileSpreadsheet },
-        { title: "Kết nối ngân hàng", href: "/finance/bank-connect", icon: Building2, badge: "Adapter" },
       ],
     },
     {
