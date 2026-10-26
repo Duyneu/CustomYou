@@ -26,6 +26,26 @@ function LoginForm() {
   const [isClosing, setIsClosing] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
 
+  // Mouse tracking for interactive Apple Glass Parallax & Elevation
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+    const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+    setMousePos({ x, y });
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    setMousePos({ x: 0, y: 0 });
+  };
+
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
@@ -98,34 +118,81 @@ function LoginForm() {
   }
 
   return (
-    <div className="relative w-[400px] max-w-[90%] flex items-center justify-center">
-      {/* Ambient Chromatic Glow Orbs Behind Glass (Crucial for Glassmorphism Refraction) */}
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className="relative w-[410px] max-w-[92%] flex items-center justify-center perspective-[1000px] group cursor-default"
+    >
+      {/* 
+        Ambient Chromatic Fluid Mesh Behind Glass (iPhone iOS 18 Glass Material)
+        Reacts to hover by swelling, rising in elevation, and drifting with cursor parallax
+      */}
       <div
-        className="absolute -top-12 -left-12 w-64 h-64 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 opacity-55 blur-[70px] pointer-events-none animate-pulse"
-        style={{ animationDuration: "6s" }}
+        className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 pointer-events-none transition-all duration-500 ease-out"
+        style={{
+          opacity: isHovered ? 0.75 : 0.42,
+          transform: isHovered
+            ? `scale(1.22) translate3d(${mousePos.x * 28}px, ${mousePos.y * 28 - 12}px, 0)`
+            : "scale(1) translate3d(0, 0, 0)",
+          filter: isHovered ? "blur(58px)" : "blur(75px)",
+        }}
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-14 -right-12 w-64 h-64 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 opacity-45 blur-[75px] pointer-events-none animate-pulse"
-        style={{ animationDuration: "8s" }}
+        className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 pointer-events-none transition-all duration-500 ease-out"
+        style={{
+          opacity: isHovered ? 0.65 : 0.35,
+          transform: isHovered
+            ? `scale(1.2) translate3d(${mousePos.x * -24}px, ${mousePos.y * -24 - 10}px, 0)`
+            : "scale(1) translate3d(0, 0, 0)",
+          filter: isHovered ? "blur(60px)" : "blur(80px)",
+        }}
+        aria-hidden="true"
+      />
+      {/* Center Subtle Accent Glow that elevates on hover */}
+      <div
+        className="absolute w-60 h-60 rounded-full bg-purple-500/30 pointer-events-none transition-all duration-700 ease-out"
+        style={{
+          opacity: isHovered ? 0.5 : 0.15,
+          transform: isHovered ? "scale(1.35)" : "scale(0.9)",
+          filter: "blur(65px)",
+        }}
         aria-hidden="true"
       />
 
-      {/* Authentic Frosted Glassmorphism Card */}
+      {/* 
+        Authentic Apple / iPhone Glassmorphism Card
+        - Liquid Retina optical clarity
+        - Specular top rim light
+        - Inner bevel refraction shadow
+        - Interactive tilt & lift on hover
+      */}
       <div
-        className={`relative z-10 w-full p-8 sm:p-10 rounded-[24px] text-white transition-all duration-300 ${
+        className={`relative z-10 w-full p-8 sm:p-10 rounded-[28px] text-white transition-all duration-300 ease-out ${
           isClosing ? "animate-card-exit" : "animate-card-entry"
         }`}
         style={{
-          background:
-            "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(255, 255, 255, 0.03) 100%), rgba(16, 7, 34, 0.38)",
-          backdropFilter: "blur(28px) saturate(190%)",
-          WebkitBackdropFilter: "blur(28px) saturate(190%)",
-          border: "1px solid rgba(255, 255, 255, 0.18)",
-          borderTop: "1px solid rgba(255, 255, 255, 0.42)",
-          borderLeft: "1px solid rgba(255, 255, 255, 0.3)",
-          boxShadow:
-            "inset 0 1px 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4), 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 35px rgba(168, 85, 247, 0.22)",
+          background: isHovered
+            ? "linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(168, 85, 247, 0.10) 45%, rgba(255, 255, 255, 0.04) 100%), rgba(18, 8, 36, 0.32)"
+            : "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(16, 7, 34, 0.38)",
+          backdropFilter: "blur(36px) saturate(210%) brightness(108%)",
+          WebkitBackdropFilter: "blur(36px) saturate(210%) brightness(108%)",
+          border: isHovered
+            ? "1px solid rgba(255, 255, 255, 0.28)"
+            : "1px solid rgba(255, 255, 255, 0.18)",
+          borderTop: isHovered
+            ? "1.5px solid rgba(255, 255, 255, 0.55)"
+            : "1.5px solid rgba(255, 255, 255, 0.42)",
+          borderLeft: isHovered
+            ? "1px solid rgba(255, 255, 255, 0.38)"
+            : "1px solid rgba(255, 255, 255, 0.28)",
+          boxShadow: isHovered
+            ? "inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.55), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45), 0 35px 70px -15px rgba(0, 0, 0, 0.75), 0 0 45px rgba(168, 85, 247, 0.32)"
+            : "inset 0 1px 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4), 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.18)",
+          transform: isHovered
+            ? `translate3d(0, -6px, 0) rotateX(${-mousePos.y * 3}deg) rotateY(${mousePos.x * 3}deg)`
+            : "translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)",
         }}
       >
         {/* Top-Right X Close Button */}
@@ -133,14 +200,14 @@ function LoginForm() {
           type="button"
           onClick={handleClose}
           aria-label="Đóng bảng đăng nhập"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-white/[0.06] hover:bg-white/[0.18] border border-white/10 hover:border-white/30 transition-all duration-200 hover:rotate-90"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-white/[0.08] hover:bg-white/[0.22] border border-white/15 hover:border-white/40 transition-all duration-200 hover:rotate-90 hover:scale-105"
         >
           <X className="w-4 h-4" />
         </button>
 
         {/* Brand Logo & Centered Title */}
         <div className="flex flex-col items-center mb-6 text-center">
-          <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/30 border-t-white/50 mb-2.5 bg-[#180733]/80 shadow-[0_4px_15px_rgba(168,85,247,0.35)]">
+          <div className="relative w-12 h-12 rounded-2xl overflow-hidden border border-white/30 border-t-white/60 mb-2.5 bg-[#180733]/85 shadow-[0_6px_20px_rgba(168,85,247,0.4),inset_0_1px_1px_rgba(255,255,255,0.4)]">
             <Image
               src="/logo-mark.png"
               alt="Custom You"
@@ -150,7 +217,7 @@ function LoginForm() {
               priority
             />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]">
             {isTwoFactorStep ? "Xác thực 2FA" : "Login"}
           </h1>
           <p className="text-[11px] text-purple-200/80 mt-1 uppercase tracking-wider font-medium drop-shadow">
@@ -162,7 +229,7 @@ function LoginForm() {
 
         {/* Validation / Error Notice */}
         {error && (
-          <div className="mb-4 p-2.5 rounded-lg border border-red-400/40 bg-red-950/50 backdrop-blur-md text-red-200 text-xs flex items-center gap-2 shadow-sm">
+          <div className="mb-4 p-2.5 rounded-xl border border-red-400/40 bg-red-950/50 backdrop-blur-md text-red-200 text-xs flex items-center gap-2 shadow-sm">
             <AlertCircle className="w-4 h-4 shrink-0 text-red-300" />
             <span>{error}</span>
           </div>
@@ -173,27 +240,27 @@ function LoginForm() {
           {!isTwoFactorStep ? (
             <>
               {/* 1. Input Box: Username with Glass Underline Effect */}
-              <div className="relative w-full h-12 mb-6 border-b-2 border-white/25 focus-within:border-purple-400 transition-colors group">
+              <div className="relative w-full h-12 mb-6 border-b-2 border-white/25 focus-within:border-purple-400 focus-within:shadow-[0_2px_12px_rgba(168,85,247,0.5)] transition-all duration-200 group">
                 <input
                   type="text"
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Username"
-                  className="w-full h-full bg-transparent border-0 text-white placeholder:text-white/40 pr-9 focus:outline-none focus:ring-0 text-sm drop-shadow-sm"
+                  className="w-full h-full bg-transparent border-0 text-white placeholder:text-white/40 pr-9 focus:outline-none focus:ring-0 text-sm drop-shadow-sm font-sans"
                 />
                 <User className="w-5 h-5 absolute right-1 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-purple-300 pointer-events-none transition-colors drop-shadow" />
               </div>
 
               {/* 2. Input Box: Password */}
-              <div className="relative w-full h-12 mb-6 border-b-2 border-white/25 focus-within:border-purple-400 transition-colors group">
+              <div className="relative w-full h-12 mb-6 border-b-2 border-white/25 focus-within:border-purple-400 focus-within:shadow-[0_2px_12px_rgba(168,85,247,0.5)] transition-all duration-200 group">
                 <input
                   type="password"
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
-                  className="w-full h-full bg-transparent border-0 text-white placeholder:text-white/40 pr-9 focus:outline-none focus:ring-0 text-sm drop-shadow-sm"
+                  className="w-full h-full bg-transparent border-0 text-white placeholder:text-white/40 pr-9 focus:outline-none focus:ring-0 text-sm drop-shadow-sm font-sans"
                 />
                 <Lock className="w-5 h-5 absolute right-1 top-1/2 -translate-y-1/2 text-white/70 group-focus-within:text-purple-300 pointer-events-none transition-colors drop-shadow" />
               </div>
@@ -248,12 +315,12 @@ function LoginForm() {
           ) : (
             /* 2FA Step for Owner Security */
             <>
-              <div className="p-3 rounded-xl bg-white/[0.06] border border-white/20 text-xs space-y-1 mb-4 backdrop-blur-md">
+              <div className="p-3.5 rounded-2xl bg-white/[0.06] border border-white/20 text-xs space-y-1 mb-4 backdrop-blur-md">
                 <div className="text-white/70">Tài khoản chủ nhân:</div>
                 <div className="font-medium font-mono text-purple-200">{username}</div>
               </div>
 
-              <div className="relative w-full h-12 mb-6 border-b-2 border-white/25 focus-within:border-purple-400 transition-colors group">
+              <div className="relative w-full h-12 mb-6 border-b-2 border-white/25 focus-within:border-purple-400 focus-within:shadow-[0_2px_12px_rgba(168,85,247,0.5)] transition-all duration-200 group">
                 <input
                   type="text"
                   required

@@ -1,16 +1,49 @@
 /**
  * Custom You Glassmorphic Login Form Interaction
- * Handles dismissal, reopening, and validation based on tutorial markup.
+ * Includes Apple-style parallax background elevation on mouse hover.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const viewport = document.querySelector('.viewport-wrapper');
   const loginCard = document.getElementById('loginCard');
+  const orb1 = document.querySelector('.glass-orb-1');
+  const orb2 = document.querySelector('.glass-orb-2');
   const closeBtn = document.getElementById('closeBtn');
   const reopenBtn = document.getElementById('reopenBtn');
   const loginForm = document.getElementById('loginForm');
   const usernameInput = document.getElementById('usernameInput');
   const passwordInput = document.getElementById('passwordInput');
   const validationNotice = document.getElementById('validationNotice');
+
+  // Interactive mouse tracking for Apple Glass parallax elevation
+  if (viewport && loginCard) {
+    viewport.addEventListener('mousemove', (e) => {
+      const rect = viewport.getBoundingClientRect();
+      const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
+      const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
+
+      // Parallax shift on orbs behind glass
+      if (orb1) {
+        orb1.style.transform = `scale(1.22) translate3d(${x * 24}px, ${y * 24 - 12}px, 0)`;
+      }
+      if (orb2) {
+        orb2.style.transform = `scale(1.2) translate3d(${x * -20}px, ${y * -20 + 8}px, 0)`;
+      }
+
+      // Subtle 3D tilt on card
+      loginCard.style.transform = `translate3d(0, -6px, 0) rotateX(${-y * 3}deg) rotateY(${x * 3}deg)`;
+    });
+
+    viewport.addEventListener('mouseleave', () => {
+      if (orb1) {
+        orb1.style.transform = 'scale(1) translate3d(0, 0, 0)';
+      }
+      if (orb2) {
+        orb2.style.transform = 'scale(1) translate3d(0, 0, 0)';
+      }
+      loginCard.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
+    });
+  }
 
   function showError(message) {
     if (!validationNotice) return;
