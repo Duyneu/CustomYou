@@ -93,7 +93,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 3. Clear errors as user types
+  // 3. Clear errors as user types & Password visibility toggle
+  const pwdToggle = document.getElementById('pwdToggle');
+  const pwdIcon = document.getElementById('pwdIcon');
+
+  if (pwdToggle && passwordInput && pwdIcon) {
+    pwdToggle.addEventListener('click', () => {
+      const isPassword = passwordInput.type === 'password';
+      passwordInput.type = isPassword ? 'text' : 'password';
+      pwdIcon.className = isPassword ? 'bx bx-hide' : 'bx bx-show';
+    });
+  }
+
   [usernameInput, passwordInput].forEach((input) => {
     if (input) {
       input.addEventListener('input', () => {

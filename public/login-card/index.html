@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Custom You glassmorphic login card with Apple liquid glass optics, masked specular highlight, and anti-banding grain.">
+  <meta name="description" content="Custom You fluid glassmorphic login card with Apple macOS / iOS 18 optics, frosted capsules, and lit rim highlight.">
   <title>Login · Custom You</title>
 
   <!-- Google Fonts: Poppins -->
@@ -37,7 +37,7 @@
       <div class="glass-orb glass-orb-center"></div>
     </div>
 
-    <!-- Glassmorphic Login Card (Apple Frosted & Liquid Glass Specification) -->
+    <!-- Sculpted Apple macOS Glassmorphic Login Card -->
     <div class="login-card" id="loginCard" role="region" aria-labelledby="cardTitle">
       <!-- Specular Sweep Glint Overlay -->
       <div class="glass-sweep" aria-hidden="true"></div>
@@ -47,70 +47,91 @@
         <i class="bx bx-x" aria-hidden="true"></i>
       </button>
 
-      <!-- Brand Logo & Title -->
+      <!-- Brand Logo, Title & Security Badge -->
       <div class="brand-header">
         <div class="logo-badge">
           <i class="bx bxs-fingerprint logo-icon" aria-hidden="true"></i>
         </div>
-        <h1 id="cardTitle" class="login-title">Login</h1>
+        <div class="security-chip">
+          <i class="bx bxs-shield-alt-2" aria-hidden="true"></i>
+          <span>Personal Instance · AES-256</span>
+        </div>
+        <h1 id="cardTitle" class="login-title">Welcome Back</h1>
+        <p class="login-subtitle">Sign in to your Custom You dashboard</p>
       </div>
 
       <!-- Validation Error Message Area -->
       <div id="validationNotice" class="validation-notice" role="alert" aria-live="polite" hidden></div>
 
-      <!-- Login Form (Exact Structure from Tutorial) -->
+      <!-- Login Form with Frosted Capsule Inputs -->
       <form action="#" class="login-form" id="loginForm" novalidate>
-        <!-- 1. Username / Email Input Box -->
-        <div class="input-box">
-          <input
-            type="text"
-            id="usernameInput"
-            name="username"
-            placeholder="Username"
-            autocomplete="username"
-            required
-          >
-          <i class="bx bxs-user" aria-hidden="true"></i>
+        <!-- 1. Username / Email Input Capsule -->
+        <div class="input-group">
+          <label for="usernameInput" class="input-label">Account or Email</label>
+          <div class="input-capsule">
+            <i class="bx bxs-user input-icon" aria-hidden="true"></i>
+            <input
+              type="text"
+              id="usernameInput"
+              name="username"
+              placeholder="admin@example.com"
+              autocomplete="username"
+              required
+            >
+          </div>
         </div>
 
-        <!-- 2. Password Input Box -->
-        <div class="input-box">
-          <input
-            type="password"
-            id="passwordInput"
-            name="password"
-            placeholder="Password"
-            autocomplete="current-password"
-            required
-          >
-          <i class="bx bxs-lock-alt" aria-hidden="true"></i>
+        <!-- 2. Password Input Capsule with Toggle -->
+        <div class="input-group">
+          <div class="label-row">
+            <label for="passwordInput" class="input-label">Password</label>
+            <a href="#forgot" class="forgot-link">Forgot?</a>
+          </div>
+          <div class="input-capsule">
+            <i class="bx bxs-lock-alt input-icon" aria-hidden="true"></i>
+            <input
+              type="password"
+              id="passwordInput"
+              name="password"
+              placeholder="••••••••••••"
+              autocomplete="current-password"
+              required
+            >
+            <button type="button" class="pwd-toggle" id="pwdToggle" aria-label="Toggle password visibility">
+              <i class="bx bx-show" id="pwdIcon" aria-hidden="true"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- 3. Remember Me & Forgot Password Row -->
-        <div class="remember-forgot-box">
-          <label for="remember">
-            <input type="checkbox" id="remember" name="remember">
-            <span>Remember me</span>
+        <!-- 3. Remember Me Checkbox -->
+        <div class="remember-row">
+          <label for="remember" class="remember-label">
+            <input type="checkbox" id="remember" name="remember" checked>
+            <span>Stay signed in on this device</span>
           </label>
-          <a href="#forgot" class="forgot-link">Forgot password?</a>
         </div>
 
-        <!-- 4. Login Button in Primary Theme Color -->
+        <!-- 4. Login Button with Specular Rim -->
         <button type="submit" class="login-btn" id="loginBtn">
-          Login
+          <span>Sign In to Dashboard</span>
+          <i class="bx bx-right-arrow-alt btn-icon" aria-hidden="true"></i>
         </button>
 
-        <!-- 5. Register Row -->
-        <p class="register">
-          Don’t have an account? <a href="#register">Register</a>
-        </p>
+        <!-- 5. Footer Microcopy -->
+        <div class="card-footer-info">
+          <span class="status-indicator">
+            <span class="status-dot"></span>
+            Online & Ready
+          </span>
+          <span class="instance-owner">Single-user instance</span>
+        </div>
       </form>
     </div>
 
     <!-- Reopen Trigger -->
     <button type="button" class="reopen-btn" id="reopenBtn" aria-label="Open login window" hidden>
       <i class="bx bx-log-in" aria-hidden="true"></i>
-      <span>Sign in</span>
+      <span>Sign in to Custom You</span>
     </button>
   </main>
 

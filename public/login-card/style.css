@@ -1,5 +1,5 @@
-/* Hallmark · genre: atmospheric · built: Custom You Apple Liquid Glass Card · floor: 0 FAIL */
-/* Critique: Apple iOS glassmorphic login card with masked specular hairline, anti-banding grain, liquid refraction and ambient elevation */
+/* Hallmark · genre: atmospheric · built: Custom You Apple Fluid Glass Card · floor: 0 FAIL */
+/* Critique: Modern Apple macOS / iOS 18 fluid glassmorphic login interface with frosted capsule inputs and lit specular rim */
 /* Waiver: F24, 29 (Apple glassmorphism, specular edge hairline, and multi-layer elevation requested by user) */
 
 :root {
@@ -10,24 +10,23 @@
 
   --mask-solid: #000000;
 
-  --card-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.08) 45%, rgba(255, 255, 255, 0.02) 100%);
-  --card-bg-tint: rgba(16, 7, 34, 0.22);
-  --card-bg-tint-hover: rgba(22, 10, 44, 0.28);
+  --card-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(255, 255, 255, 0.02) 100%);
+  --card-bg-tint: rgba(16, 7, 34, 0.38);
+  --card-bg-tint-hover: rgba(22, 10, 44, 0.44);
   --card-bg-solid: #120824;
-  --card-bg-fallback: rgba(18, 8, 36, 0.88);
+  --card-bg-fallback: rgba(18, 8, 36, 0.92);
 
-  --card-border-dim: rgba(255, 255, 255, 0.15);
+  --card-border-dim: rgba(255, 255, 255, 0.14);
   --card-border-lit: rgba(255, 255, 255, 0.65);
-  --card-border-mid: rgba(255, 255, 255, 0.25);
+  --card-border-mid: rgba(255, 255, 255, 0.28);
   --card-border-fade: rgba(255, 255, 255, 0.04);
-  --card-border-top-hover: rgba(255, 255, 255, 0.55);
 
-  --card-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35);
-  --card-shadow-hover: 0 35px 70px -15px rgba(0, 0, 0, 0.8), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45);
+  --card-shadow: 0 25px 55px -12px rgba(0, 0, 0, 0.75), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 35px 70px -15px rgba(0, 0, 0, 0.8), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.55), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45);
 
   --orb-gradient-1: linear-gradient(135deg, #9333ea, #5935cc);
   --orb-gradient-2: linear-gradient(135deg, #d946ef, #7e22ce);
-  --orb-gradient-center: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0) 70%);
+  --orb-gradient-center: radial-gradient(circle, rgba(168, 85, 247, 0.35) 0%, rgba(168, 85, 247, 0) 70%);
 
   --color-primary: #a855f7;
   --color-primary-hover: #9333ea;
@@ -41,9 +40,15 @@
   --text-shadow-title: 0 1px 2px rgba(0, 0, 0, 0.4);
   --text-shadow-input: 0 1px 2px rgba(0, 0, 0, 0.3);
 
-  --input-border: rgba(245, 240, 255, 0.25);
-  --input-border-focus: #c084fc;
-  --input-icon: rgba(245, 240, 255, 0.7);
+  --capsule-bg: rgba(255, 255, 255, 0.05);
+  --capsule-bg-hover: rgba(255, 255, 255, 0.08);
+  --capsule-bg-focus: rgba(255, 255, 255, 0.09);
+  --capsule-border: rgba(255, 255, 255, 0.15);
+  --capsule-border-focus: rgba(168, 85, 247, 0.8);
+  --capsule-shadow-inner: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  --capsule-shadow-focus: 0 0 20px rgba(168, 85, 247, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+
+  --input-icon: rgba(245, 240, 255, 0.65);
   --input-icon-focus: #c084fc;
 
   --btn-bg: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7e22ce 100%);
@@ -51,31 +56,38 @@
   --btn-active: #6b21a8;
   --btn-disabled: #4c1d80;
   --btn-text: #fbf9ff;
-  --btn-shadow: 0 4px 22px rgba(168, 85, 247, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  --btn-shadow: 0 6px 22px rgba(168, 85, 247, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.4);
 
   --logo-badge-bg: rgba(255, 255, 255, 0.08);
+  --chip-bg: rgba(255, 255, 255, 0.06);
+  --chip-border: rgba(255, 255, 255, 0.14);
   --close-hover-bg: rgba(255, 255, 255, 0.18);
 
   --error-bg: rgba(239, 68, 68, 0.25);
   --error-border: rgba(248, 113, 113, 0.5);
   --error-text: #fecaca;
 
+  --status-online: #34d399;
+  --status-glow: rgba(52, 211, 153, 0.6);
+
   --sweep-highlight: rgba(255, 255, 255, 0.24);
 
   /* Typography */
   --font-family: 'Poppins', sans-serif;
-  --size-title: 1.875rem;
-  --size-body: 0.9375rem;
-  --size-label: 0.8125rem;
-  --size-meta: 0.8125rem;
-  --size-sm: 0.75rem;
+  --size-title: 1.75rem;
+  --size-subtitle: 0.8125rem;
+  --size-body: 0.875rem;
+  --size-label: 0.75rem;
+  --size-meta: 0.75rem;
+  --size-sm: 0.6875rem;
 
   /* Dimensions & Spacing (4px grid) */
-  --card-width: 400px;
-  --card-max-width: 90%;
-  --card-padding: 40px;
-  --card-radius: 28px;
-  --btn-radius: 40px;
+  --card-width: 430px;
+  --card-max-width: 95%;
+  --card-padding: 36px 32px;
+  --card-radius: 32px;
+  --capsule-radius: 16px;
+  --btn-radius: 16px;
 }
 
 /* Reset & Box Sizing */
@@ -189,23 +201,24 @@ body {
 }
 
 /* 
-  The Four Ingredients of Believable Glass (Glassmorphism Skill Specification)
-  1. Frost: backdrop-filter blur(24px) saturate(190%) brightness(105%)
-  2. Translucency: low alpha fill (0.12–0.22) letting backdrop read vividly
-  3. Edge of Glass: masked hairline highlight (lit corner fading out)
-  4. Depth: layered ambient drop shadow + inset top highlight + bottom shade
+  Sculpted Apple macOS Glassmorphic Login Card
+  - Organic rounded-[32px] curvature
+  - High-clarity optical glass translucency
+  - Masked hairline rim highlight (.login-card::before)
+  - Anti-banding noise overlay (.login-card::after)
+  - Layered elevation depth
 */
 .login-card {
   position: relative;
-  isolation: isolate; /* keeps the pseudo-element highlight & noise blend local */
+  isolation: isolate;
   z-index: 10;
   width: var(--card-width);
   max-width: var(--card-max-width);
   padding: var(--card-padding);
   background-image: var(--card-bg-gradient);
   background-color: var(--card-bg-tint);
-  -webkit-backdrop-filter: blur(24px) saturate(190%) brightness(105%);
-  backdrop-filter: blur(24px) saturate(190%) brightness(105%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(106%);
+  backdrop-filter: blur(28px) saturate(190%) brightness(106%);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   opacity: 0;
@@ -221,7 +234,7 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 1px; /* 1px hairline rim */
+  padding: 1px;
   background: linear-gradient(
     135deg,
     var(--card-border-lit) 0%,
@@ -238,7 +251,7 @@ body {
   z-index: 1;
 }
 
-/* 3. Anti-banding noise overlay (dithers away color stepping under heavy blur) */
+/* 3. Anti-banding noise overlay */
 .login-card::after {
   content: "";
   position: absolute;
@@ -347,36 +360,58 @@ body {
   color: var(--color-white);
 }
 
-/* Brand Header with Fingerprint Emblem */
+/* Brand Header with Emblem & Security Badge */
 .brand-header {
   position: relative;
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .logo-badge {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--logo-badge-bg);
   border: 1px solid var(--card-border-dim);
   border-top: 1.5px solid var(--card-border-lit);
-  box-shadow: 0 4px 16px var(--color-primary-glow);
-  margin-bottom: 8px;
+  box-shadow: 0 4px 18px var(--color-primary-glow);
+  margin-bottom: 12px;
+  transition: transform 0.2s ease;
+}
+
+.logo-badge:hover {
+  transform: scale(1.06);
 }
 
 .logo-icon {
-  font-size: 28px;
+  font-size: 30px;
   color: var(--color-primary);
 }
 
-/* 1. Title */
+.security-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border-radius: 40px;
+  background-color: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  font-size: var(--size-sm);
+  color: var(--color-text-dim);
+  margin-bottom: 8px;
+}
+
+.security-chip i {
+  color: var(--color-primary);
+  font-size: 12px;
+}
+
 .login-title {
   text-align: center;
   color: var(--color-white);
@@ -384,6 +419,13 @@ body {
   font-size: var(--size-title);
   letter-spacing: -0.02em;
   text-shadow: var(--text-shadow-title);
+}
+
+.login-subtitle {
+  text-align: center;
+  color: var(--color-text-dim);
+  font-size: var(--size-subtitle);
+  margin-top: 4px;
 }
 
 /* Validation Alert Notice */
@@ -394,9 +436,9 @@ body {
   border: 1px solid var(--error-border);
   color: var(--error-text);
   padding: 12px 16px;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: var(--size-label);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
@@ -406,20 +448,66 @@ body {
   z-index: 3;
   display: flex;
   flex-direction: column;
+  gap: 16px;
 }
 
-/* Input Box */
-.input-box {
+/* Modern Frosted Capsule Inputs (Replaces Stiff Wire Underlines) */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input-label {
+  font-size: var(--size-label);
+  font-weight: 500;
+  color: var(--color-text-dim);
+  padding-left: 4px;
+}
+
+.input-capsule {
   position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 48px;
-  margin-bottom: 24px;
-  border-bottom: 2px solid var(--input-border);
-  transition: border-bottom-color 0.25s ease, box-shadow 0.25s ease;
+  border-radius: var(--capsule-radius);
+  background: var(--capsule-bg);
+  border: 1px solid var(--capsule-border);
+  box-shadow: var(--capsule-shadow-inner);
+  transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.input-box input {
-  width: 100%;
+.input-capsule:hover {
+  background: var(--capsule-bg-hover);
+}
+
+.input-capsule:focus-within {
+  background: var(--capsule-bg-focus);
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.input-icon {
+  font-size: 1.125rem;
+  color: var(--input-icon);
+  padding-left: 16px;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.input-capsule:focus-within .input-icon {
+  color: var(--input-icon-focus);
+}
+
+.input-capsule input {
+  flex: 1;
   height: 100%;
   background: transparent;
   border: none;
@@ -427,70 +515,60 @@ body {
   font-family: var(--font-family);
   font-size: var(--size-body);
   color: var(--color-white);
-  padding: 0 36px 0 4px;
+  padding: 0 12px;
   text-shadow: var(--text-shadow-input);
 }
 
-.input-box input::placeholder {
+.input-capsule input::placeholder {
   color: var(--color-text-faint);
-  font-size: var(--size-label);
+  font-size: var(--size-body);
 }
 
-.input-box i {
-  position: absolute;
-  right: 4px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.25rem;
-  color: var(--input-icon);
-  pointer-events: none;
-  transition: color 0.25s ease;
-}
-
-/* Focus State: Border & icon light up with glow */
-.input-box:focus-within {
-  border-bottom-color: var(--input-border-focus);
-}
-
-.input-box:focus-within i {
-  color: var(--input-icon-focus);
-}
-
-.input-box input:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Remember Me & Forgot Password Row */
-.remember-forgot-box {
+.pwd-toggle {
+  background: transparent;
+  border: none;
+  color: var(--color-text-faint);
+  font-size: 1.125rem;
+  padding-right: 16px;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: var(--size-meta);
-  margin-bottom: 24px;
+  justify-content: center;
+  transition: color 0.2s ease;
 }
 
-.remember-forgot-box label {
+.pwd-toggle:hover {
+  color: var(--color-white);
+}
+
+/* Remember Row */
+.remember-row {
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.remember-label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
   user-select: none;
+  font-size: var(--size-meta);
   color: var(--color-text-dim);
   transition: color 0.2s ease;
 }
 
-.remember-forgot-box label:hover {
+.remember-label:hover {
   color: var(--color-white);
 }
 
-.remember-forgot-box input[type="checkbox"] {
+.remember-label input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   width: 16px;
   height: 16px;
-  border: 1.5px solid var(--input-border);
+  border: 1.5px solid var(--capsule-border);
   border-radius: 4px;
   background: var(--logo-badge-bg);
   cursor: pointer;
@@ -500,12 +578,12 @@ body {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.remember-forgot-box input[type="checkbox"]:checked {
+.remember-label input[type="checkbox"]:checked {
   background-color: var(--color-primary);
   border-color: var(--color-primary);
 }
 
-.remember-forgot-box input[type="checkbox"]:checked::before {
+.remember-label input[type="checkbox"]:checked::before {
   content: "";
   width: 8px;
   height: 8px;
@@ -515,6 +593,7 @@ body {
 
 .forgot-link {
   color: var(--color-text-dim);
+  font-size: var(--size-label);
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -524,12 +603,10 @@ body {
   text-decoration: underline;
 }
 
-/* 
-  Login Button in Website's Primary Theme Color
-*/
+/* Login Button */
 .login-btn {
   width: 100%;
-  height: 46px;
+  height: 48px;
   background: var(--btn-bg);
   color: var(--btn-text);
   font-family: var(--font-family);
@@ -539,6 +616,11 @@ body {
   border-radius: var(--btn-radius);
   box-shadow: var(--btn-shadow);
   cursor: pointer;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
 }
 
@@ -557,24 +639,42 @@ body {
   box-shadow: none;
 }
 
-/* Register Row */
-.register {
-  text-align: center;
-  font-size: var(--size-meta);
-  color: var(--color-text-dim);
-  margin-top: 20px;
+.btn-icon {
+  font-size: 1.125rem;
+  transition: transform 0.2s ease;
 }
 
-.register a {
-  color: var(--color-primary);
-  font-weight: 700;
-  text-decoration: none;
-  transition: opacity 0.2s ease;
+.login-btn:hover .btn-icon {
+  transform: translateX(3px);
 }
 
-.register a:hover {
-  text-decoration: underline;
-  opacity: 0.9;
+/* Card Footer Info */
+.card-footer-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  border-top: 1px solid var(--chip-border);
+  font-size: var(--size-sm);
+  color: var(--color-text-faint);
+}
+
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--status-online);
+  box-shadow: 0 0 8px var(--status-glow);
+}
+
+.instance-owner {
+  font-family: monospace;
 }
 
 /* Reopen Button */
@@ -619,12 +719,7 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
-/* 
-  Glassmorphism Skill Accessibility Requirements:
-  1. prefers-reduced-transparency: Fall back to solid opaque surface, disable noise
-  2. prefers-reduced-motion: Freeze animations & liquid refraction churn
-  3. @supports not (backdrop-filter): High opacity fallback
-*/
+/* Accessibility Fallbacks */
 @media (prefers-reduced-transparency: reduce) {
   .login-card,
   .reopen-btn {
@@ -647,9 +742,6 @@ a:focus-visible {
     transition: none !important;
     transform: none !important;
   }
-  .ambient-fluid-layer {
-    filter: none !important;
-  }
 }
 
 @supports not (backdrop-filter: blur(1px)) {
@@ -662,13 +754,7 @@ a:focus-visible {
 /* Responsive adjustments */
 @media (max-width: 480px) {
   :root {
-    --card-padding: 32px 24px;
-    --size-title: 1.625rem;
-  }
-
-  .remember-forgot-box {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    --card-padding: 28px 20px;
+    --size-title: 1.5rem;
   }
 }
