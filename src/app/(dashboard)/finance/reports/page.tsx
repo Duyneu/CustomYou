@@ -59,6 +59,8 @@ export default function ReportsPage() {
   const totalExpense6M = trends.reduce((sum, t) => sum + t.expense, 0);
   const totalIncome6M = trends.reduce((sum, t) => sum + t.income, 0);
   const net6M = totalIncome6M - totalExpense6M;
+  const hasData = totalIncome6M > 0 || totalExpense6M > 0;
+  const maxTrendVal = Math.max(...trends.map((t) => Math.max(t.income, t.expense)), 0);
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
@@ -108,6 +110,12 @@ export default function ReportsPage() {
           <span className="text-xs text-muted-foreground font-mono">6 tháng gần nhất</span>
         </div>
 
+        {!hasData && !loading && mounted && (
+          <div className="p-3 rounded-lg border border-border bg-muted/20 text-xs text-muted-foreground">
+            Chưa có giao dịch thu chi trong 6 tháng qua. Biểu đồ sẽ tự động thể hiện khi bạn ghi nhận giao dịch mới hoặc nhập sao kê ngân hàng.
+          </div>
+        )}
+
         {loading || !mounted ? (
           <div className="h-64 flex items-center justify-center text-xs text-muted-foreground">
             Đang tải dữ liệu biểu đồ...
@@ -122,16 +130,35 @@ export default function ReportsPage() {
                   tick={{ fontSize: 10, fontFamily: "monospace" }}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(val) => `${Math.round(val / 1000000)}Tr`}
+                  domain={maxTrendVal === 0 ? [0, 10000000] : [0, "auto"]}
+                  ticks={maxTrendVal === 0 ? [0, 2500000, 5000000, 7500000, 10000000] : undefined}
+                  tickFormatter={(val) => {
+                    if (val === 0) return "0";
+                    if (val >= 1000000) return `${(val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1)}Tr`;
+                    return `${Math.round(val / 1000)}k`;
+                  }}
                 />
                 <Tooltip
-                  formatter={(val: number) => [formatVND(val.toString()), ""]}
-                  labelStyle={{ fontWeight: "bold", fontSize: 12 }}
+                  cursor={{ fill: "rgba(255, 255, 255, 0.04)" }}
+                  formatter={(value: any, name: any) => [formatVND(value || 0), name]}
+                  labelStyle={{
+                    color: "hsl(var(--foreground))",
+                    fontWeight: 600,
+                    fontSize: "12px",
+                    marginBottom: "4px",
+                  }}
+                  itemStyle={{
+                    color: "hsl(var(--foreground))",
+                    fontSize: "12px",
+                    paddingTop: "2px",
+                    paddingBottom: "2px",
+                  }}
                   contentStyle={{
-                    backgroundColor: "var(--card)",
-                    borderColor: "var(--border)",
+                    backgroundColor: "hsl(var(--card))",
+                    borderColor: "hsl(var(--border))",
                     borderRadius: "8px",
                     fontSize: "12px",
+                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: 11, paddingTop: 10 }} />
@@ -185,11 +212,16 @@ export default function ReportsPage() {
                     ))}
                   </Pie>
                   <Tooltip
-                    formatter={(val: number) => [formatVND(val.toString()), ""]}
+                    formatter={(val: any, name: any) => [formatVND(val || 0), name]}
                     contentStyle={{
-                      backgroundColor: "var(--card)",
-                      borderColor: "var(--border)",
+                      backgroundColor: "hsl(var(--card))",
+                      borderColor: "hsl(var(--border))",
                       borderRadius: "8px",
+                      fontSize: "12px",
+                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+                    }}
+                    itemStyle={{
+                      color: "hsl(var(--foreground))",
                       fontSize: "12px",
                     }}
                   />
