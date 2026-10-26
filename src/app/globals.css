@@ -100,6 +100,37 @@
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
+/* Glassmorphism Keyframe Animations */
+@keyframes cardEntry {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes cardExit {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0);
+  }
+}
+
+.animate-card-entry {
+  animation: cardEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-card-exit {
+  animation: cardExit 0.4s ease forwards;
+}
+
 /* Triệt tiêu hoàn toàn con trỏ / cột hover xám trong Recharts */
 .recharts-tooltip-cursor,
 .recharts-rectangle.recharts-tooltip-cursor,

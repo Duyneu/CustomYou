@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#040b17" />
+      <stop offset="45%" stop-color="#0c2340" />
+      <stop offset="80%" stop-color="#18436f" />
+      <stop offset="100%" stop-color="#24588e" />
+    </linearGradient>
+    
+    <linearGradient id="moonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e6f2ff" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#99c2ff" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="peakDistant" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2c5b8e" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#0f2b4c" stop-opacity="0.85" />
+    </linearGradient>
+
+    <linearGradient id="peakMid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a426d" />
+      <stop offset="100%" stop-color="#091a2e" />
+    </linearGradient>
+
+    <linearGradient id="peakNear" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#102b48" />
+      <stop offset="100%" stop-color="#030913" />
+    </linearGradient>
+
+    <linearGradient id="mist" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7fb5e8" stop-opacity="0" />
+      <stop offset="50%" stop-color="#5591cd" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#18436f" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#skyGrad)" />
+
+  <!-- Stars -->
+  <g fill="#ffffff" opacity="0.75">
+    <circle cx="120" cy="90" r="1.5" />
+    <circle cx="280" cy="160" r="1" />
+    <circle cx="450" cy="80" r="2" />
+    <circle cx="620" cy="140" r="1.2" />
+    <circle cx="780" cy="60" r="1" />
+    <circle cx="950" cy="110" r="2.2" />
+    <circle cx="1120" cy="70" r="1" />
+    <circle cx="1320" cy="130" r="1.8" />
+    <circle cx="1490" cy="85" r="1.2" />
+    <circle cx="1680" cy="150" r="2" />
+    <circle cx="1820" cy="75" r="1.4" />
+    <circle cx="340" cy="220" r="1" />
+    <circle cx="860" cy="190" r="1.5" />
+    <circle cx="1240" cy="210" r="1.2" />
+    <circle cx="1560" cy="190" r="1.6" />
+  </g>
+
+  <!-- Soft Moon -->
+  <circle cx="1480" cy="220" r="80" fill="#eaf3ff" opacity="0.12" />
+  <circle cx="1480" cy="220" r="45" fill="#f4f9ff" opacity="0.85" />
+
+  <!-- Distant Mountain Range -->
+  <path d="M0,720 L160,560 L380,680 L560,520 L780,670 L960,490 L1180,660 L1380,510 L1600,650 L1780,530 L1920,620 L1920,1080 L0,1080 Z" fill="url(#peakDistant)" />
+
+  <!-- Atmospheric Mist -->
+  <rect y="580" width="1920" height="160" fill="url(#mist)" />
+
+  <!-- Mid Mountain Range -->
+  <path d="M0,820 L240,640 L440,760 L700,580 L920,720 L1140,560 L1400,740 L1640,600 L1840,730 L1920,690 L1920,1080 L0,1080 Z" fill="url(#peakMid)" />
+
+  <!-- Near Mountain Ridge & Slopes -->
+  <path d="M0,910 L280,750 L520,870 L800,710 L1060,860 L1320,690 L1580,840 L1820,720 L1920,780 L1920,1080 L0,1080 Z" fill="url(#peakNear)" />
+
+  <!-- Foreground Silhouettes -->
+  <path d="M0,990 Q220,930 460,980 T980,950 T1520,970 T1920,940 L1920,1080 L0,1080 Z" fill="#02060d" />
+</svg>
