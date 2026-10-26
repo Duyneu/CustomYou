@@ -83,11 +83,24 @@
   /* Interactive element focus states per accessibility standards */
   a:focus-visible,
   button:focus-visible,
-  input:focus-visible,
   select:focus-visible,
   textarea:focus-visible {
     outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
+  }
+
+  input:focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  /* Do not draw sharp inner outline when an input explicitly has outline-none or is inside a styled capsule */
+  input.outline-none:focus-visible,
+  input.outline-none:focus,
+  .outline-none:focus-visible,
+  .outline-none:focus {
+    outline: none !important;
+    outline-offset: 0 !important;
   }
 
   /* Frosted Glass Select Dropdowns */
@@ -488,4 +501,30 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(162, 150, 189, 0.45);
+}
+
+/* ==========================================================================
+   Browser Autofill Normalization (Chrome, Edge, Safari, Firefox)
+   Eliminates ugly light-blue / white autofill backgrounds and black text
+   ========================================================================== */
+.auth-input:-webkit-autofill,
+.auth-input:-webkit-autofill:hover,
+.auth-input:-webkit-autofill:focus,
+.auth-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #1a0a32 inset !important;
+  box-shadow: 0 0 0 1000px #1a0a32 inset !important;
+  transition: background-color 5000000s ease-in-out 0s, color 5000000s ease-in-out 0s !important;
+}
+
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #1a0a32 inset !important;
+  box-shadow: 0 0 0 1000px #1a0a32 inset !important;
+  transition: background-color 5000000s ease-in-out 0s, color 5000000s ease-in-out 0s !important;
 }

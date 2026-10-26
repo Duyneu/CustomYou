@@ -240,17 +240,18 @@ function LoginForm() {
                 <label className="text-xs font-medium text-white/85 pl-1 block">
                   Tài khoản hoặc Email
                 </label>
-                <div className="relative flex items-center rounded-2xl bg-white/[0.06] hover:bg-white/[0.09] focus-within:bg-white/[0.1] border border-white/15 focus-within:border-purple-400/80 transition-all duration-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] focus-within:shadow-[0_0_20px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] group">
+                <div className="relative flex items-center rounded-2xl bg-white/[0.06] hover:bg-white/[0.09] focus-within:bg-white/[0.1] border border-white/15 focus-within:border-purple-400/80 transition-all duration-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] focus-within:shadow-[0_0_20px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] group overflow-hidden">
                   <div className="pl-3.5 pr-1 text-white/60 group-focus-within:text-purple-300 transition-colors">
                     <User className="w-4 h-4" />
                   </div>
                   <input
                     type="text"
                     required
+                    autoComplete="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="admin@example.com"
-                    className="w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none font-sans drop-shadow-xs"
+                    className="auth-input w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 font-sans drop-shadow-xs"
                   />
                 </div>
               </div>
@@ -272,17 +273,18 @@ function LoginForm() {
                     Quên mật khẩu?
                   </a>
                 </div>
-                <div className="relative flex items-center rounded-2xl bg-white/[0.06] hover:bg-white/[0.09] focus-within:bg-white/[0.1] border border-white/15 focus-within:border-purple-400/80 transition-all duration-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] focus-within:shadow-[0_0_20px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] group">
+                <div className="relative flex items-center rounded-2xl bg-white/[0.06] hover:bg-white/[0.09] focus-within:bg-white/[0.1] border border-white/15 focus-within:border-purple-400/80 transition-all duration-200 shadow-[inset_0_1px_1px_rgba(255,255,255,0.12)] focus-within:shadow-[0_0_20px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.2)] group overflow-hidden">
                   <div className="pl-3.5 pr-1 text-white/60 group-focus-within:text-purple-300 transition-colors">
                     <Lock className="w-4 h-4" />
                   </div>
                   <input
                     type={showPassword ? "text" : "password"}
                     required
+                    autoComplete="current-password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••••••"
-                    className="w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none font-sans drop-shadow-xs"
+                    className="auth-input w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 font-sans drop-shadow-xs"
                   />
                   <button
                     type="button"
@@ -349,7 +351,7 @@ function LoginForm() {
                 <label className="text-xs font-medium text-white/85 pl-1 block text-center">
                   Mã 6 chữ số từ Google Authenticator
                 </label>
-                <div className="relative flex items-center rounded-2xl bg-white/[0.06] border border-white/20 focus-within:border-purple-400 focus-within:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-200">
+                <div className="relative flex items-center rounded-2xl bg-white/[0.06] border border-white/20 focus-within:border-purple-400 focus-within:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all duration-200 overflow-hidden">
                   <input
                     type="text"
                     required
@@ -358,7 +360,7 @@ function LoginForm() {
                     value={twoFactorCode}
                     onChange={(e) => setTwoFactorCode(e.target.value)}
                     placeholder="123 456"
-                    className="w-full bg-transparent py-3 text-center font-mono tracking-widest text-xl text-white outline-none"
+                    className="auth-input w-full bg-transparent py-3 text-center font-mono tracking-widest text-xl text-white outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
                   />
                   <div className="pr-3.5 text-purple-300 pointer-events-none">
                     <ShieldCheck className="w-5 h-5" />
