@@ -1,23 +1,33 @@
-/* Hallmark · genre: atmospheric · built: Custom You iPhone Glass Card · floor: 0 FAIL */
-/* Critique: Apple iOS 18 glassmorphic login card with interactive hover parallax and specular bevel */
-/* Waiver: F24 (specular edge and multi-layer elevation shadow requested for authentic glassmorphism) */
+/* Hallmark · genre: atmospheric · built: Custom You Apple Liquid Glass Card · floor: 0 FAIL */
+/* Critique: Apple iOS glassmorphic login card with masked specular hairline, anti-banding grain, liquid refraction and ambient elevation */
+/* Waiver: F24, 29 (Apple glassmorphism, specular edge hairline, and multi-layer elevation requested by user) */
 
 :root {
-  /* Hallmark Color & Theme Tokens (Custom You Obsidian & Electric Violet) */
+  /* Color & Theme Tokens (Custom You Obsidian & Electric Violet) */
   --bg-fallback: #070210;
   --bg-gradient: linear-gradient(135deg, #070212 0%, #16082b 50%, #290f4d 100%);
   --bg-image: url('mountains.svg');
 
-  --card-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(168, 85, 247, 0.08) 45%, rgba(255, 255, 255, 0.03) 100%);
-  --card-bg-tint: rgba(16, 7, 34, 0.35);
-  --card-border: rgba(255, 255, 255, 0.18);
-  --card-border-top: rgba(255, 255, 255, 0.45);
-  --card-border-left: rgba(255, 255, 255, 0.32);
-  --card-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4), 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 35px rgba(168, 85, 247, 0.22);
-  --card-shadow-hover: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45), 0 35px 70px -15px rgba(0, 0, 0, 0.75), 0 0 45px rgba(168, 85, 247, 0.35);
+  --mask-solid: #000000;
 
-  --orb-gradient-1: linear-gradient(135deg, #9333ea, #6366f1);
+  --card-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.08) 45%, rgba(255, 255, 255, 0.02) 100%);
+  --card-bg-tint: rgba(16, 7, 34, 0.22);
+  --card-bg-tint-hover: rgba(22, 10, 44, 0.28);
+  --card-bg-solid: #120824;
+  --card-bg-fallback: rgba(18, 8, 36, 0.88);
+
+  --card-border-dim: rgba(255, 255, 255, 0.15);
+  --card-border-lit: rgba(255, 255, 255, 0.65);
+  --card-border-mid: rgba(255, 255, 255, 0.25);
+  --card-border-fade: rgba(255, 255, 255, 0.04);
+  --card-border-top-hover: rgba(255, 255, 255, 0.55);
+
+  --card-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35);
+  --card-shadow-hover: 0 35px 70px -15px rgba(0, 0, 0, 0.8), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45);
+
+  --orb-gradient-1: linear-gradient(135deg, #9333ea, #5935cc);
   --orb-gradient-2: linear-gradient(135deg, #d946ef, #7e22ce);
+  --orb-gradient-center: radial-gradient(circle, rgba(168, 85, 247, 0.4) 0%, rgba(168, 85, 247, 0) 70%);
 
   --color-primary: #a855f7;
   --color-primary-hover: #9333ea;
@@ -28,6 +38,8 @@
   --color-text-main: #f5f0ff;
   --color-text-dim: rgba(245, 240, 255, 0.82);
   --color-text-faint: rgba(245, 240, 255, 0.45);
+  --text-shadow-title: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --text-shadow-input: 0 1px 2px rgba(0, 0, 0, 0.3);
 
   --input-border: rgba(245, 240, 255, 0.25);
   --input-border-focus: #c084fc;
@@ -47,6 +59,8 @@
   --error-bg: rgba(239, 68, 68, 0.25);
   --error-border: rgba(248, 113, 113, 0.5);
   --error-text: #fecaca;
+
+  --sweep-highlight: rgba(255, 255, 255, 0.24);
 
   /* Typography */
   --font-family: 'Poppins', sans-serif;
@@ -106,20 +120,30 @@ body {
 
 /* 
   Ambient Chromatic Fluid Mesh Behind Glass (iPhone iOS 18 Glass Material)
-  Swells, elevates, and clarifies on hover
+  Optical Liquid Refraction: Uses SVG displacement filter to physically churn
 */
+.ambient-fluid-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  filter: url(#liquid-glass);
+  z-index: 1;
+}
+
 .glass-orb {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
-  z-index: 1;
   filter: blur(75px);
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease, filter 0.5s ease;
 }
 
 .glass-orb-1 {
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
   background: var(--orb-gradient-1);
   opacity: 0.48;
   top: 15%;
@@ -127,60 +151,143 @@ body {
 }
 
 .glass-orb-2 {
-  width: 300px;
-  height: 300px;
+  width: 320px;
+  height: 320px;
   background: var(--orb-gradient-2);
-  opacity: 0.4;
+  opacity: 0.42;
   bottom: 15%;
   right: calc(50% - 240px);
 }
 
+.glass-orb-center {
+  width: 260px;
+  height: 260px;
+  background: var(--orb-gradient-center);
+  opacity: 0.3;
+  top: calc(50% - 130px);
+  left: calc(50% - 130px);
+}
+
 /* When hovering over the viewport/card, the background orbs rise and clarify */
-.viewport-wrapper:hover .glass-orb-1 {
+.viewport-wrapper:hover .glass-orb-1,
+:root[data-state="hover"] .glass-orb-1 {
   opacity: 0.78;
-  transform: scale(1.22) translate3d(0, -12px, 0);
+  transform: scale(1.22) translate3d(0, -14px, 0);
   filter: blur(55px);
 }
 
-.viewport-wrapper:hover .glass-orb-2 {
+.viewport-wrapper:hover .glass-orb-2,
+:root[data-state="hover"] .glass-orb-2 {
   opacity: 0.68;
-  transform: scale(1.2) translate3d(0, 10px, 0);
+  transform: scale(1.2) translate3d(0, 12px, 0);
   filter: blur(58px);
 }
 
+.viewport-wrapper:hover .glass-orb-center,
+:root[data-state="hover"] .glass-orb-center {
+  opacity: 0.6;
+  transform: scale(1.3);
+  filter: blur(50px);
+}
+
 /* 
-  Authentic Apple iOS Glassmorphic Login Card
-  - Liquid Retina optical clarity (35% base opacity)
-  - Ultra-high frosted blur & saturation
-  - Specular top rim light
-  - Inner bevel refraction shadow
-  - Subtle floating lift on hover
+  The Four Ingredients of Believable Glass (Glassmorphism Skill Specification)
+  1. Frost: backdrop-filter blur(32px) saturate(190%) brightness(105%)
+  2. Translucency: low alpha fill (0.12–0.22) letting backdrop read vividly
+  3. Edge of Glass: masked hairline highlight (lit corner fading out)
+  4. Depth: layered ambient drop shadow + inset top highlight + bottom shade
 */
 .login-card {
   position: relative;
+  isolation: isolate; /* keeps the pseudo-element highlight & noise blend local */
   z-index: 10;
   width: var(--card-width);
   max-width: var(--card-max-width);
   padding: var(--card-padding);
   background-image: var(--card-bg-gradient);
   background-color: var(--card-bg-tint);
-  -webkit-backdrop-filter: blur(36px) saturate(210%) brightness(108%);
-  backdrop-filter: blur(36px) saturate(210%) brightness(108%);
-  border: 1px solid var(--card-border);
-  border-top: 1.5px solid var(--card-border-top);
-  border-left: 1px solid var(--card-border-left);
+  -webkit-backdrop-filter: blur(32px) saturate(190%) brightness(105%);
+  backdrop-filter: blur(32px) saturate(190%) brightness(105%);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   opacity: 0;
   transform: scale(0);
   animation: cardEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, background-color 0.4s ease;
 }
 
-.login-card:hover {
+/* 2. Edge of Glass: Masked hairline border with lit top-left corner */
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px; /* 1px hairline rim */
+  background: linear-gradient(
+    135deg,
+    var(--card-border-lit) 0%,
+    var(--card-border-mid) 28%,
+    var(--card-border-fade) 55%,
+    var(--card-border-dim) 100%
+  );
+  -webkit-mask:
+    linear-gradient(var(--mask-solid) 0 0) content-box,
+    linear-gradient(var(--mask-solid) 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 3. Anti-banding noise overlay (dithers away color stepping under heavy blur) */
+.login-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+/* Specular Sweep Glint across the surface */
+.glass-sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.glass-sweep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, var(--sweep-highlight), transparent);
+  transform: skewX(-15deg) translateX(-120%);
+  animation: sweepGlint 6s ease-in-out infinite;
+}
+
+@keyframes sweepGlint {
+  0%, 100% {
+    transform: skewX(-15deg) translateX(-120%);
+  }
+  50% {
+    transform: skewX(-15deg) translateX(240%);
+  }
+}
+
+.login-card:hover,
+:root[data-state="hover"] .login-card {
   transform: translateY(-6px) scale(1.01);
   box-shadow: var(--card-shadow-hover);
-  border-top-color: rgba(255, 255, 255, 0.55);
+  background-color: var(--card-bg-tint-hover);
 }
 
 /* Entry and Exit Animations */
@@ -225,23 +332,26 @@ body {
   align-items: center;
   justify-content: center;
   background: var(--logo-badge-bg);
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--card-border-dim);
   border-radius: 50%;
   color: var(--color-white);
   font-size: 1.125rem;
   cursor: pointer;
+  z-index: 3;
   transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .close-btn:hover {
   background-color: var(--close-hover-bg);
-  border-color: var(--card-border-top);
+  border-color: var(--card-border-lit);
   transform: rotate(90deg) scale(1.05);
   color: var(--color-white);
 }
 
 /* Brand Header with Fingerprint Emblem */
 .brand-header {
+  position: relative;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -256,8 +366,8 @@ body {
   align-items: center;
   justify-content: center;
   background-color: var(--logo-badge-bg);
-  border: 1px solid var(--card-border);
-  border-top: 1.5px solid var(--card-border-top);
+  border: 1px solid var(--card-border-dim);
+  border-top: 1.5px solid var(--card-border-lit);
   box-shadow: 0 4px 16px var(--color-primary-glow);
   margin-bottom: 8px;
 }
@@ -274,10 +384,13 @@ body {
   font-weight: 700;
   font-size: var(--size-title);
   letter-spacing: -0.02em;
+  text-shadow: var(--text-shadow-title);
 }
 
 /* Validation Alert Notice */
 .validation-notice {
+  position: relative;
+  z-index: 3;
   background-color: var(--error-bg);
   border: 1px solid var(--error-border);
   color: var(--error-text);
@@ -290,6 +403,8 @@ body {
 
 /* Form Layout */
 .login-form {
+  position: relative;
+  z-index: 3;
   display: flex;
   flex-direction: column;
 }
@@ -314,6 +429,7 @@ body {
   font-size: var(--size-body);
   color: var(--color-white);
   padding: 0 36px 0 4px;
+  text-shadow: var(--text-shadow-input);
 }
 
 .input-box input::placeholder {
@@ -420,7 +536,7 @@ body {
   font-family: var(--font-family);
   font-size: var(--size-body);
   font-weight: 600;
-  border: 1px solid var(--card-border);
+  border: 1px solid var(--card-border-dim);
   border-radius: var(--btn-radius);
   box-shadow: var(--btn-shadow);
   cursor: pointer;
@@ -474,8 +590,8 @@ body {
   background-color: var(--card-bg-tint);
   -webkit-backdrop-filter: blur(28px) saturate(190%);
   backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid var(--card-border);
-  border-top: 1.5px solid var(--card-border-top);
+  border: 1px solid var(--card-border-dim);
+  border-top: 1.5px solid var(--card-border-lit);
   border-radius: var(--btn-radius);
   color: var(--color-white);
   font-family: var(--font-family);
@@ -504,15 +620,43 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
-/* Reduced Motion Fallback */
+/* 
+  Glassmorphism Skill Accessibility Requirements:
+  1. prefers-reduced-transparency: Fall back to solid opaque surface, disable noise
+  2. prefers-reduced-motion: Freeze animations & liquid refraction churn
+  3. @supports not (backdrop-filter): High opacity fallback
+*/
+@media (prefers-reduced-transparency: reduce) {
+  .login-card,
+  .reopen-btn {
+    background: var(--card-bg-solid) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: var(--color-white) !important;
+  }
+  .login-card::after {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .login-card,
   .login-card.is-closing,
-  .glass-orb {
-    animation: none;
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .glass-orb,
+  .glass-sweep::before {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .ambient-fluid-layer {
+    filter: none !important;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .login-card,
+  .reopen-btn {
+    background-color: var(--card-bg-fallback);
   }
 }
 

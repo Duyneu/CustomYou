@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Custom You glassmorphic login form with Boxicons, Poppins typography, and midnight violet aesthetic.">
+  <meta name="description" content="Custom You glassmorphic login card with Apple liquid glass optics, masked specular highlight, and anti-banding grain.">
   <title>Login · Custom You</title>
 
   <!-- Google Fonts: Poppins -->
@@ -29,13 +29,32 @@
     </style>
   </noscript>
 
-  <main class="viewport-wrapper">
-    <!-- Ambient Chromatic Glow Orbs Behind Glass -->
-    <div class="glass-orb glass-orb-1" aria-hidden="true"></div>
-    <div class="glass-orb glass-orb-2" aria-hidden="true"></div>
+  <!-- 
+    Inline SVG Filter for 2026 Liquid Glass Refraction
+    Bends and refracts the background behind the card like optical glass
+  -->
+  <svg width="0" height="0" class="svg-glass-filter" style="position:absolute; pointer-events:none;" aria-hidden="true">
+    <filter id="liquid-glass">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3" result="noise">
+        <animate attributeName="baseFrequency" dur="18s" values="0.008 0.012; 0.012 0.008; 0.008 0.012" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </svg>
 
-    <!-- Glassmorphic Login Card (Themed in Custom You Obsidian & Electric Violet) -->
+  <main class="viewport-wrapper">
+    <!-- Liquid Glass Refracting Ambient Chromatic Fluid Mesh -->
+    <div class="ambient-fluid-layer" aria-hidden="true">
+      <div class="glass-orb glass-orb-1"></div>
+      <div class="glass-orb glass-orb-2"></div>
+      <div class="glass-orb glass-orb-center"></div>
+    </div>
+
+    <!-- Glassmorphic Login Card (Apple Frosted & Liquid Glass Specification) -->
     <div class="login-card" id="loginCard" role="region" aria-labelledby="cardTitle">
+      <!-- Specular Sweep Glint Overlay -->
+      <div class="glass-sweep" aria-hidden="true"></div>
+
       <!-- Top-right Close Button -->
       <button type="button" class="close-btn" id="closeBtn" aria-label="Close login dialog">
         <i class="bx bx-x" aria-hidden="true"></i>
@@ -108,7 +127,7 @@
     </button>
   </main>
 
-  <!-- Interactive JavaScript Behavior -->
+  <!-- Interactive JavaScript Behavior with Glassmorphism Freeze & State Harness -->
   <script src="script.js"></script>
 </body>
 </html>

@@ -131,6 +131,110 @@
   animation: cardExit 0.4s ease forwards;
 }
 
+/* Glassmorphism Specular Sweep & Masked Rim */
+.glass-panel {
+  position: relative;
+  isolation: isolate;
+}
+
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(255, 255, 255, 0.25) 30%,
+    rgba(255, 255, 255, 0.04) 55%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+.glass-sweep-track {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.glass-sweep-track::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+  transform: skewX(-15deg) translateX(-120%);
+  animation: sweepAnimation 6s ease-in-out infinite;
+}
+
+@keyframes sweepAnimation {
+  0%, 100% {
+    transform: skewX(-15deg) translateX(-120%);
+  }
+  50% {
+    transform: skewX(-15deg) translateX(240%);
+  }
+}
+
+/* Glassmorphism Accessibility & Reduced Transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel,
+  .glass-reopen {
+    background: #120824 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: #f5f0ff !important;
+  }
+  .glass-panel::after {
+    display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-card-entry,
+  .animate-card-exit,
+  .glass-sweep-track::before {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  .ambient-liquid-layer {
+    filter: none !important;
+  }
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .glass-panel,
+  .glass-reopen {
+    background-color: rgba(18, 8, 36, 0.92);
+  }
+}
+
 /* Triệt tiêu hoàn toàn con trỏ / cột hover xám trong Recharts */
 .recharts-tooltip-cursor,
 .recharts-rectangle.recharts-tooltip-cursor,

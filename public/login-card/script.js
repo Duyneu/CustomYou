@@ -1,6 +1,7 @@
 /**
  * Custom You Glassmorphic Login Form Interaction
- * Includes Apple-style parallax background elevation on mouse hover.
+ * Includes Apple-style parallax background elevation on mouse hover
+ * and the standard Glassmorphism freeze & state inspection harness.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const loginCard = document.getElementById('loginCard');
   const orb1 = document.querySelector('.glass-orb-1');
   const orb2 = document.querySelector('.glass-orb-2');
+  const orbCenter = document.querySelector('.glass-orb-center');
   const closeBtn = document.getElementById('closeBtn');
   const reopenBtn = document.getElementById('reopenBtn');
   const loginForm = document.getElementById('loginForm');
@@ -24,10 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Parallax shift on orbs behind glass
       if (orb1) {
-        orb1.style.transform = `scale(1.22) translate3d(${x * 24}px, ${y * 24 - 12}px, 0)`;
+        orb1.style.transform = `scale(1.22) translate3d(${x * 24}px, ${y * 24 - 14}px, 0)`;
       }
       if (orb2) {
-        orb2.style.transform = `scale(1.2) translate3d(${x * -20}px, ${y * -20 + 8}px, 0)`;
+        orb2.style.transform = `scale(1.2) translate3d(${x * -20}px, ${y * -20 + 12}px, 0)`;
+      }
+      if (orbCenter) {
+        orbCenter.style.transform = `scale(1.3) translate3d(${x * 12}px, ${y * 12}px, 0)`;
       }
 
       // Subtle 3D tilt on card
@@ -40,6 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (orb2) {
         orb2.style.transform = 'scale(1) translate3d(0, 0, 0)';
+      }
+      if (orbCenter) {
+        orbCenter.style.transform = 'scale(1) translate3d(0, 0, 0)';
       }
       loginCard.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
     });
@@ -137,4 +145,25 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // 5. Glassmorphism Freeze & State Harness (SKILL.md Contract)
+  // ?state=hover -> forces hover state
+  // ?t=N -> freezes CSS animations & SVG refraction at N seconds
+  const p = new URLSearchParams(window.location.search);
+  const state = p.get('state');
+  if (state) {
+    document.documentElement.dataset.state = state;
+  }
+  const t = p.get('t');
+  if (t !== null) {
+    const timeMs = parseFloat(t) * 1000;
+    document.getAnimations().forEach((a) => {
+      a.currentTime = timeMs;
+      a.pause();
+    });
+    const svg = document.querySelector('svg');
+    svg?.pauseAnimations?.();
+    svg?.setCurrentTime?.(parseFloat(t));
+  }
+  window.__ready = true;
 });

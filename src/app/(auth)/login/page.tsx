@@ -109,7 +109,7 @@ function LoginForm() {
       <button
         type="button"
         onClick={handleReopen}
-        className="relative z-10 flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white/[0.08] backdrop-blur-[24px] backdrop-saturate-[190%] border border-white/30 border-t-white/50 text-white font-medium shadow-[0_15px_35px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:bg-white/[0.15] hover:scale-105 active:scale-95 transition-all duration-200"
+        className="glass-reopen relative z-10 flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-white/[0.08] backdrop-blur-[24px] backdrop-saturate-[190%] border border-white/20 text-white font-medium shadow-[0_15px_35px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.4)] hover:bg-white/[0.15] hover:scale-105 active:scale-95 transition-all duration-200"
       >
         <LogIn className="w-4 h-4 text-purple-300" />
         <span>Đăng nhập Custom You</span>
@@ -125,82 +125,88 @@ function LoginForm() {
       className="relative w-[410px] max-w-[92%] flex items-center justify-center perspective-[1000px] group cursor-default"
     >
       {/* 
-        Ambient Chromatic Fluid Mesh Behind Glass (iPhone iOS 18 Glass Material)
-        Reacts to hover by swelling, rising in elevation, and drifting with cursor parallax
+        Inline SVG Filter for 2026 Liquid Glass Refraction
+        Bends background orbs and mountain light like optical curved glass
       */}
-      <div
-        className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 pointer-events-none transition-all duration-500 ease-out"
-        style={{
-          opacity: isHovered ? 0.75 : 0.42,
-          transform: isHovered
-            ? `scale(1.22) translate3d(${mousePos.x * 28}px, ${mousePos.y * 28 - 12}px, 0)`
-            : "scale(1) translate3d(0, 0, 0)",
-          filter: isHovered ? "blur(58px)" : "blur(75px)",
-        }}
-        aria-hidden="true"
-      />
-      <div
-        className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 pointer-events-none transition-all duration-500 ease-out"
-        style={{
-          opacity: isHovered ? 0.65 : 0.35,
-          transform: isHovered
-            ? `scale(1.2) translate3d(${mousePos.x * -24}px, ${mousePos.y * -24 - 10}px, 0)`
-            : "scale(1) translate3d(0, 0, 0)",
-          filter: isHovered ? "blur(60px)" : "blur(80px)",
-        }}
-        aria-hidden="true"
-      />
-      {/* Center Subtle Accent Glow that elevates on hover */}
-      <div
-        className="absolute w-60 h-60 rounded-full bg-purple-500/30 pointer-events-none transition-all duration-700 ease-out"
-        style={{
-          opacity: isHovered ? 0.5 : 0.15,
-          transform: isHovered ? "scale(1.35)" : "scale(0.9)",
-          filter: "blur(65px)",
-        }}
-        aria-hidden="true"
-      />
+      <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
+        <filter id="liquid-glass">
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3" result="noise">
+            <animate attributeName="baseFrequency" dur="18s" values="0.008 0.012; 0.012 0.008; 0.008 0.012" repeatCount="indefinite" />
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
+      {/* 
+        Ambient Chromatic Fluid Mesh Behind Glass (iPhone iOS 18 Glass Material)
+        Physically bent and refracted through the liquid glass optical lens
+      */}
+      <div className="ambient-liquid-layer absolute inset-0 flex items-center justify-center pointer-events-none [filter:url(#liquid-glass)] z-0" aria-hidden="true">
+        <div
+          className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 transition-all duration-500 ease-out"
+          style={{
+            opacity: isHovered ? 0.78 : 0.45,
+            transform: isHovered
+              ? `scale(1.22) translate3d(${mousePos.x * 28}px, ${mousePos.y * 28 - 14}px, 0)`
+              : "scale(1) translate3d(0, 0, 0)",
+            filter: isHovered ? "blur(55px)" : "blur(75px)",
+          }}
+        />
+        <div
+          className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 transition-all duration-500 ease-out"
+          style={{
+            opacity: isHovered ? 0.68 : 0.38,
+            transform: isHovered
+              ? `scale(1.2) translate3d(${mousePos.x * -24}px, ${mousePos.y * -24 + 12}px, 0)`
+              : "scale(1) translate3d(0, 0, 0)",
+            filter: isHovered ? "blur(58px)" : "blur(78px)",
+          }}
+        />
+        <div
+          className="absolute w-60 h-60 rounded-full bg-purple-500/35 transition-all duration-700 ease-out"
+          style={{
+            opacity: isHovered ? 0.6 : 0.22,
+            transform: isHovered ? "scale(1.35)" : "scale(0.9)",
+            filter: "blur(60px)",
+          }}
+        />
+      </div>
 
       {/* 
         Authentic Apple / iPhone Glassmorphism Card
-        - Liquid Retina optical clarity
-        - Specular top rim light
-        - Inner bevel refraction shadow
+        - Four Ingredients of Believable Glass (Frost, Translucency, Edge of Glass hairline, Depth)
+        - Masked hairline rim highlight (.glass-panel::before)
+        - Anti-banding noise overlay (.glass-panel::after)
+        - Specular sweep glint (.glass-sweep-track)
         - Interactive tilt & lift on hover
       */}
       <div
-        className={`relative z-10 w-full p-8 sm:p-10 rounded-[28px] text-white transition-all duration-300 ease-out ${
+        className={`glass-panel relative z-10 w-full p-8 sm:p-10 rounded-[28px] text-white transition-all duration-300 ease-out ${
           isClosing ? "animate-card-exit" : "animate-card-entry"
         }`}
         style={{
           background: isHovered
-            ? "linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0%, rgba(168, 85, 247, 0.10) 45%, rgba(255, 255, 255, 0.04) 100%), rgba(18, 8, 36, 0.32)"
-            : "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(16, 7, 34, 0.38)",
-          backdropFilter: "blur(36px) saturate(210%) brightness(108%)",
-          WebkitBackdropFilter: "blur(36px) saturate(210%) brightness(108%)",
-          border: isHovered
-            ? "1px solid rgba(255, 255, 255, 0.28)"
-            : "1px solid rgba(255, 255, 255, 0.18)",
-          borderTop: isHovered
-            ? "1.5px solid rgba(255, 255, 255, 0.55)"
-            : "1.5px solid rgba(255, 255, 255, 0.42)",
-          borderLeft: isHovered
-            ? "1px solid rgba(255, 255, 255, 0.38)"
-            : "1px solid rgba(255, 255, 255, 0.28)",
+            ? "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(168, 85, 247, 0.08) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(22, 10, 44, 0.28)"
+            : "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(16, 7, 34, 0.22)",
+          backdropFilter: "blur(32px) saturate(200%) brightness(106%)",
+          WebkitBackdropFilter: "blur(32px) saturate(200%) brightness(106%)",
           boxShadow: isHovered
-            ? "inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.55), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45), 0 35px 70px -15px rgba(0, 0, 0, 0.75), 0 0 45px rgba(168, 85, 247, 0.32)"
-            : "inset 0 1px 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4), 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 30px rgba(168, 85, 247, 0.18)",
+            ? "0 35px 70px -15px rgba(0, 0, 0, 0.8), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45)"
+            : "0 24px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35)",
           transform: isHovered
             ? `translate3d(0, -6px, 0) rotateX(${-mousePos.y * 3}deg) rotateY(${mousePos.x * 3}deg)`
             : "translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)",
         }}
       >
+        {/* Specular Sweep Glint */}
+        <div className="glass-sweep-track" aria-hidden="true" />
+
         {/* Top-Right X Close Button */}
         <button
           type="button"
           onClick={handleClose}
           aria-label="Đóng bảng đăng nhập"
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-white/[0.08] hover:bg-white/[0.22] border border-white/15 hover:border-white/40 transition-all duration-200 hover:rotate-90 hover:scale-105"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white bg-white/[0.08] hover:bg-white/[0.22] border border-white/15 hover:border-white/40 transition-all duration-200 hover:rotate-90 hover:scale-105 z-10"
         >
           <X className="w-4 h-4" />
         </button>
