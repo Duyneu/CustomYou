@@ -1,6 +1,6 @@
 /* Hallmark · genre: atmospheric · built: Custom You Login Form · floor: 0 FAIL */
-/* Critique: Custom You midnight-violet glassmorphic login form adapted from code tutorial layout */
-/* Waiver: F24 (1px translucent border and soft box-shadow explicitly requested by user prompt) */
+/* Critique: Authentic frosted glassmorphic login card with specular bevel and chromatic refraction */
+/* Waiver: F24 (specular edge and multi-layer elevation shadow requested for authentic glassmorphism) */
 
 :root {
   /* Hallmark Color & Theme Tokens (Custom You Obsidian & Electric Violet) */
@@ -8,36 +8,42 @@
   --bg-gradient: linear-gradient(135deg, #070212 0%, #16082b 50%, #290f4d 100%);
   --bg-image: url('mountains.svg');
 
-  --card-bg: rgba(18, 8, 36, 0.68);
-  --card-border: rgba(168, 85, 247, 0.28);
-  --card-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(168, 85, 247, 0.15);
+  --card-bg-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(255, 255, 255, 0.03) 100%);
+  --card-bg-tint: rgba(16, 7, 34, 0.38);
+  --card-border: rgba(255, 255, 255, 0.18);
+  --card-border-top: rgba(255, 255, 255, 0.42);
+  --card-border-left: rgba(255, 255, 255, 0.3);
+  --card-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.42), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4), 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 35px rgba(168, 85, 247, 0.22);
+
+  --orb-gradient-1: linear-gradient(135deg, #9333ea, #6366f1);
+  --orb-gradient-2: linear-gradient(135deg, #d946ef, #7e22ce);
 
   --color-primary: #a855f7;
   --color-primary-hover: #9333ea;
   --color-primary-active: #7e22ce;
-  --color-primary-glow: rgba(168, 85, 247, 0.35);
+  --color-primary-glow: rgba(168, 85, 247, 0.4);
 
   --color-white: #f5f0ff;
   --color-text-main: #f5f0ff;
-  --color-text-dim: rgba(245, 240, 255, 0.75);
+  --color-text-dim: rgba(245, 240, 255, 0.8);
   --color-text-faint: rgba(245, 240, 255, 0.45);
 
-  --input-border: rgba(245, 240, 255, 0.32);
+  --input-border: rgba(245, 240, 255, 0.25);
   --input-border-focus: #a855f7;
   --input-icon: rgba(245, 240, 255, 0.7);
-  --input-icon-focus: #a855f7;
+  --input-icon-focus: #c084fc;
 
-  --btn-bg: #9333ea;
-  --btn-hover: #7e22ce;
+  --btn-bg: linear-gradient(135deg, #a855f7 0%, #9333ea 50%, #7e22ce 100%);
+  --btn-hover: linear-gradient(135deg, #b76eff 0%, #a855f7 50%, #9333ea 100%);
   --btn-active: #6b21a8;
   --btn-disabled: #4c1d80;
   --btn-text: #fbf9ff;
-  --btn-shadow: 0 4px 18px rgba(147, 51, 234, 0.45);
+  --btn-shadow: 0 4px 22px rgba(168, 85, 247, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
 
-  --logo-badge-bg: rgba(168, 85, 247, 0.15);
-  --close-hover-bg: rgba(168, 85, 247, 0.2);
+  --logo-badge-bg: rgba(255, 255, 255, 0.08);
+  --close-hover-bg: rgba(255, 255, 255, 0.16);
 
-  --error-bg: rgba(239, 68, 68, 0.22);
+  --error-bg: rgba(239, 68, 68, 0.25);
   --error-border: rgba(248, 113, 113, 0.5);
   --error-text: #fecaca;
 
@@ -53,7 +59,7 @@
   --card-width: 400px;
   --card-max-width: 90%;
   --card-padding: 40px;
-  --card-radius: 20px;
+  --card-radius: 24px;
   --btn-radius: 40px;
 }
 
@@ -88,6 +94,7 @@ body {
 
 /* Viewport Center Wrapper */
 .viewport-wrapper {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,16 +102,56 @@ body {
   min-height: 100vh;
 }
 
-/* Glassmorphic Login Card */
+/* 
+  Ambient Chromatic Glow Orbs Behind Glass
+  Provides the high-contrast light sources necessary for real optical glass refraction
+*/
+.glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(80px);
+}
+
+.glass-orb-1 {
+  width: 280px;
+  height: 280px;
+  background: var(--orb-gradient-1);
+  opacity: 0.55;
+  top: 15%;
+  left: calc(50% - 220px);
+}
+
+.glass-orb-2 {
+  width: 280px;
+  height: 280px;
+  background: var(--orb-gradient-2);
+  opacity: 0.45;
+  bottom: 15%;
+  right: calc(50% - 220px);
+}
+
+/* 
+  Authentic Glassmorphic Login Card
+  - Translucent base opacity (38%) so mountains and orbs blur through
+  - High backdrop-filter blur & saturation boost
+  - Specular top/left highlight edge
+  - Inset specular reflection rim
+*/
 .login-card {
   position: relative;
+  z-index: 10;
   width: var(--card-width);
   max-width: var(--card-max-width);
   padding: var(--card-padding);
-  background: var(--card-bg);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  background-image: var(--card-bg-gradient);
+  background-color: var(--card-bg-tint);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(28px) saturate(190%);
   border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border-top);
+  border-left: 1px solid var(--card-border-left);
   border-radius: var(--card-radius);
   box-shadow: var(--card-shadow);
   opacity: 0;
@@ -153,19 +200,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: transparent;
-  border: none;
+  background: var(--logo-badge-bg);
+  border: 1px solid var(--card-border);
   border-radius: 50%;
   color: var(--color-white);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .close-btn:hover {
   background-color: var(--close-hover-bg);
+  border-color: var(--card-border-top);
   transform: rotate(90deg);
-  color: var(--color-primary);
+  color: var(--color-white);
 }
 
 /* Brand Header with Fingerprint Emblem */
@@ -179,12 +227,14 @@ body {
 .logo-badge {
   width: 48px;
   height: 48px;
-  border-radius: 12px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--logo-badge-bg);
   border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border-top);
+  box-shadow: 0 4px 16px var(--color-primary-glow);
   margin-bottom: 8px;
 }
 
@@ -220,10 +270,7 @@ body {
   flex-direction: column;
 }
 
-/* 
-  Input Box: Exactly structured as in the tutorial
-  .input-box with input and right-aligned icon
-*/
+/* Input Box */
 .input-box {
   position: relative;
   width: 100%;
@@ -306,7 +353,7 @@ body {
   height: 16px;
   border: 1.5px solid var(--input-border);
   border-radius: 4px;
-  background: transparent;
+  background: var(--logo-badge-bg);
   cursor: pointer;
   display: grid;
   place-content: center;
@@ -339,34 +386,33 @@ body {
 }
 
 /* 
-  Login Button in Website's Primary Theme Color (Electric Violet)
+  Login Button in Website's Primary Theme Color
 */
 .login-btn {
   width: 100%;
   height: 46px;
-  background-color: var(--btn-bg);
+  background: var(--btn-bg);
   color: var(--btn-text);
   font-family: var(--font-family);
   font-size: var(--size-body);
   font-weight: 600;
-  border: none;
+  border: 1px solid var(--card-border);
   border-radius: var(--btn-radius);
   box-shadow: var(--btn-shadow);
   cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
+  transition: background 0.25s ease, transform 0.15s ease, box-shadow 0.25s ease;
 }
 
 .login-btn:hover:not(:disabled) {
-  background-color: var(--btn-hover);
+  background: var(--btn-hover);
 }
 
 .login-btn:active:not(:disabled) {
-  background-color: var(--btn-active);
   transform: scale(0.985);
 }
 
 .login-btn:disabled {
-  background-color: var(--btn-disabled);
+  background: var(--btn-disabled);
   opacity: 0.6;
   cursor: not-allowed;
   box-shadow: none;
@@ -394,14 +440,18 @@ body {
 
 /* Reopen Button */
 .reopen-btn {
+  position: relative;
+  z-index: 10;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 24px;
-  background: var(--card-bg);
-  -webkit-backdrop-filter: blur(20px);
-  backdrop-filter: blur(20px);
+  background-image: var(--card-bg-gradient);
+  background-color: var(--card-bg-tint);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  backdrop-filter: blur(28px) saturate(190%);
   border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border-top);
   border-radius: var(--btn-radius);
   color: var(--color-white);
   font-family: var(--font-family);
