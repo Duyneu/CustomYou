@@ -1,6 +1,6 @@
 /**
- * Login Card Interactive Behaviors
- * Handles entry/exit animations, validation, and accessible state management.
+ * Custom You Glassmorphic Login Form Interaction
+ * Handles dismissal, reopening, and validation based on tutorial markup.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,33 +8,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeBtn = document.getElementById('closeBtn');
   const reopenBtn = document.getElementById('reopenBtn');
   const loginForm = document.getElementById('loginForm');
-  const emailInput = document.getElementById('emailInput');
+  const usernameInput = document.getElementById('usernameInput');
   const passwordInput = document.getElementById('passwordInput');
   const validationNotice = document.getElementById('validationNotice');
 
-  /**
-   * Helper to display validation messages
-   * @param {string} message - Error description
-   */
   function showError(message) {
     if (!validationNotice) return;
     validationNotice.textContent = message;
     validationNotice.hidden = false;
   }
 
-  /**
-   * Helper to clear validation messages
-   */
   function clearError() {
     if (!validationNotice) return;
     validationNotice.textContent = '';
     validationNotice.hidden = true;
   }
 
-  /**
-   * 1. Close Button Handler:
-   * Plays reverse exit animation (scale to 0 & fade out), then hides the card.
-   */
+  // 1. Close Button handler: plays reverse exit animation
   if (closeBtn && loginCard) {
     closeBtn.addEventListener('click', () => {
       clearError();
@@ -46,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
         loginCard.classList.add('is-hidden');
         loginCard.removeEventListener('animationend', handleAnimationEnd);
 
-        // Show the reopen button so the user can easily reopen the modal
         if (reopenBtn) {
           reopenBtn.hidden = false;
           reopenBtn.focus();
@@ -57,26 +46,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /**
-   * 2. Reopen Button Handler:
-   * Restores the card and re-runs the entry animation.
-   */
+  // 2. Reopen Button handler: restores the card
   if (reopenBtn && loginCard) {
     reopenBtn.addEventListener('click', () => {
       reopenBtn.hidden = true;
       loginCard.classList.remove('is-hidden', 'is-closing');
-      // Reflow trigger to restart keyframe animation cleanly
-      void loginCard.offsetWidth;
-      if (emailInput) {
-        emailInput.focus();
+      void loginCard.offsetWidth; // Reflow
+      if (usernameInput) {
+        usernameInput.focus();
       }
     });
   }
 
-  /**
-   * 3. Clear errors on user input
-   */
-  [emailInput, passwordInput].forEach((input) => {
+  // 3. Clear errors as user types
+  [usernameInput, passwordInput].forEach((input) => {
     if (input) {
       input.addEventListener('input', () => {
         if (!validationNotice.hidden) {
@@ -86,50 +69,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /**
-   * 4. Form Submission & Basic Validation:
-   * Blocks submit if email or password is empty.
-   */
+  // 4. Form Submission & Validation
   if (loginForm) {
     loginForm.addEventListener('submit', (event) => {
       event.preventDefault();
       clearError();
 
-      const emailVal = emailInput ? emailInput.value.trim() : '';
-      const passwordVal = passwordInput ? passwordInput.value : '';
+      const userVal = usernameInput ? usernameInput.value.trim() : '';
+      const passVal = passwordInput ? passwordInput.value : '';
 
-      if (!emailVal) {
-        showError('Please enter your email address.');
-        emailInput?.focus();
+      if (!userVal) {
+        showError('Please enter your username or email.');
+        usernameInput?.focus();
         return;
       }
 
-      // Simple email pattern check
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailPattern.test(emailVal)) {
-        showError('Please enter a valid email address.');
-        emailInput?.focus();
-        return;
-      }
-
-      if (!passwordVal) {
+      if (!passVal) {
         showError('Please enter your password.');
         passwordInput?.focus();
         return;
       }
 
-      // Simulated success feedback
       const submitBtn = document.getElementById('loginBtn');
       if (submitBtn) {
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Signing in...';
+        submitBtn.textContent = 'Logging in...';
 
         setTimeout(() => {
           submitBtn.disabled = false;
           submitBtn.textContent = originalText;
-          alert(`Welcome back, ${emailVal}! Login successful.`);
-        }, 900);
+          alert(`Welcome back, ${userVal}! Authentication successful.`);
+        }, 800);
       }
     });
   }

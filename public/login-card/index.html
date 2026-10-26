@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A modern glassmorphic login card built with Poppins, Boxicons, and responsive atmospheric illustration.">
-  <title>Login · Welcome Back</title>
+  <meta name="description" content="Custom You glassmorphic login form with Boxicons, Poppins typography, and midnight violet aesthetic.">
+  <title>Login · Custom You</title>
 
   <!-- Google Fonts: Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Script-disabled fallback to ensure card remains visible -->
+  <!-- Script-disabled fallback -->
   <noscript>
     <style>
       .login-card {
@@ -30,84 +30,81 @@
   </noscript>
 
   <main class="viewport-wrapper">
-    <!-- Glassmorphic Login Card -->
+    <!-- Glassmorphic Login Card (Themed in Custom You Obsidian & Electric Violet) -->
     <div class="login-card" id="loginCard" role="region" aria-labelledby="cardTitle">
       <!-- Top-right Close Button -->
       <button type="button" class="close-btn" id="closeBtn" aria-label="Close login dialog">
         <i class="bx bx-x" aria-hidden="true"></i>
       </button>
 
-      <!-- 1. Centered White Bold Title -->
-      <h1 id="cardTitle" class="login-title">Login</h1>
+      <!-- Brand Logo & Title -->
+      <div class="brand-header">
+        <div class="logo-badge">
+          <i class="bx bxs-fingerprint logo-icon" aria-hidden="true"></i>
+        </div>
+        <h1 id="cardTitle" class="login-title">Login</h1>
+      </div>
 
       <!-- Validation Error Message Area -->
       <div id="validationNotice" class="validation-notice" role="alert" aria-live="polite" hidden></div>
 
-      <!-- Login Form -->
-      <form id="loginForm" class="login-form" novalidate>
-        <!-- 2. Email Field -->
-        <div class="field-group">
-          <label for="emailInput" class="field-label">Email</label>
-          <div class="field-wrapper">
-            <input
-              type="email"
-              id="emailInput"
-              name="email"
-              class="field-input"
-              autocomplete="email"
-              placeholder="name@domain.com"
-              required
-            >
-            <i class="bx bx-envelope field-icon" aria-hidden="true"></i>
-          </div>
+      <!-- Login Form (Exact Structure from Tutorial) -->
+      <form action="#" class="login-form" id="loginForm" novalidate>
+        <!-- 1. Username / Email Input Box -->
+        <div class="input-box">
+          <input
+            type="text"
+            id="usernameInput"
+            name="username"
+            placeholder="Username"
+            autocomplete="username"
+            required
+          >
+          <i class="bx bxs-user" aria-hidden="true"></i>
         </div>
 
-        <!-- 3. Password Field -->
-        <div class="field-group">
-          <label for="passwordInput" class="field-label">Password</label>
-          <div class="field-wrapper">
-            <input
-              type="password"
-              id="passwordInput"
-              name="password"
-              class="field-input"
-              autocomplete="current-password"
-              placeholder="••••••••"
-              required
-            >
-            <i class="bx bx-lock-alt field-icon" aria-hidden="true"></i>
-          </div>
+        <!-- 2. Password Input Box -->
+        <div class="input-box">
+          <input
+            type="password"
+            id="passwordInput"
+            name="password"
+            placeholder="Password"
+            autocomplete="current-password"
+            required
+          >
+          <i class="bx bxs-lock-alt" aria-hidden="true"></i>
         </div>
 
-        <!-- 4. Remember Me & Forgot Password Row -->
-        <div class="meta-row">
-          <label class="remember-label" for="rememberMe">
-            <input type="checkbox" id="rememberMe" name="remember" class="remember-checkbox">
-            <span class="remember-text">Remember me</span>
+        <!-- 3. Remember Me & Forgot Password Row -->
+        <div class="remember-forgot-box">
+          <label for="remember">
+            <input type="checkbox" id="remember" name="remember">
+            <span>Remember me</span>
           </label>
-          <a href="#forgot" class="forgot-link">Forgot Password?</a>
+          <a href="#forgot" class="forgot-link">Forgot password?</a>
         </div>
 
-        <!-- 5. Full-width Login Button -->
+        <!-- 4. Login Button in Primary Theme Color -->
         <button type="submit" class="login-btn" id="loginBtn">
           Login
         </button>
 
-        <!-- 6. Centered Bottom Registration Link -->
-        <p class="register-row">
-          Don’t have an account? <a href="#register" class="register-link">Register</a>
+        <!-- 5. Register Row -->
+        <p class="register">
+          Don’t have an account? <a href="#register">Register</a>
         </p>
       </form>
     </div>
 
-    <!-- Reopen Trigger (Appears smoothly when the card is closed) -->
+    <!-- Reopen Trigger -->
     <button type="button" class="reopen-btn" id="reopenBtn" aria-label="Open login window" hidden>
-      <i class="bx bx-user" aria-hidden="true"></i>
+      <i class="bx bx-log-in" aria-hidden="true"></i>
       <span>Sign in</span>
     </button>
   </main>
 
-  <!-- Main JavaScript Behavior -->
+  <!-- Interactive JavaScript Behavior -->
   <script src="script.js"></script>
 </body>
 </html>

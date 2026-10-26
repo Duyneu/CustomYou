@@ -1,35 +1,41 @@
-/* Hallmark · genre: atmospheric · built: Uiverse Login Card · floor: 0 FAIL */
-/* Critique: Uiverse-adapted glassmorphic login card with Poppins, Boxicons, and mountain backdrop */
-/* Waiver: F24 (1px translucent white border and soft box-shadow explicitly requested by user prompt) */
+/* Hallmark · genre: atmospheric · built: Custom You Login Form · floor: 0 FAIL */
+/* Critique: Custom You midnight-violet glassmorphic login form adapted from code tutorial layout */
+/* Waiver: F24 (1px translucent border and soft box-shadow explicitly requested by user prompt) */
 
 :root {
-  /* Hallmark Color & Surface Tokens */
-  --bg-fallback: #040d1a;
-  --bg-gradient: linear-gradient(135deg, #051021 0%, #0d274c 50%, #1a497d 100%);
+  /* Hallmark Color & Theme Tokens (Custom You Obsidian & Electric Violet) */
+  --bg-fallback: #070210;
+  --bg-gradient: linear-gradient(135deg, #070212 0%, #16082b 50%, #290f4d 100%);
   --bg-image: url('mountains.svg');
 
-  --card-bg: rgba(7, 21, 44, 0.62);
-  --card-border: rgba(240, 248, 255, 0.22);
-  --card-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 6px 18px rgba(0, 0, 0, 0.35);
+  --card-bg: rgba(18, 8, 36, 0.68);
+  --card-border: rgba(168, 85, 247, 0.28);
+  --card-shadow: 0 20px 45px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(168, 85, 247, 0.15);
 
-  --color-white: #f8fbff;
-  --color-text-main: #f8fbff;
-  --color-text-dim: rgba(240, 248, 255, 0.74);
-  --color-text-faint: rgba(240, 248, 255, 0.48);
+  --color-primary: #a855f7;
+  --color-primary-hover: #9333ea;
+  --color-primary-active: #7e22ce;
+  --color-primary-glow: rgba(168, 85, 247, 0.35);
 
-  --input-border: rgba(240, 248, 255, 0.38);
-  --input-border-focus: #f8fbff;
-  --input-icon: rgba(240, 248, 255, 0.75);
-  --input-icon-focus: #f8fbff;
+  --color-white: #f5f0ff;
+  --color-text-main: #f5f0ff;
+  --color-text-dim: rgba(245, 240, 255, 0.75);
+  --color-text-faint: rgba(245, 240, 255, 0.45);
 
-  --btn-bg: #091c36;
-  --btn-hover: #132f57;
-  --btn-active: #061426;
-  --btn-disabled: #081528;
-  --btn-text: #f8fbff;
-  --btn-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  --input-border: rgba(245, 240, 255, 0.32);
+  --input-border-focus: #a855f7;
+  --input-icon: rgba(245, 240, 255, 0.7);
+  --input-icon-focus: #a855f7;
 
-  --close-hover-bg: rgba(240, 248, 255, 0.16);
+  --btn-bg: #9333ea;
+  --btn-hover: #7e22ce;
+  --btn-active: #6b21a8;
+  --btn-disabled: #4c1d80;
+  --btn-text: #fbf9ff;
+  --btn-shadow: 0 4px 18px rgba(147, 51, 234, 0.45);
+
+  --logo-badge-bg: rgba(168, 85, 247, 0.15);
+  --close-hover-bg: rgba(168, 85, 247, 0.2);
 
   --error-bg: rgba(239, 68, 68, 0.22);
   --error-border: rgba(248, 113, 113, 0.5);
@@ -48,7 +54,7 @@
   --card-max-width: 90%;
   --card-padding: 40px;
   --card-radius: 20px;
-  --btn-radius: 24px;
+  --btn-radius: 40px;
 }
 
 /* Reset & Box Sizing */
@@ -89,10 +95,7 @@ body {
   min-height: 100vh;
 }
 
-/* 
-  Uiverse Glassmorphic Login Card
-  Adapted from Uiverse.io Cards (boryanakrasteva_strong-cat-50 & kennyotsu_tender-husky-10)
-*/
+/* Glassmorphic Login Card */
 .login-card {
   position: relative;
   width: var(--card-width);
@@ -106,7 +109,7 @@ body {
   box-shadow: var(--card-shadow);
   opacity: 0;
   transform: scale(0);
-  animation: cardEntry 0.5s ease forwards;
+  animation: cardEntry 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* Entry and Exit Animations */
@@ -162,6 +165,32 @@ body {
 .close-btn:hover {
   background-color: var(--close-hover-bg);
   transform: rotate(90deg);
+  color: var(--color-primary);
+}
+
+/* Brand Header with Fingerprint Emblem */
+.brand-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo-badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--logo-badge-bg);
+  border: 1px solid var(--card-border);
+  margin-bottom: 8px;
+}
+
+.logo-icon {
+  font-size: 28px;
+  color: var(--color-primary);
 }
 
 /* 1. Title */
@@ -171,7 +200,6 @@ body {
   font-weight: 700;
   font-size: var(--size-title);
   letter-spacing: -0.02em;
-  margin-bottom: 28px;
 }
 
 /* Validation Alert Notice */
@@ -190,92 +218,74 @@ body {
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-
-/* Field Group & Label */
-.field-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-}
-
-.field-label {
-  font-size: var(--size-label);
-  color: var(--color-text-dim);
-  font-weight: 500;
-  transition: color 0.2s ease;
-}
-
-.field-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
 }
 
 /* 
-  2 & 3. Transparent Input with Bottom Border
-  Adapted from Uiverse.io Inputs (adamgiebl_hot-cat-14)
+  Input Box: Exactly structured as in the tutorial
+  .input-box with input and right-aligned icon
 */
-.field-input {
+.input-box {
+  position: relative;
   width: 100%;
-  background: transparent;
-  border: none;
+  height: 48px;
+  margin-bottom: 24px;
   border-bottom: 2px solid var(--input-border);
-  color: var(--color-white);
-  font-family: var(--font-family);
-  font-size: var(--size-body);
-  padding: 8px 36px 8px 0;
-  outline: none;
   transition: border-bottom-color 0.25s ease;
 }
 
-.field-input::placeholder {
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-family);
+  font-size: var(--size-body);
+  color: var(--color-white);
+  padding: 0 36px 0 4px;
+}
+
+.input-box input::placeholder {
   color: var(--color-text-faint);
   font-size: var(--size-label);
 }
 
-/* On Input Focus: Bottom border turns white */
-.field-input:focus {
+.input-box i {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  color: var(--input-icon);
+  pointer-events: none;
+  transition: color 0.25s ease;
+}
+
+/* Focus State: Border & icon light up in theme primary accent */
+.input-box:focus-within {
   border-bottom-color: var(--input-border-focus);
 }
 
-.field-input:disabled {
+.input-box:focus-within i {
+  color: var(--input-icon-focus);
+}
+
+.input-box input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.field-group:focus-within .field-label {
-  color: var(--color-white);
-}
-
-.field-group:focus-within .field-icon {
-  color: var(--input-icon-focus);
-}
-
-/* Input Icon on Right */
-.field-icon {
-  position: absolute;
-  right: 0;
-  color: var(--input-icon);
-  font-size: 1.25rem;
-  pointer-events: none;
-  transition: color 0.2s ease;
-}
-
-/* 4. Options Row (Remember Me & Forgot Password) */
-.meta-row {
+/* Remember Me & Forgot Password Row */
+.remember-forgot-box {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   font-size: var(--size-meta);
+  margin-bottom: 24px;
 }
 
-/* Uiverse-adapted Checkbox (adamgiebl_polite-tiger-12) */
-.remember-label {
+.remember-forgot-box label {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -285,11 +295,11 @@ body {
   transition: color 0.2s ease;
 }
 
-.remember-label:hover {
+.remember-forgot-box label:hover {
   color: var(--color-white);
 }
 
-.remember-checkbox {
+.remember-forgot-box input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   width: 16px;
@@ -304,22 +314,17 @@ body {
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
-.remember-checkbox:checked {
-  background-color: var(--color-white);
-  border-color: var(--color-white);
+.remember-forgot-box input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
 }
 
-.remember-checkbox:checked::before {
+.remember-forgot-box input[type="checkbox"]:checked::before {
   content: "";
   width: 8px;
   height: 8px;
-  background-color: var(--btn-bg);
+  background-color: var(--color-white);
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
-}
-
-.remember-checkbox:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .forgot-link {
@@ -329,24 +334,22 @@ body {
 }
 
 .forgot-link:hover {
-  color: var(--color-white);
+  color: var(--color-primary);
   text-decoration: underline;
 }
 
 /* 
-  5. Full-width Login Button
-  Dark navy background, white text, rounded corners, lighter on hover
+  Login Button in Website's Primary Theme Color (Electric Violet)
 */
 .login-btn {
   width: 100%;
-  padding: 12px 20px;
-  margin-top: 8px;
+  height: 46px;
   background-color: var(--btn-bg);
   color: var(--btn-text);
   font-family: var(--font-family);
   font-size: var(--size-body);
   font-weight: 600;
-  border: 1px solid var(--card-border);
+  border: none;
   border-radius: var(--btn-radius);
   box-shadow: var(--btn-shadow);
   cursor: pointer;
@@ -369,27 +372,27 @@ body {
   box-shadow: none;
 }
 
-/* 6. Centered Bottom Registration Link */
-.register-row {
+/* Register Row */
+.register {
   text-align: center;
   font-size: var(--size-meta);
   color: var(--color-text-dim);
-  margin-top: 4px;
+  margin-top: 20px;
 }
 
-.register-link {
-  color: var(--color-white);
+.register a {
+  color: var(--color-primary);
   font-weight: 700;
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
 
-.register-link:hover {
+.register a:hover {
   text-decoration: underline;
   opacity: 0.9;
 }
 
-/* Reopen Button (Triggered if user closes the modal) */
+/* Reopen Button */
 .reopen-btn {
   display: inline-flex;
   align-items: center;
@@ -410,7 +413,7 @@ body {
 }
 
 .reopen-btn:hover {
-  background-color: var(--btn-hover);
+  background-color: var(--color-primary);
   transform: translateY(-2px);
 }
 
@@ -419,15 +422,15 @@ body {
   cursor: not-allowed;
 }
 
-/* Hallmark Accessibility Floor: :focus-visible rules */
+/* Accessibility Focus States */
 button:focus-visible,
 input:focus-visible,
 a:focus-visible {
-  outline: 2px solid var(--color-white);
+  outline: 2px solid var(--color-primary);
   outline-offset: 3px;
 }
 
-/* Hallmark Reduced Motion Fallback */
+/* Reduced Motion Fallback */
 @media (prefers-reduced-motion: reduce) {
   .login-card,
   .login-card.is-closing {
@@ -441,13 +444,13 @@ a:focus-visible {
 /* Responsive adjustments */
 @media (max-width: 480px) {
   :root {
-    --card-padding: 28px 24px;
+    --card-padding: 32px 24px;
     --size-title: 1.625rem;
   }
 
-  .meta-row {
+  .remember-forgot-box {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 12px;
   }
 }

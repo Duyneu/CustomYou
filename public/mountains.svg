@@ -1,44 +1,50 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
   <defs>
+    <!-- Sky Gradient in Obsidian & Electric Violet -->
     <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#040b17" />
-      <stop offset="45%" stop-color="#0c2340" />
-      <stop offset="80%" stop-color="#18436f" />
-      <stop offset="100%" stop-color="#24588e" />
+      <stop offset="0%" stop-color="#05020c" />
+      <stop offset="40%" stop-color="#110526" />
+      <stop offset="75%" stop-color="#1f0a42" />
+      <stop offset="100%" stop-color="#341269" />
     </linearGradient>
     
+    <!-- Violet Celestial Moon Aura -->
     <linearGradient id="moonGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#e6f2ff" stop-opacity="0.9" />
-      <stop offset="100%" stop-color="#99c2ff" stop-opacity="0" />
+      <stop offset="0%" stop-color="#f5e8ff" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#c084fc" stop-opacity="0.8" />
     </linearGradient>
 
+    <!-- Distant Peaks -->
     <linearGradient id="peakDistant" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#2c5b8e" stop-opacity="0.65" />
-      <stop offset="100%" stop-color="#0f2b4c" stop-opacity="0.85" />
+      <stop offset="0%" stop-color="#4c1d8c" stop-opacity="0.65" />
+      <stop offset="100%" stop-color="#170630" stop-opacity="0.9" />
     </linearGradient>
 
+    <!-- Mid Peaks -->
     <linearGradient id="peakMid" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#1a426d" />
-      <stop offset="100%" stop-color="#091a2e" />
+      <stop offset="0%" stop-color="#320f5c" />
+      <stop offset="100%" stop-color="#0f031e" />
     </linearGradient>
 
+    <!-- Near Peaks -->
     <linearGradient id="peakNear" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#102b48" />
-      <stop offset="100%" stop-color="#030913" />
+      <stop offset="0%" stop-color="#21083d" />
+      <stop offset="100%" stop-color="#07010f" />
     </linearGradient>
 
+    <!-- Atmospheric Violet Mist -->
     <linearGradient id="mist" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#7fb5e8" stop-opacity="0" />
-      <stop offset="50%" stop-color="#5591cd" stop-opacity="0.25" />
-      <stop offset="100%" stop-color="#18436f" stop-opacity="0" />
+      <stop offset="0%" stop-color="#c084fc" stop-opacity="0" />
+      <stop offset="50%" stop-color="#9333ea" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#1f0a42" stop-opacity="0" />
     </linearGradient>
   </defs>
 
-  <!-- Sky -->
+  <!-- Sky Canvas -->
   <rect width="1920" height="1080" fill="url(#skyGrad)" />
 
   <!-- Stars -->
-  <g fill="#ffffff" opacity="0.75">
+  <g fill="#f5f0ff" opacity="0.8">
     <circle cx="120" cy="90" r="1.5" />
     <circle cx="280" cy="160" r="1" />
     <circle cx="450" cy="80" r="2" />
@@ -56,22 +62,22 @@
     <circle cx="1560" cy="190" r="1.6" />
   </g>
 
-  <!-- Soft Moon -->
-  <circle cx="1480" cy="220" r="80" fill="#eaf3ff" opacity="0.12" />
-  <circle cx="1480" cy="220" r="45" fill="#f4f9ff" opacity="0.85" />
+  <!-- Luminous Celestial Moon -->
+  <circle cx="1480" cy="220" r="80" fill="#a855f7" opacity="0.18" />
+  <circle cx="1480" cy="220" r="45" fill="url(#moonGlow)" />
 
   <!-- Distant Mountain Range -->
   <path d="M0,720 L160,560 L380,680 L560,520 L780,670 L960,490 L1180,660 L1380,510 L1600,650 L1780,530 L1920,620 L1920,1080 L0,1080 Z" fill="url(#peakDistant)" />
 
-  <!-- Atmospheric Mist -->
+  <!-- Atmospheric Mist Layer -->
   <rect y="580" width="1920" height="160" fill="url(#mist)" />
 
   <!-- Mid Mountain Range -->
   <path d="M0,820 L240,640 L440,760 L700,580 L920,720 L1140,560 L1400,740 L1640,600 L1840,730 L1920,690 L1920,1080 L0,1080 Z" fill="url(#peakMid)" />
 
-  <!-- Near Mountain Ridge & Slopes -->
+  <!-- Near Mountain Ridge -->
   <path d="M0,910 L280,750 L520,870 L800,710 L1060,860 L1320,690 L1580,840 L1820,720 L1920,780 L1920,1080 L0,1080 Z" fill="url(#peakNear)" />
 
-  <!-- Foreground Silhouettes -->
-  <path d="M0,990 Q220,930 460,980 T980,950 T1520,970 T1920,940 L1920,1080 L0,1080 Z" fill="#02060d" />
+  <!-- Foreground Obsidian Silhouette -->
+  <path d="M0,990 Q220,930 460,980 T980,950 T1520,970 T1920,940 L1920,1080 L0,1080 Z" fill="#040108" />
 </svg>
