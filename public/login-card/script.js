@@ -17,37 +17,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const passwordInput = document.getElementById('passwordInput');
   const validationNotice = document.getElementById('validationNotice');
 
-  // Interactive mouse tracking for Apple Glass parallax elevation
+  // High-performance requestAnimationFrame mouse tracking for 120 FPS Apple Glass parallax
+  const fluidLayer = document.getElementById('ambientFluidLayer');
+  let rafId = null;
+
   if (viewport && loginCard) {
     viewport.addEventListener('mousemove', (e) => {
       const rect = viewport.getBoundingClientRect();
       const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
       const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
 
-      // Parallax shift on orbs behind glass
-      if (orb1) {
-        orb1.style.transform = `scale(1.22) translate3d(${x * 24}px, ${y * 24 - 14}px, 0)`;
-      }
-      if (orb2) {
-        orb2.style.transform = `scale(1.2) translate3d(${x * -20}px, ${y * -20 + 12}px, 0)`;
-      }
-      if (orbCenter) {
-        orbCenter.style.transform = `scale(1.3) translate3d(${x * 12}px, ${y * 12}px, 0)`;
-      }
-
-      // Subtle 3D tilt on card
-      loginCard.style.transform = `translate3d(0, -6px, 0) rotateX(${-y * 3}deg) rotateY(${x * 3}deg)`;
-    });
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        // Single GPU compositor transform for all orbs
+        if (fluidLayer) {
+          fluidLayer.style.transform = `translate3d(${x * 16}px, ${y * 16 - 10}px, 0)`;
+        }
+        // Subtle 3D tilt on card
+        loginCard.style.transform = `translate3d(0, -6px, 0) rotateX(${-y * 2.5}deg) rotateY(${x * 2.5}deg)`;
+      });
+    }, { passive: true });
 
     viewport.addEventListener('mouseleave', () => {
-      if (orb1) {
-        orb1.style.transform = 'scale(1) translate3d(0, 0, 0)';
-      }
-      if (orb2) {
-        orb2.style.transform = 'scale(1) translate3d(0, 0, 0)';
-      }
-      if (orbCenter) {
-        orbCenter.style.transform = 'scale(1) translate3d(0, 0, 0)';
+      if (rafId) cancelAnimationFrame(rafId);
+      if (fluidLayer) {
+        fluidLayer.style.transform = 'translate3d(0, 0, 0)';
       }
       loginCard.style.transform = 'translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)';
     });

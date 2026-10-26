@@ -135,6 +135,8 @@
 .glass-panel {
   position: relative;
   isolation: isolate;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .glass-panel::before {
@@ -190,6 +192,7 @@
   background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
   transform: skewX(-15deg) translateX(-120%);
   animation: sweepAnimation 6s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes sweepAnimation {

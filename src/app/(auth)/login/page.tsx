@@ -26,24 +26,35 @@ function LoginForm() {
   const [isClosing, setIsClosing] = useState(false);
   const [isClosed, setIsClosed] = useState(false);
 
-  // Mouse tracking for interactive Apple Glass Parallax & Elevation
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [isHovered, setIsHovered] = useState(false);
+  // High-performance direct DOM refs for 120 FPS buttery-smooth parallax (0 React re-renders)
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const orbsRef = React.useRef<HTMLDivElement>(null);
+  const rafId = React.useRef<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
     const y = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-    setMousePos({ x, y });
-  };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    rafId.current = requestAnimationFrame(() => {
+      if (cardRef.current) {
+        cardRef.current.style.transform = `translate3d(0, -6px, 0) rotateX(${-y * 2.5}deg) rotateY(${x * 2.5}deg)`;
+      }
+      if (orbsRef.current) {
+        orbsRef.current.style.transform = `translate3d(${x * 18}px, ${y * 18 - 10}px, 0)`;
+      }
+    });
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    setMousePos({ x: 0, y: 0 });
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    if (cardRef.current) {
+      cardRef.current.style.transform = "translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)";
+    }
+    if (orbsRef.current) {
+      orbsRef.current.style.transform = "translate3d(0, 0, 0)";
+    }
   };
 
   const handleClose = () => {
@@ -120,82 +131,50 @@ function LoginForm() {
   return (
     <div
       onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       className="relative w-[410px] max-w-[92%] flex items-center justify-center perspective-[1000px] group cursor-default"
     >
       {/* 
-        Inline SVG Filter for 2026 Liquid Glass Refraction
-        Bends background orbs and mountain light like optical curved glass
+        High-Performance Hardware-Accelerated Ambient Chromatic Orbs
+        Uses GPU composite-only properties (transform & opacity) with zero CPU filter overhead
       */}
-      <svg width="0" height="0" className="absolute pointer-events-none" aria-hidden="true">
-        <filter id="liquid-glass">
-          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="3" result="noise">
-            <animate attributeName="baseFrequency" dur="18s" values="0.008 0.012; 0.012 0.008; 0.008 0.012" repeatCount="indefinite" />
-          </feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="14" xChannelSelector="R" yChannelSelector="G" />
-        </filter>
-      </svg>
-
-      {/* 
-        Ambient Chromatic Fluid Mesh Behind Glass (iPhone iOS 18 Glass Material)
-        Physically bent and refracted through the liquid glass optical lens
-      */}
-      <div className="ambient-liquid-layer absolute inset-0 flex items-center justify-center pointer-events-none [filter:url(#liquid-glass)] z-0" aria-hidden="true">
+      <div
+        ref={orbsRef}
+        className="absolute inset-0 flex items-center justify-center pointer-events-none transition-transform duration-500 ease-out will-change-transform z-0"
+        aria-hidden="true"
+      >
         <div
-          className="absolute -top-16 -left-16 w-80 h-80 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 transition-all duration-500 ease-out"
-          style={{
-            opacity: isHovered ? 0.78 : 0.45,
-            transform: isHovered
-              ? `scale(1.22) translate3d(${mousePos.x * 28}px, ${mousePos.y * 28 - 14}px, 0)`
-              : "scale(1) translate3d(0, 0, 0)",
-            filter: isHovered ? "blur(55px)" : "blur(75px)",
-          }}
+          className="absolute -top-14 -left-14 w-80 h-80 rounded-full bg-gradient-to-tr from-purple-600 via-indigo-600 to-fuchsia-500 opacity-45 group-hover:opacity-75 group-hover:scale-110 transition-all duration-500 ease-out blur-[55px] will-change-transform"
         />
         <div
-          className="absolute -bottom-16 -right-16 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 transition-all duration-500 ease-out"
-          style={{
-            opacity: isHovered ? 0.68 : 0.38,
-            transform: isHovered
-              ? `scale(1.2) translate3d(${mousePos.x * -24}px, ${mousePos.y * -24 + 12}px, 0)`
-              : "scale(1) translate3d(0, 0, 0)",
-            filter: isHovered ? "blur(58px)" : "blur(78px)",
-          }}
+          className="absolute -bottom-14 -right-14 w-80 h-80 rounded-full bg-gradient-to-br from-fuchsia-600 via-purple-600 to-indigo-800 opacity-40 group-hover:opacity-70 group-hover:scale-110 transition-all duration-500 ease-out blur-[60px] will-change-transform"
         />
         <div
-          className="absolute w-60 h-60 rounded-full bg-purple-500/35 transition-all duration-700 ease-out"
-          style={{
-            opacity: isHovered ? 0.6 : 0.22,
-            transform: isHovered ? "scale(1.35)" : "scale(0.9)",
-            filter: "blur(60px)",
-          }}
+          className="absolute w-64 h-64 rounded-full bg-purple-500/25 opacity-30 group-hover:opacity-55 group-hover:scale-120 transition-all duration-700 ease-out blur-[50px] will-change-transform"
         />
       </div>
 
       {/* 
-        Authentic Apple / iPhone Glassmorphism Card
-        - Four Ingredients of Believable Glass (Frost, Translucency, Edge of Glass hairline, Depth)
+        Authentic Apple iOS Glassmorphism Card (60-120 FPS Buttery Smooth)
+        - Hardware layer promoted with translateZ(0)
+        - Fixed backdrop-filter blur & saturation (zero expensive re-rasterization)
         - Masked hairline rim highlight (.glass-panel::before)
         - Anti-banding noise overlay (.glass-panel::after)
-        - Specular sweep glint (.glass-sweep-track)
-        - Interactive tilt & lift on hover
+        - GPU-accelerated specular sweep glint (.glass-sweep-track)
       */}
       <div
-        className={`glass-panel relative z-10 w-full p-8 sm:p-10 rounded-[28px] text-white transition-all duration-300 ease-out ${
+        ref={cardRef}
+        className={`glass-panel relative z-10 w-full p-8 sm:p-10 rounded-[28px] text-white transition-all duration-300 ease-out will-change-transform ${
           isClosing ? "animate-card-exit" : "animate-card-entry"
         }`}
         style={{
-          background: isHovered
-            ? "linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(168, 85, 247, 0.08) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(22, 10, 44, 0.28)"
-            : "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(16, 7, 34, 0.22)",
-          backdropFilter: "blur(32px) saturate(200%) brightness(106%)",
-          WebkitBackdropFilter: "blur(32px) saturate(200%) brightness(106%)",
-          boxShadow: isHovered
-            ? "0 35px 70px -15px rgba(0, 0, 0, 0.8), inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.6), inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.45)"
-            : "0 24px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35)",
-          transform: isHovered
-            ? `translate3d(0, -6px, 0) rotateX(${-mousePos.y * 3}deg) rotateY(${mousePos.x * 3}deg)`
-            : "translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg)",
+          background:
+            "linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(168, 85, 247, 0.06) 45%, rgba(255, 255, 255, 0.02) 100%), rgba(16, 7, 34, 0.24)",
+          backdropFilter: "blur(24px) saturate(190%) brightness(105%)",
+          WebkitBackdropFilter: "blur(24px) saturate(190%) brightness(105%)",
+          boxShadow:
+            "0 24px 48px -12px rgba(0, 0, 0, 0.7), inset 0 1px 1px 0 rgba(255, 255, 255, 0.45), inset 0 -1px 2px 0 rgba(0, 0, 0, 0.35)",
+          transform: "translateZ(0)",
         }}
       >
         {/* Specular Sweep Glint */}
