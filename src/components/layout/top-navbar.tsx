@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { Sun, Moon, Search, LogOut } from "lucide-react";
 import { useTheme } from "@/components/providers/theme-provider";
@@ -41,11 +43,22 @@ export function TopNavbar() {
     <header className="sticky top-0 z-20 w-full bg-background border-b border-border px-4 lg:px-8 py-3">
       <div className="flex items-center justify-between max-w-6xl mx-auto gap-4">
         {/* Left: Contextual Title & Current Date/Time */}
-        <div className="pl-12 lg:pl-0 flex items-baseline gap-3">
+        <div className="pl-12 lg:pl-0 flex items-center gap-2.5">
+          <Link href="/dashboard" className="hidden sm:flex lg:hidden items-center gap-2">
+            <div className="relative w-6 h-6 rounded-md overflow-hidden border border-border bg-[#180733]">
+              <Image
+                src="/logo-mark.png"
+                alt="Custom You"
+                width={24}
+                height={24}
+                className="object-cover w-full h-full"
+              />
+            </div>
+          </Link>
           <span className="text-sm font-semibold tracking-tight text-foreground">
             Bảng điều khiển cá nhân
           </span>
-          <span className="text-xs text-muted-foreground tabular-nums font-mono hidden sm:inline">
+          <span className="text-xs text-muted-foreground tabular-nums font-mono hidden md:inline">
             {currentDateTime}
           </span>
         </div>

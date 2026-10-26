@@ -49,7 +49,7 @@ export async function POST() {
 
     // Sinh khóa TOTP bí mật mới
     const secret = authenticator.generateSecret();
-    const serviceName = "MyHub Personal";
+    const serviceName = "Custom You";
     const otpauthUrl = authenticator.keyuri(user.email, serviceName, secret);
 
     // Tạo mã QR dạng Data URL Base64

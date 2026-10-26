@@ -138,7 +138,7 @@ export default function ReportsPage() {
                   }}
                 />
                 <Legend wrapperStyle={{ fontSize: 11, paddingTop: 10 }} />
-                <Bar dataKey="income" name="Thu nhập" fill="#10b981" radius={[3, 3, 0, 0]} activeBar={false} isAnimationActive={false} />
+                <Bar dataKey="income" name="Thu nhập" fill="#a855f7" radius={[3, 3, 0, 0]} activeBar={false} isAnimationActive={false} />
                 <Bar dataKey="expense" name="Chi phí" fill="#71717a" radius={[3, 3, 0, 0]} activeBar={false} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>

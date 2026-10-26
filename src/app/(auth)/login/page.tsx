@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, Suspense } from "react";
+import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { AlertCircle, ArrowRight, ShieldCheck, ArrowLeft, KeyRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -53,22 +54,32 @@ function LoginForm() {
 
   return (
     <div className="w-full max-w-sm mx-auto p-6 bg-card border border-border rounded-xl">
-      {/* Header */}
-      <div className="space-y-1 mb-6">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground flex items-center gap-2">
+      {/* Brand & Logo Header */}
+      <div className="flex flex-col items-center mb-6 text-center">
+        <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-border/80 mb-3 bg-[#180733]">
+          <Image
+            src="/logo-mark.png"
+            alt="Custom You"
+            width={56}
+            height={56}
+            className="object-cover w-full h-full"
+            priority
+          />
+        </div>
+        <h1 className="text-xl font-bold tracking-tight text-foreground flex items-center justify-center gap-2">
           {isTwoFactorStep ? (
             <>
-              <ShieldCheck className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <ShieldCheck className="w-5 h-5 text-primary" />
               Xác thực 2 lớp (2FA)
             </>
           ) : (
-            "Đăng nhập MyHub"
+            "CUSTOM YOU"
           )}
         </h1>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-muted-foreground mt-1 max-w-[280px]">
           {isTwoFactorStep
             ? "Nhập mã số 6 chữ số từ ứng dụng Google Authenticator trên điện thoại của bạn."
-            : "Bảng điều khiển cá nhân hóa độc quyền cho chủ nhân."}
+            : "PERSONALIZATION PLATFORM · MAKE IT YOURS"}
         </p>
       </div>
 

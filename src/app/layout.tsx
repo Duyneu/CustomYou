@@ -7,8 +7,13 @@ import { SessionProvider } from "@/components/providers/session-provider";
 const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
 export const metadata: Metadata = {
-  title: "MyHub — Trung Tâm Điều Hành Cá Nhân",
-  description: "Dashboard cá nhân hóa: Quản lý tài chính, ngân sách, năng suất và kết nối ngân hàng an toàn.",
+  title: "CUSTOM YOU — Personalization Platform",
+  description: "Bảng điều khiển cá nhân hóa: Quản lý tài chính, ngân sách, năng suất và kết nối ngân hàng an toàn.",
+  icons: {
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 };
 
 export default function RootLayout({

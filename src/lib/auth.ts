@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
                   currency: "VND",
                   locale: "vi",
                   theme: "dark",
-                  accentColor: "emerald",
+                  accentColor: "violet",
                   budgetAlertThreshold: 80,
                 },
               },

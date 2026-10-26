@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -77,16 +78,23 @@ export function AppSidebar() {
   const SidebarContent = (
     <div className="flex flex-col h-full bg-card border-r border-border">
       {/* Brand Header */}
-      <div className="p-5 flex items-center justify-between border-b border-border">
-        <Link href="/dashboard" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-lg bg-foreground text-background flex items-center justify-center font-bold text-sm">
-            M
+      <div className="p-4 flex items-center justify-between border-b border-border">
+        <Link href="/dashboard" className="flex items-center gap-2.5 group">
+          <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-border/80 flex-shrink-0 bg-[#180733]">
+            <Image
+              src="/logo-mark.png"
+              alt="Custom You"
+              width={32}
+              height={32}
+              className="object-cover w-full h-full"
+              priority
+            />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-sm tracking-tight text-foreground">
-              MyHub
+            <span className="font-bold text-sm tracking-tight text-foreground leading-tight">
+              CUSTOM YOU
             </span>
-            <span className="text-xs text-muted-foreground">
+            <span className="text-[11px] text-muted-foreground leading-tight">
               Bảng điều khiển cá nhân
             </span>
           </div>
@@ -107,10 +115,10 @@ export function AppSidebar() {
             href="/dashboard"
             onClick={() => setMobileOpen(false)}
             className={cn(
-              "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+              "flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors",
               pathname === "/dashboard"
-                ? "bg-secondary text-foreground font-semibold"
-                : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                ? "bg-primary text-primary-foreground font-medium"
+                : "text-muted-foreground hover:text-foreground hover:bg-secondary"
             )}
           >
             <LayoutDashboard className="w-4 h-4" />
@@ -135,8 +143,8 @@ export function AppSidebar() {
                     className={cn(
                       "flex items-center justify-between px-3 py-1.5 rounded-lg text-sm transition-colors",
                       isActive
-                        ? "bg-secondary text-foreground font-medium"
-                        : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                        ? "bg-primary text-primary-foreground font-medium"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                     )}
                   >
                     <div className="flex items-center gap-2.5">
@@ -144,7 +152,12 @@ export function AppSidebar() {
                       <span>{item.title}</span>
                     </div>
                     {item.badge && (
-                      <span className="px-1.5 py-0.2 rounded text-[10px] bg-secondary text-muted-foreground border border-border">
+                      <span className={cn(
+                        "px-1.5 py-0.2 rounded text-[10px] border",
+                        isActive
+                          ? "bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30"
+                          : "bg-secondary text-muted-foreground border-border"
+                      )}>
                         {item.badge}
                       </span>
                     )}

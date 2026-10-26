@@ -42,7 +42,7 @@ export default function PreferencesPage() {
               onClick={() => setTheme("light")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-medium transition-colors ${
                 theme === "light"
-                  ? "border-foreground bg-foreground text-background"
+                  ? "border-primary bg-primary text-primary-foreground"
                   : "border-border text-foreground hover:bg-muted"
               }`}
             >
@@ -54,7 +54,7 @@ export default function PreferencesPage() {
               onClick={() => setTheme("dark")}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-medium transition-colors ${
                 theme === "dark"
-                  ? "border-foreground bg-foreground text-background"
+                  ? "border-primary bg-primary text-primary-foreground"
                   : "border-border text-foreground hover:bg-muted"
               }`}
             >
