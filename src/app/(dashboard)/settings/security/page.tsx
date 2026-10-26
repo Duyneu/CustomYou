@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { ShieldCheck, KeyRound, QrCode, AlertCircle, Check, Copy } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { ShieldCheck, KeyRound, QrCode, AlertCircle, Check, Copy, RefreshCw, PowerOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -13,7 +13,28 @@ export default function SecuritySettingsPage() {
   const [backupCodes, setBackupCodes] = useState<string[]>([]);
   const [verifyCode, setVerifyCode] = useState("");
   const [loading, setLoading] = useState(false);
+  const [copiedKey, setCopiedKey] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Kiểm tra trạng thái 2FA khi mở trang
+  useEffect(() => {
+    async function checkStatus() {
+      try {
+        const res = await fetch("/api/auth/2fa/setup");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.enabled) {
+            setSetupStep("ENABLED");
+          } else {
+            setSetupStep("IDLE");
+          }
+        }
+      } catch (e) {
+        // bỏ qua lỗi kiểm tra ban đầu
+      }
+    }
+    checkStatus();
+  }, []);
 
   const handleStartSetup = async () => {
     setError(null);
@@ -30,6 +51,7 @@ export default function SecuritySettingsPage() {
       setQrCodeUrl(data.qrCode);
       setSecretKey(data.secret);
       setBackupCodes(data.backupCodes || []);
+      setVerifyCode("");
       setSetupStep("SCAN");
     } catch (e) {
       setError("Lỗi kết nối");
@@ -60,6 +82,38 @@ export default function SecuritySettingsPage() {
       setError("Lỗi kết nối xác thực");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDisable2FA = async () => {
+    if (!confirm("Bạn có chắc chắn muốn tắt xác thực 2 lớp?")) return;
+    setError(null);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/auth/2fa/setup", { method: "DELETE" });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Không thể tắt 2FA");
+        setLoading(false);
+        return;
+      }
+
+      setSetupStep("IDLE");
+      setQrCodeUrl(null);
+      setSecretKey(null);
+      setBackupCodes([]);
+    } catch (e) {
+      setError("Lỗi kết nối khi tắt 2FA");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const copySecret = () => {
+    if (secretKey) {
+      navigator.clipboard.writeText(secretKey);
+      setCopiedKey(true);
+      setTimeout(() => setCopiedKey(false), 2000);
     }
   };
 
@@ -117,8 +171,16 @@ export default function SecuritySettingsPage() {
               <img src={qrCodeUrl} alt="2FA QR Code" className="w-40 h-40 rounded bg-white p-2 border border-border" />
               <div className="space-y-2 text-xs">
                 <div>
-                  <span className="text-muted-foreground block">Khóa bí mật thủ công:</span>
-                  <span className="font-mono font-medium text-foreground text-sm select-all">{secretKey}</span>
+                  <span className="text-muted-foreground block mb-0.5">Khóa bí mật thủ công:</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono font-medium text-foreground text-sm select-all bg-muted/60 px-2 py-0.5 rounded border border-border">
+                      {secretKey}
+                    </span>
+                    <Button type="button" variant="outline" size="sm" onClick={copySecret} className="h-6 px-2 text-[11px]">
+                      {copiedKey ? <Check className="w-3 h-3 text-emerald-500 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
+                      {copiedKey ? "Đã chép" : "Sao chép"}
+                    </Button>
+                  </div>
                 </div>
                 <div>
                   <span className="text-muted-foreground block">Tài khoản:</span>
@@ -144,6 +206,15 @@ export default function SecuritySettingsPage() {
                 <Button type="submit" size="sm" disabled={loading} className="h-8 text-xs shrink-0">
                   {loading ? "Kiểm tra..." : "Xác nhận & Bật"}
                 </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setSetupStep("IDLE")}
+                  className="h-8 text-xs shrink-0 text-muted-foreground"
+                >
+                  Hủy
+                </Button>
               </div>
             </form>
 
@@ -167,9 +238,21 @@ export default function SecuritySettingsPage() {
         )}
 
         {setupStep === "ENABLED" && (
-          <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
-            <Check className="w-4 h-4 shrink-0" />
-            <span>Xác thực 2 lớp đã được bật thành công cho tài khoản của bạn.</span>
+          <div className="space-y-4">
+            <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+              <Check className="w-4 h-4 shrink-0" />
+              <span>Xác thực 2 lớp (TOTP RFC 6238) đã được kích hoạt và đang bảo vệ tài khoản của bạn.</span>
+            </div>
+            <div className="flex items-center gap-3 pt-1">
+              <Button onClick={handleStartSetup} disabled={loading} variant="outline" size="sm" className="h-8 text-xs">
+                <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
+                Thiết lập lại mã 2FA mới
+              </Button>
+              <Button onClick={handleDisable2FA} disabled={loading} variant="ghost" size="sm" className="h-8 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30">
+                <PowerOff className="w-3.5 h-3.5 mr-1.5" />
+                Tắt xác thực 2 lớp
+              </Button>
+            </div>
           </div>
         )}
       </div>

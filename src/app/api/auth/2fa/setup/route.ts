@@ -7,6 +7,33 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { encrypt } from "@/lib/crypto";
 
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Chưa đăng nhập" }, { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        twoFactorEnabled: true,
+        twoFactorSecret: true,
+      },
+    });
+
+    return NextResponse.json({
+      enabled: !!user?.twoFactorEnabled,
+      hasSecret: !!user?.twoFactorSecret,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: "Lỗi kiểm tra trạng thái 2FA: " + (error.message || "Lỗi máy chủ") },
+      { status: 500 }
+    );
+  }
+}
+
 export async function POST() {
   try {
     const session = await getServerSession(authOptions);
@@ -20,7 +47,7 @@ export async function POST() {
       return NextResponse.json({ error: "Không tìm thấy người dùng" }, { status: 404 });
     }
 
-    // Sinh khóa TOTP bí mật
+    // Sinh khóa TOTP bí mật mới
     const secret = authenticator.generateSecret();
     const serviceName = "MyHub Personal";
     const otpauthUrl = authenticator.keyuri(user.email, serviceName, secret);
@@ -39,7 +66,7 @@ export async function POST() {
       hashedBackupCodes.push(hashed);
     }
 
-    // Lưu khóa bí mật (được mã hóa AES-256-GCM) vào database
+    // Lưu khóa bí mật (được mã hóa AES-256-GCM) vào database, tạm thời chưa bật cho đến khi xác thực thành công mã đầu tiên
     const encryptedSecret = encrypt(secret);
 
     await prisma.user.update({
@@ -47,6 +74,7 @@ export async function POST() {
       data: {
         twoFactorSecret: encryptedSecret,
         twoFactorBackupCodes: hashedBackupCodes,
+        twoFactorEnabled: false,
       },
     });
 
@@ -60,6 +88,43 @@ export async function POST() {
     console.error("2FA Setup Error:", error);
     return NextResponse.json(
       { error: "Không thể thiết lập 2FA: " + (error.message || "Lỗi máy chủ") },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Chưa đăng nhập" }, { status: 401 });
+    }
+
+    const userId = session.user.id;
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        twoFactorEnabled: false,
+        twoFactorSecret: null,
+        twoFactorBackupCodes: [],
+      },
+    });
+
+    await prisma.auditLog.create({
+      data: {
+        userId,
+        action: "UPDATE_SECURITY_SETTINGS",
+        details: "Chủ nhân đã tắt xác thực 2 lớp (2FA)",
+      },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Đã hủy kích hoạt xác thực 2 lớp thành công.",
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { error: "Không thể tắt 2FA: " + (error.message || "Lỗi máy chủ") },
       { status: 500 }
     );
   }
