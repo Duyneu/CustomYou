@@ -7,7 +7,6 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   ResponsiveContainer,
   Legend,
   Cell,
@@ -138,29 +137,6 @@ export default function ReportsPage() {
                     return `${Math.round(val / 1000)}k`;
                   }}
                 />
-                <Tooltip
-                  cursor={{ fill: "rgba(255, 255, 255, 0.04)" }}
-                  formatter={(value: any, name: any) => [formatVND(value || 0), name]}
-                  labelStyle={{
-                    color: "hsl(var(--foreground))",
-                    fontWeight: 600,
-                    fontSize: "12px",
-                    marginBottom: "4px",
-                  }}
-                  itemStyle={{
-                    color: "hsl(var(--foreground))",
-                    fontSize: "12px",
-                    paddingTop: "2px",
-                    paddingBottom: "2px",
-                  }}
-                  contentStyle={{
-                    backgroundColor: "hsl(var(--card))",
-                    borderColor: "hsl(var(--border))",
-                    borderRadius: "8px",
-                    fontSize: "12px",
-                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                  }}
-                />
                 <Legend wrapperStyle={{ fontSize: 11, paddingTop: 10 }} />
                 <Bar dataKey="income" name="Thu nhập" fill="#10b981" radius={[3, 3, 0, 0]} />
                 <Bar dataKey="expense" name="Chi phí" fill="#71717a" radius={[3, 3, 0, 0]} />
@@ -211,20 +187,6 @@ export default function ReportsPage() {
                       />
                     ))}
                   </Pie>
-                  <Tooltip
-                    formatter={(val: any, name: any) => [formatVND(val || 0), name]}
-                    contentStyle={{
-                      backgroundColor: "hsl(var(--card))",
-                      borderColor: "hsl(var(--border))",
-                      borderRadius: "8px",
-                      fontSize: "12px",
-                      boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-                    }}
-                    itemStyle={{
-                      color: "hsl(var(--foreground))",
-                      fontSize: "12px",
-                    }}
-                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
