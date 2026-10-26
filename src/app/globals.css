@@ -264,40 +264,17 @@
   border-top: 1px solid rgba(255, 255, 255, 0.28);
 }
 
-/* Auth Card Specular Sweep & Masked Rim: Dual-Mode Apple Liquid Glass */
+/* Auth Card Specular Sweep & Masked Rim: Signature Obsidian Violet Glass */
 .glass-panel {
   position: relative;
   isolation: isolate;
   background-image: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.88) 0%,
-    rgba(246, 240, 255, 0.80) 50%,
-    rgba(255, 255, 255, 0.72) 100%
-  );
-  background-color: rgba(255, 255, 255, 0.80);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(168, 85, 247, 0.18);
-  border-top: 1.5px solid rgba(255, 255, 255, 0.98);
-  border-left: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow:
-    0 25px 60px -12px rgba(112, 50, 180, 0.20),
-    0 4px 16px -2px rgba(0, 0, 0, 0.05),
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.95),
-    inset 0 -1.5px 3px 0 rgba(168, 85, 247, 0.08);
-  color: #17072b;
-  transform: translateZ(0);
-  will-change: transform;
-}
-
-.dark .glass-panel {
-  background-image: linear-gradient(
-    135deg,
     rgba(255, 255, 255, 0.12) 0%,
-    rgba(168, 85, 247, 0.05) 50%,
+    rgba(168, 85, 247, 0.06) 50%,
     rgba(255, 255, 255, 0.02) 100%
   );
-  background-color: rgba(16, 7, 34, 0.65);
+  background-color: rgba(16, 7, 34, 0.68);
   -webkit-backdrop-filter: blur(28px) saturate(190%) brightness(106%);
   backdrop-filter: blur(28px) saturate(190%) brightness(106%);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -308,6 +285,8 @@
     inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.45),
     inset 0 -1.5px 3px 0 rgba(0, 0, 0, 0.4);
   color: #ffffff;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .glass-panel::before {
@@ -318,10 +297,10 @@
   padding: 1px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(168, 85, 247, 0.3) 40%,
-    rgba(255, 255, 255, 0.1) 70%,
-    rgba(255, 255, 255, 0.6) 100%
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(255, 255, 255, 0.25) 30%,
+    rgba(255, 255, 255, 0.04) 55%,
+    rgba(255, 255, 255, 0.15) 100%
   );
   -webkit-mask:
     linear-gradient(#000 0 0) content-box,
@@ -330,16 +309,6 @@
           mask-composite: exclude;
   pointer-events: none;
   z-index: 1;
-}
-
-.dark .glass-panel::before {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.65) 0%,
-    rgba(255, 255, 255, 0.25) 30%,
-    rgba(255, 255, 255, 0.04) 55%,
-    rgba(255, 255, 255, 0.15) 100%
-  );
 }
 
 .glass-panel::after {
@@ -370,14 +339,10 @@
   left: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.25), transparent);
   transform: skewX(-15deg) translateX(-120%);
   animation: sweepAnimation 6s ease-in-out infinite;
   will-change: transform;
-}
-
-.dark .glass-sweep-track::before {
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
 }
 
 /* Glassmorphism Keyframe Animations */
@@ -425,7 +390,6 @@
   .glass-card,
   .glass-chrome,
   .glass-overlay,
-  .glass-panel,
   .glass-reopen,
   .bg-card,
   .minimal-surface {
@@ -437,12 +401,19 @@
   .dark .glass-card,
   .dark .glass-chrome,
   .dark .glass-overlay,
-  .dark .glass-panel,
   .dark .glass-reopen,
   .dark .bg-card,
   .dark .minimal-surface {
     background: #140a28 !important;
     color: #fbf9ff !important;
+  }
+  /* Login panel always stays dark obsidian violet */
+  .glass-panel,
+  .dark .glass-panel {
+    background: #140a28 !important;
+    color: #fbf9ff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
   .glass-panel::after {
     display: none !important;
@@ -467,7 +438,6 @@
   .glass-card,
   .glass-chrome,
   .glass-overlay,
-  .glass-panel,
   .glass-reopen,
   .bg-card,
   .minimal-surface {
@@ -477,12 +447,17 @@
   .dark .glass-card,
   .dark .glass-chrome,
   .dark .glass-overlay,
-  .dark .glass-panel,
   .dark .glass-reopen,
   .dark .bg-card,
   .dark .minimal-surface {
     background-color: rgba(18, 8, 36, 0.94);
     color: #fbf9ff;
+  }
+  /* Login panel always stays dark obsidian violet */
+  .glass-panel,
+  .dark .glass-panel {
+    background-color: rgba(16, 7, 34, 0.95);
+    color: #ffffff;
   }
 }
 
