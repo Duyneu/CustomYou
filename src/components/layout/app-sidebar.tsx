@@ -6,18 +6,15 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  Wallet,
   Receipt,
   PieChart,
   Target,
-  FileSpreadsheet,
   GraduationCap,
   BarChart3,
   CheckSquare,
   Flame,
   FileText,
   Sliders,
-  Scale,
   Sparkles,
   ShieldCheck,
   UserCheck,
@@ -54,13 +51,10 @@ export function AppSidebar() {
       title: "Tài chính & Theo dõi",
       items: [
         { title: "Theo dõi & Biểu đồ", href: "/tracker", icon: BarChart3, badge: "Hub" },
-        { title: "Ví và tài khoản", href: "/finance/accounts", icon: Wallet },
         { title: "Giao dịch", href: "/finance/transactions", icon: Receipt },
         { title: "Ngân sách tháng", href: "/finance/budgets", icon: PieChart },
         { title: "Báo cáo dòng tiền", href: "/finance/reports", icon: CreditCard },
         { title: "Mục tiêu tích lũy", href: "/finance/goals", icon: Target },
-        { title: "Sổ nợ và vay", href: "/finance/debts", icon: Scale },
-        { title: "Nhập sao kê CSV", href: "/finance/import", icon: FileSpreadsheet },
       ],
     },
     {

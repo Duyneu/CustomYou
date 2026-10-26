@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, X, Receipt, Wallet, CheckSquare, FileText, ArrowRight, GraduationCap, BarChart3 } from "lucide-react";
+import { Search, X, Receipt, CheckSquare, FileText, ArrowRight, GraduationCap, BarChart3 } from "lucide-react";
 
 export function GlobalSearchDialog() {
   const router = useRouter();
@@ -10,14 +10,11 @@ export function GlobalSearchDialog() {
   const [query, setQuery] = useState("");
 
   const navigationItems = [
-    { title: "Ví và tài khoản", href: "/finance/accounts", icon: Wallet, category: "Tài chính" },
-    { title: "Lịch sử giao dịch", href: "/finance/transactions", icon: Receipt, category: "Tài chính" },
     { title: "Theo dõi & Biểu đồ chi tiêu", href: "/tracker", icon: BarChart3, category: "Tài chính & Thói quen" },
+    { title: "Lịch sử giao dịch", href: "/finance/transactions", icon: Receipt, category: "Tài chính" },
     { title: "Ngân sách tháng", href: "/finance/budgets", icon: Receipt, category: "Tài chính" },
     { title: "Báo cáo phân tích", href: "/finance/reports", icon: Receipt, category: "Tài chính" },
     { title: "Mục tiêu tích lũy", href: "/finance/goals", icon: Receipt, category: "Tài chính" },
-    { title: "Sổ ghi nợ & vay", href: "/finance/debts", icon: Receipt, category: "Tài chính" },
-    { title: "Nhập sao kê CSV", href: "/finance/import", icon: Receipt, category: "Tài chính" },
     { title: "Nhật ký & Môn học", href: "/study", icon: GraduationCap, category: "Học tập" },
     { title: "Việc cần làm", href: "/productivity/todos", icon: CheckSquare, category: "Năng suất" },
     { title: "Thói quen hàng ngày", href: "/productivity/habits", icon: CheckSquare, category: "Năng suất" },
