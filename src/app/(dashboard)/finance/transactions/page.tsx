@@ -192,7 +192,7 @@ export default function TransactionsPage() {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="p-4 rounded-xl border border-border bg-card space-y-3">
+      <div className="glass-card p-4 space-y-3">
         <form onSubmit={handleSearchSubmit} className="flex flex-wrap items-center gap-2">
           <div className="relative flex-1 min-w-[200px]">
             <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -208,7 +208,7 @@ export default function TransactionsPage() {
           <select
             value={filterType}
             onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
-            className="h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
+            className="h-8 text-xs px-2.5 rounded-xl border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground outline-none"
           >
             <option value="">Tất cả loại giao dịch</option>
             <option value="EXPENSE">Khoản chi</option>
@@ -219,7 +219,7 @@ export default function TransactionsPage() {
           <select
             value={filterAccount}
             onChange={(e) => { setFilterAccount(e.target.value); setPage(1); }}
-            className="h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
+            className="h-8 text-xs px-2.5 rounded-xl border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground outline-none"
           >
             <option value="">Tất cả tài khoản</option>
             {accounts.map((a) => (
@@ -230,7 +230,7 @@ export default function TransactionsPage() {
           <select
             value={filterCategory}
             onChange={(e) => { setFilterCategory(e.target.value); setPage(1); }}
-            className="h-8 text-xs px-2.5 rounded-lg border border-input bg-background text-foreground"
+            className="h-8 text-xs px-2.5 rounded-xl border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground outline-none"
           >
             <option value="">Tất cả danh mục</option>
             {categories.map((c) => (
@@ -245,8 +245,8 @@ export default function TransactionsPage() {
       </div>
 
       {/* Transaction List */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
+      <div className="glass-card overflow-hidden">
+        <div className="px-4 py-3 border-b border-border/80 text-xs font-semibold text-muted-foreground grid grid-cols-12 gap-2 bg-purple-500/[0.04] dark:bg-white/[0.03]">
           <span className="col-span-2">Ngày</span>
           <span className="col-span-3">Nội dung & Danh mục</span>
           <span className="col-span-3">Nguồn tiền</span>
@@ -261,11 +261,11 @@ export default function TransactionsPage() {
             Chưa tìm thấy giao dịch nào phù hợp với bộ lọc.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {transactions.map((tx) => (
               <div
                 key={tx.id}
-                className="px-4 py-3 grid grid-cols-12 gap-2 items-center hover:bg-muted/30 transition-colors text-xs"
+                className="px-4 py-3 grid grid-cols-12 gap-2 items-center hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors text-xs"
               >
                 {/* Ngày */}
                 <div className="col-span-2 font-mono text-muted-foreground">
@@ -372,20 +372,20 @@ export default function TransactionsPage() {
 
       {/* Modal Thêm giao dịch */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">Ghi nhận giao dịch mới</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}
@@ -396,8 +396,10 @@ export default function TransactionsPage() {
                 <button
                   type="button"
                   onClick={() => setTxType("EXPENSE")}
-                  className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                    txType === "EXPENSE" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                  className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                    txType === "EXPENSE"
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                      : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                   }`}
                 >
                   Khoản chi
@@ -405,8 +407,10 @@ export default function TransactionsPage() {
                 <button
                   type="button"
                   onClick={() => setTxType("INCOME")}
-                  className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                    txType === "INCOME" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                  className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                    txType === "INCOME"
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                      : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                   }`}
                 >
                   Khoản thu
@@ -414,8 +418,10 @@ export default function TransactionsPage() {
                 <button
                   type="button"
                   onClick={() => setTxType("TRANSFER")}
-                  className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                    txType === "TRANSFER" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                  className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                    txType === "TRANSFER"
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                      : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                   }`}
                 >
                   Chuyển khoản

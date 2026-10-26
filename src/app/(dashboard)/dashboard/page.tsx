@@ -134,14 +134,14 @@ export default async function DashboardPage() {
     return (
       <div className="space-y-8 max-w-6xl mx-auto">
         {/* 1. Header Hero Glassmorphism: Tiêu đề theo ngữ cảnh & Hành động nhanh */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-white/10 dark:border-white/[0.08]">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-6 border-b border-border/70">
           <div className="space-y-1">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground drop-shadow-sm">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground drop-shadow-xs">
               {dateRangeTitle}
             </h1>
-            <p className="text-xs text-muted-foreground font-mono flex items-center gap-1.5">
+            <p className="text-xs text-muted-foreground font-mono flex items-center gap-1.5 flex-wrap">
               <span>Tổng số dư</span>
-              <span className="font-semibold text-purple-300">{formatVND(totalBalance.toString())}</span>
+              <span className="font-semibold text-purple-600 dark:text-purple-300">{formatVND(totalBalance.toString())}</span>
               <span>trên {accounts.length} nguồn tiền độc lập.</span>
             </p>
           </div>
@@ -155,7 +155,7 @@ export default async function DashboardPage() {
             </Link>
             <Link href="/finance/bank-connect">
               <Button variant="outline" size="sm" className="gap-1.5">
-                <Building2 className="w-3.5 h-3.5 text-purple-400" />
+                <Building2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                 Kết nối ngân hàng
               </Button>
             </Link>
@@ -171,14 +171,14 @@ export default async function DashboardPage() {
                 <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Tổng tài sản khả dụng
                 </span>
-                <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/25 text-emerald-300 flex items-center gap-1">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 border border-emerald-500/25 text-emerald-700 dark:text-emerald-300 flex items-center gap-1">
                   <TrendingUp className="w-3 h-3" />
                   +3.8% so với tháng trước
                 </span>
               </div>
 
               <div>
-                <div className="text-3xl sm:text-4xl font-bold font-mono tracking-tight text-foreground tabular-nums drop-shadow-sm">
+                <div className="text-3xl sm:text-4xl font-bold font-mono tracking-tight text-foreground tabular-nums drop-shadow-xs">
                   {formatVND(totalBalance.toString())}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">
@@ -188,30 +188,30 @@ export default async function DashboardPage() {
             </div>
 
             {/* Phân bổ thanh khoản bên dưới */}
-            <div className="pt-6 mt-6 border-t border-white/10 dark:border-white/[0.08] space-y-2.5">
+            <div className="pt-6 mt-6 border-t border-border/70 space-y-2.5">
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span className="font-medium">Cơ cấu thanh khoản</span>
                 <span className="font-mono text-foreground font-semibold">{liquidPercent}% khả dụng</span>
               </div>
 
               {/* Thanh phân bổ kính mờ tinh tế */}
-              <div className="w-full h-2 rounded-full bg-white/[0.08] dark:bg-white/[0.06] border border-white/10 overflow-hidden flex p-0.5">
+              <div className="w-full h-2.5 rounded-full bg-purple-500/10 dark:bg-white/[0.06] border border-purple-500/15 dark:border-white/10 overflow-hidden flex p-0.5">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-500 transition-all duration-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]"
                   style={{ width: `${liquidPercent}%` }}
                 />
                 <div
-                  className="h-full rounded-full bg-white/20 transition-all duration-500"
+                  className="h-full rounded-full bg-purple-500/20 dark:bg-white/20 transition-all duration-500"
                   style={{ width: `${100 - liquidPercent}%` }}
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4 pt-1.5 text-xs font-mono">
-                <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-3 rounded-xl bg-purple-500/[0.04] dark:bg-white/[0.03] border border-border/70">
                   <span className="text-muted-foreground block text-[11px]">Thanh khoản (Ví / Ngân hàng):</span>
                   <span className="font-semibold text-foreground">{formatVND(liquidAmount.toString())}</span>
                 </div>
-                <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/10">
+                <div className="p-3 rounded-xl bg-purple-500/[0.04] dark:bg-white/[0.03] border border-border/70">
                   <span className="text-muted-foreground block text-[11px]">Tích lũy & Mục tiêu:</span>
                   <span className="font-semibold text-foreground">{formatVND(savingsAmount.toString())}</span>
                 </div>
@@ -225,7 +225,7 @@ export default async function DashboardPage() {
             <div className="glass-card p-4 sm:p-5 flex-1 flex flex-col justify-center space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground font-medium">Chi tiêu tháng {now.getMonth() + 1}</span>
-                <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-white/[0.06] text-muted-foreground border border-white/10">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-purple-500/10 dark:bg-white/[0.06] text-muted-foreground border border-purple-500/15 dark:border-white/10">
                   ↓ 2.1%
                 </span>
               </div>
@@ -238,7 +238,7 @@ export default async function DashboardPage() {
             <div className="glass-card p-4 sm:p-5 flex-1 flex flex-col justify-center space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground font-medium">Thu nhập tháng {now.getMonth() + 1}</span>
-                <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-300 border border-emerald-500/25">
+                <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/25">
                   ↑ 4.6%
                 </span>
               </div>
@@ -251,7 +251,7 @@ export default async function DashboardPage() {
             <div className="glass-card p-4 sm:p-5 flex-1 flex flex-col justify-center space-y-1.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs text-muted-foreground font-medium">Dòng tiền thuần tích lũy</span>
-                <span className="text-[10px] font-mono text-purple-300 bg-purple-500/15 px-1.5 py-0.5 rounded border border-purple-500/25">
+                <span className="text-[10px] font-mono text-purple-700 dark:text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded-md border border-purple-500/25">
                   Thực thu - Thực chi
                 </span>
               </div>
@@ -268,24 +268,24 @@ export default async function DashboardPage() {
           <div className="lg:col-span-7 space-y-8">
             {/* Danh sách tài khoản dạng bảng kính tinh tế */}
             <div className="glass-card p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between pb-3 border-b border-border/70">
                 <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <Wallet className="w-4 h-4 text-purple-400" />
+                  <Wallet className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Tài khoản và nguồn tiền</span>
                 </h2>
                 <Link
                   href="/finance/accounts"
-                  className="text-xs text-muted-foreground hover:text-white flex items-center gap-1 transition-colors"
+                  className="text-xs text-muted-foreground hover:text-purple-600 dark:hover:text-white flex items-center gap-1 transition-colors"
                 >
                   Quản lý danh sách <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
 
-              <div className="divide-y divide-white/[0.06]">
+              <div className="divide-y divide-border/60">
                 {accounts.map((acc) => (
                   <div
                     key={acc.id}
-                    className="flex items-center justify-between py-3 px-2 rounded-xl hover:bg-white/[0.04] transition-colors"
+                    className="flex items-center justify-between py-3 px-2 rounded-xl hover:bg-purple-500/[0.06] dark:hover:bg-white/[0.04] transition-colors"
                   >
                     <div>
                       <div className="text-sm font-medium text-foreground">
@@ -306,14 +306,14 @@ export default async function DashboardPage() {
 
             {/* Mục tiêu tiết kiệm */}
             <div className="glass-card p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between pb-3 border-b border-border/70">
                 <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-400" />
+                  <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Mục tiêu tiết kiệm</span>
                 </h2>
                 <Link
                   href="/finance/goals"
-                  className="text-xs text-muted-foreground hover:text-white flex items-center gap-1 transition-colors"
+                  className="text-xs text-muted-foreground hover:text-purple-600 dark:hover:text-white flex items-center gap-1 transition-colors"
                 >
                   Tất cả mục tiêu <ArrowRight className="w-3 h-3" />
                 </Link>
@@ -326,14 +326,14 @@ export default async function DashboardPage() {
                     Math.round((Number(g.currentAmount) / Number(g.targetAmount)) * 100)
                   );
                   return (
-                    <div key={g.id} className="space-y-2 p-3 rounded-xl bg-white/[0.03] border border-white/10">
+                    <div key={g.id} className="space-y-2 p-3.5 rounded-xl bg-purple-500/[0.04] dark:bg-white/[0.03] border border-border/70">
                       <div className="flex items-baseline justify-between text-xs">
                         <span className="font-medium text-foreground">{g.name}</span>
                         <span className="font-mono text-muted-foreground">
                           {formatVND(g.currentAmount.toString())} / {formatVND(g.targetAmount.toString())} ({percent}%)
                         </span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-white/[0.08] border border-white/10 overflow-hidden p-0.5">
+                      <div className="w-full h-2 rounded-full bg-purple-500/10 dark:bg-white/[0.08] border border-purple-500/15 dark:border-white/10 overflow-hidden p-0.5">
                         <div
                           className="h-full rounded-full bg-gradient-to-r from-purple-500 to-fuchsia-500 transition-all duration-300 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
                           style={{ width: `${percent}%` }}
@@ -350,20 +350,20 @@ export default async function DashboardPage() {
           <div className="lg:col-span-5 space-y-8">
             {/* Việc cần làm */}
             <div className="glass-card p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between pb-3 border-b border-border/70">
                 <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-purple-400" />
+                  <CheckCircle2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Việc cần làm hôm nay</span>
                 </h2>
                 <Link
                   href="/productivity/todos"
-                  className="text-xs text-muted-foreground hover:text-white flex items-center gap-1 transition-colors"
+                  className="text-xs text-muted-foreground hover:text-purple-600 dark:hover:text-white flex items-center gap-1 transition-colors"
                 >
                   Mở sổ việc <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
 
-              <div className="divide-y divide-white/[0.06]">
+              <div className="divide-y divide-border/60">
                 {todos.length === 0 ? (
                   <p className="text-xs text-muted-foreground py-4 text-center">
                     Không còn việc tồn đọng.
@@ -372,10 +372,10 @@ export default async function DashboardPage() {
                   todos.map((todo) => (
                     <div
                       key={todo.id}
-                      className="flex items-center justify-between py-3 px-2 rounded-xl hover:bg-white/[0.04] transition-colors gap-2"
+                      className="flex items-center justify-between py-3 px-2 rounded-xl hover:bg-purple-500/[0.06] dark:hover:bg-white/[0.04] transition-colors gap-2"
                     >
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <Circle className="w-3.5 h-3.5 text-purple-400/80 shrink-0" />
+                        <Circle className="w-3.5 h-3.5 text-purple-500 dark:text-purple-400/80 shrink-0" />
                         <span className="text-sm text-foreground truncate">
                           {todo.title}
                         </span>
@@ -393,26 +393,26 @@ export default async function DashboardPage() {
 
             {/* Thói quen */}
             <div className="glass-card p-6 space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10 dark:border-white/[0.08]">
+              <div className="flex items-center justify-between pb-3 border-b border-border/70">
                 <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-purple-400" />
+                  <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Thói quen hàng ngày</span>
                 </h2>
                 <Link
                   href="/productivity/habits"
-                  className="text-xs text-muted-foreground hover:text-white flex items-center gap-1 transition-colors"
+                  className="text-xs text-muted-foreground hover:text-purple-600 dark:hover:text-white flex items-center gap-1 transition-colors"
                 >
                   Chi tiết <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>
 
-              <div className="divide-y divide-white/[0.06]">
+              <div className="divide-y divide-border/60">
                 {habits.map((habit) => {
                   const isCompletedToday = habit.logs.length > 0 && habit.logs[0].completed;
                   return (
                     <div
                       key={habit.id}
-                      className="flex items-center justify-between py-3 px-2 rounded-xl hover:bg-white/[0.04] transition-colors"
+                      className="flex items-center justify-between py-3 px-2 rounded-xl hover:bg-purple-500/[0.06] dark:hover:bg-white/[0.04] transition-colors"
                     >
                       <div>
                         <div className="text-sm font-medium text-foreground">

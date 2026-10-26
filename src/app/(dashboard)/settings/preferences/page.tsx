@@ -29,9 +29,9 @@ export default function PreferencesPage() {
         </p>
       </div>
 
-      <div className="p-5 rounded-xl border border-border bg-card space-y-6">
+      <div className="glass-card p-6 space-y-6">
         {/* Chủ đề giao diện */}
-        <div className="space-y-2 pb-5 border-b border-border">
+        <div className="space-y-2 pb-5 border-b border-border/80">
           <label className="text-xs font-semibold text-foreground">Chủ đề giao diện</label>
           <p className="text-xs text-muted-foreground">
             Lựa chọn giao diện sáng (Light) hoặc tối (Dark) theo sở thích thị giác.
@@ -40,25 +40,25 @@ export default function PreferencesPage() {
           <div className="flex gap-3 pt-2">
             <button
               onClick={() => setTheme("light")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-medium transition-colors ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-medium transition-all ${
                 theme === "light"
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border text-foreground hover:bg-muted"
+                  ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                  : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
               }`}
             >
-              <Sun className="w-4 h-4" />
+              <Sun className="w-4 h-4 text-amber-500" />
               Giao diện sáng (Light)
             </button>
 
             <button
               onClick={() => setTheme("dark")}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-medium transition-colors ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-medium transition-all ${
                 theme === "dark"
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-border text-foreground hover:bg-muted"
+                  ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                  : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
               }`}
             >
-              <Moon className="w-4 h-4" />
+              <Moon className="w-4 h-4 text-purple-400" />
               Giao diện tối (Dark)
             </button>
           </div>
@@ -85,7 +85,7 @@ export default function PreferencesPage() {
 
           <div className="space-y-1">
             <label className="text-xs font-semibold text-foreground">Đơn vị tiền tệ hiển thị</label>
-            <div className="p-2 rounded bg-muted/40 border border-border text-xs font-mono text-muted-foreground max-w-xs">
+            <div className="p-2.5 rounded-xl bg-purple-500/5 dark:bg-white/[0.04] border border-purple-500/15 dark:border-white/10 text-xs font-mono text-muted-foreground max-w-xs">
               VND (Việt Nam Đồng - ₫)
             </div>
           </div>

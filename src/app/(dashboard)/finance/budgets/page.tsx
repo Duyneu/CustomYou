@@ -154,27 +154,27 @@ export default function BudgetsPage() {
       </div>
 
       {/* Tóm tắt tổng thể */}
-      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
+      <div className="glass-card p-5 sm:p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
           <div>
-            <div className="text-xs text-muted-foreground">Tổng chi tiêu so với hạn mức</div>
-            <div className="text-2xl font-semibold font-mono tracking-tight text-foreground mt-0.5 tabular-nums">
+            <div className="text-xs text-muted-foreground font-medium">Tổng chi tiêu so với hạn mức</div>
+            <div className="text-2xl sm:text-3xl font-semibold font-mono tracking-tight text-foreground mt-0.5 tabular-nums drop-shadow-xs">
               {formatVND(totalSpent.toString())} <span className="text-sm font-normal text-muted-foreground">/ {formatVND(totalLimit.toString())}</span>
             </div>
           </div>
-          <div className="font-mono text-sm font-medium text-foreground">
+          <div className="font-mono text-sm font-semibold text-foreground px-2.5 py-1 rounded-lg bg-purple-500/10 dark:bg-white/[0.06] border border-purple-500/20 dark:border-white/10">
             {overallPercent}% đã dùng
           </div>
         </div>
 
-        <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden">
+        <div className="w-full h-2 rounded-full bg-purple-500/10 dark:bg-white/[0.08] border border-purple-500/15 dark:border-white/10 overflow-hidden p-0.5">
           <div
-            className={`h-full transition-all duration-300 ${
+            className={`h-full rounded-full transition-all duration-300 ${
               overallPercent >= 100
-                ? "bg-red-500"
+                ? "bg-gradient-to-r from-red-500 to-rose-600 shadow-[0_0_8px_rgba(239,68,68,0.5)]"
                 : overallPercent >= 80
-                ? "bg-amber-500"
-                : "bg-foreground"
+                ? "bg-gradient-to-r from-amber-500 to-amber-600 shadow-[0_0_8px_rgba(245,158,11,0.5)]"
+                : "bg-gradient-to-r from-purple-600 to-fuchsia-600 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
             }`}
             style={{ width: `${Math.min(100, overallPercent)}%` }}
           />
@@ -182,8 +182,8 @@ export default function BudgetsPage() {
       </div>
 
       {/* Danh sách ngân sách theo danh mục */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
+      <div className="glass-card overflow-hidden">
+        <div className="px-4 py-3 border-b border-border/80 text-xs font-semibold text-muted-foreground flex justify-between items-center bg-purple-500/[0.04] dark:bg-white/[0.03]">
           <span>Danh mục chi tiêu</span>
           <span>Thực tế / Hạn mức</span>
         </div>
@@ -195,9 +195,9 @@ export default function BudgetsPage() {
             Chưa có ngân sách nào được thiết lập cho tháng {month}/{year}. Nhấn "Đặt ngân sách" để bắt đầu.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {budgets.map((b) => (
-              <div key={b.id} className="p-4 space-y-2 hover:bg-muted/20 transition-colors">
+              <div key={b.id} className="p-4 space-y-2 hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-foreground">{b.categoryName}</span>
@@ -221,14 +221,14 @@ export default function BudgetsPage() {
                   </div>
                 </div>
 
-                <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-purple-500/10 dark:bg-white/[0.08] overflow-hidden">
                   <div
-                    className={`h-full transition-all duration-300 ${
+                    className={`h-full rounded-full transition-all duration-300 ${
                       b.isExceeded
                         ? "bg-red-500"
                         : b.isWarning
                         ? "bg-amber-500"
-                        : "bg-foreground"
+                        : "bg-gradient-to-r from-purple-600 to-fuchsia-600"
                     }`}
                     style={{ width: `${Math.min(100, b.percentage)}%` }}
                   />
@@ -241,22 +241,22 @@ export default function BudgetsPage() {
 
       {/* Modal Đặt ngân sách */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">
                 Thiết lập hạn mức ngân sách
               </h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}

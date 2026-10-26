@@ -135,27 +135,27 @@ export default function TodosPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex rounded-lg border border-border p-0.5 bg-muted/40">
+          <div className="flex rounded-xl border border-purple-500/20 dark:border-white/10 p-0.5 bg-purple-500/[0.04] dark:bg-white/[0.03]">
             <button
               onClick={() => setFilterStatus("ACTIVE")}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
-                filterStatus === "ACTIVE" ? "bg-background text-foreground border border-border/60" : "text-muted-foreground hover:text-foreground"
+              className={`px-3 py-1 text-xs rounded-lg font-medium transition-all ${
+                filterStatus === "ACTIVE" ? "bg-white dark:bg-white/15 text-foreground shadow-xs border border-purple-500/20 dark:border-white/20" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Chưa làm
             </button>
             <button
               onClick={() => setFilterStatus("DONE")}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
-                filterStatus === "DONE" ? "bg-background text-foreground border border-border/60" : "text-muted-foreground hover:text-foreground"
+              className={`px-3 py-1 text-xs rounded-lg font-medium transition-all ${
+                filterStatus === "DONE" ? "bg-white dark:bg-white/15 text-foreground shadow-xs border border-purple-500/20 dark:border-white/20" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Đã xong
             </button>
             <button
               onClick={() => setFilterStatus("ALL")}
-              className={`px-2.5 py-1 text-xs rounded-md font-medium transition-colors ${
-                filterStatus === "ALL" ? "bg-background text-foreground border border-border/60" : "text-muted-foreground hover:text-foreground"
+              className={`px-3 py-1 text-xs rounded-lg font-medium transition-all ${
+                filterStatus === "ALL" ? "bg-white dark:bg-white/15 text-foreground shadow-xs border border-purple-500/20 dark:border-white/20" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Tất cả
@@ -170,7 +170,7 @@ export default function TodosPage() {
       </div>
 
       {/* Danh sách nhiệm vụ */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
+      <div className="glass-card overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-xs text-muted-foreground">Đang tải danh sách công việc...</div>
         ) : filteredTodos.length === 0 ? (
@@ -178,13 +178,13 @@ export default function TodosPage() {
             Không có công việc nào cần giải quyết trong mục này.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {filteredTodos.map((todo) => {
               const isDone = todo.status === "DONE";
               return (
                 <div
                   key={todo.id}
-                  className="p-3.5 flex items-center justify-between gap-3 hover:bg-muted/20 transition-colors"
+                  className="p-4 flex items-center justify-between gap-3 hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <button
@@ -241,17 +241,17 @@ export default function TodosPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">Thêm việc cần làm</h2>
-              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground">
+              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}

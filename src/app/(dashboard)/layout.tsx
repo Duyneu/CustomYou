@@ -23,9 +23,9 @@ export default async function DashboardLayout({
       <div className="relative flex min-h-screen bg-background text-foreground overflow-x-clip selection:bg-purple-600 selection:text-white">
         {/* Subtle Ambient Depth Canvas for Believable Glass Frosting (Zero CPU overhead static gradients) */}
         <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-          <div className="absolute -top-36 -left-36 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-purple-700/10 via-indigo-600/8 to-transparent blur-[130px] dark:from-purple-700/15 dark:via-indigo-600/10" />
-          <div className="absolute top-1/4 -right-44 w-[580px] h-[580px] rounded-full bg-gradient-to-br from-fuchsia-600/8 via-purple-700/6 to-transparent blur-[140px] dark:from-fuchsia-600/12 dark:via-purple-700/10" />
-          <div className="absolute -bottom-36 left-1/4 w-[680px] h-[680px] rounded-full bg-gradient-to-tr from-indigo-700/8 via-purple-800/8 to-transparent blur-[150px] dark:from-indigo-700/10 dark:via-purple-800/12" />
+          <div className="absolute -top-36 -left-36 w-[620px] h-[620px] rounded-full bg-gradient-to-tr from-purple-400/25 via-indigo-300/20 to-transparent blur-[130px] dark:from-purple-700/15 dark:via-indigo-600/10" />
+          <div className="absolute top-1/4 -right-44 w-[580px] h-[580px] rounded-full bg-gradient-to-br from-fuchsia-400/20 via-purple-300/18 to-transparent blur-[140px] dark:from-fuchsia-600/12 dark:via-purple-700/10" />
+          <div className="absolute -bottom-36 left-1/4 w-[680px] h-[680px] rounded-full bg-gradient-to-tr from-indigo-300/20 via-purple-400/20 to-transparent blur-[150px] dark:from-indigo-700/10 dark:via-purple-800/12" />
         </div>
 
         <GlobalSearchDialog />

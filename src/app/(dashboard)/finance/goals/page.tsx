@@ -100,7 +100,7 @@ export default function SavingsGoalsPage() {
       </div>
 
       {/* Danh sách mục tiêu */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
+      <div className="glass-card overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-xs text-muted-foreground">Đang tải mục tiêu...</div>
         ) : goals.length === 0 ? (
@@ -108,14 +108,14 @@ export default function SavingsGoalsPage() {
             Chưa có mục tiêu tích lũy nào. Nhấn "Thêm mục tiêu" để bắt đầu theo dõi.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {goals.map((goal) => {
               const percent = Math.min(
                 100,
                 Math.round((Number(goal.currentAmount) / Number(goal.targetAmount)) * 100)
               );
               return (
-                <div key={goal.id} className="p-5 space-y-2.5 hover:bg-muted/20 transition-colors">
+                <div key={goal.id} className="p-5 space-y-2.5 hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors">
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="text-sm font-semibold text-foreground">{goal.name}</span>
@@ -129,9 +129,9 @@ export default function SavingsGoalsPage() {
                     </Badge>
                   </div>
 
-                  <div className="w-full h-1.5 rounded-full bg-secondary overflow-hidden">
+                  <div className="w-full h-2 rounded-full bg-purple-500/10 dark:bg-white/[0.08] overflow-hidden p-0.5">
                     <div
-                      className="h-full bg-foreground transition-all duration-300"
+                      className="h-full rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 transition-all duration-300 shadow-[0_0_8px_rgba(168,85,247,0.4)]"
                       style={{ width: `${percent}%` }}
                     />
                   </div>
@@ -144,17 +144,17 @@ export default function SavingsGoalsPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">Thêm mục tiêu mới</h2>
-              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground">
+              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}

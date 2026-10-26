@@ -109,10 +109,10 @@ export default function BankConnectPage() {
         {/* Cột trái: Cấu hình Webhook Adapter */}
         <div className="lg:col-span-7 space-y-6">
           {/* Card Webhook endpoints */}
-          <div className="p-5 rounded-xl border border-border bg-card space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+          <div className="glass-card p-5 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <div className="flex items-center gap-2">
-                <Building2 className="w-4 h-4 text-foreground" />
+                <Building2 className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 <h2 className="text-sm font-semibold text-foreground">
                   Webhook Endpoints tự động
                 </h2>
@@ -123,7 +123,7 @@ export default function BankConnectPage() {
             </div>
 
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Cung cấp các endpoint này cho tài khoản Casso.vn hoặc SePay.vn của bạn. Hệ thống sẽ nhận giao diện biến động số dư theo thời gian thực và tự động khớp danh mục.
+              Cung cấp các endpoint này cho tài khoản Casso.vn hoặc SePay.vn của bạn. Hệ thống sẽ nhận biến động số dư theo thời gian thực và tự động khớp danh mục.
             </p>
 
             <div className="space-y-3">
@@ -138,7 +138,7 @@ export default function BankConnectPage() {
                     <span>{copiedUrl === "sepay" ? "Đã chép" : "Sao chép"}</span>
                   </button>
                 </div>
-                <div className="p-2 rounded bg-muted/50 font-mono text-xs text-foreground select-all border border-border">
+                <div className="p-2.5 rounded-xl bg-purple-500/5 dark:bg-white/[0.04] font-mono text-xs text-foreground select-all border border-purple-500/15 dark:border-white/10">
                   https://your-domain.vercel.app/api/webhooks/bank/sepay
                 </div>
               </div>
@@ -154,15 +154,15 @@ export default function BankConnectPage() {
                     <span>{copiedUrl === "casso" ? "Đã chép" : "Sao chép"}</span>
                   </button>
                 </div>
-                <div className="p-2 rounded bg-muted/50 font-mono text-xs text-foreground select-all border border-border">
+                <div className="p-2.5 rounded-xl bg-purple-500/5 dark:bg-white/[0.04] font-mono text-xs text-foreground select-all border border-purple-500/15 dark:border-white/10">
                   https://your-domain.vercel.app/api/webhooks/bank/casso
                 </div>
               </div>
             </div>
 
             {/* Test Simulation Button */}
-            <div className="pt-2 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3">
-              <span className="text-xs text-muted-foreground">
+            <div className="pt-3 border-t border-border/80 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <span className="text-xs text-muted-foreground font-medium">
                 Kiểm tra giả lập Webhook tới hệ thống:
               </span>
               <Button
@@ -178,15 +178,15 @@ export default function BankConnectPage() {
             </div>
 
             {simResult && (
-              <div className="p-2.5 rounded bg-muted/70 border border-border text-xs font-mono text-foreground">
+              <div className="p-2.5 rounded-xl bg-purple-500/10 dark:bg-white/[0.05] border border-purple-500/20 dark:border-white/15 text-xs font-mono text-foreground">
                 {simResult}
               </div>
             )}
           </div>
 
           {/* Chính sách bảo mật tài khoản */}
-          <div className="p-4 rounded-xl border border-border bg-card space-y-2">
-            <div className="flex items-center gap-2 text-xs font-medium text-foreground">
+          <div className="glass-card p-5 space-y-2">
+            <div className="flex items-center gap-2 text-xs font-semibold text-foreground">
               <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Tiêu chuẩn bảo mật và quyền riêng tư</span>
             </div>
@@ -198,10 +198,10 @@ export default function BankConnectPage() {
 
         {/* Cột phải: Trình tạo mã VietQR */}
         <div className="lg:col-span-5 space-y-6">
-          <div className="p-5 rounded-xl border border-border bg-card space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+          <div className="glass-card p-5 space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <div className="flex items-center gap-2">
-                <QrCode className="w-4 h-4 text-foreground" />
+                <QrCode className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                 <h2 className="text-sm font-semibold text-foreground">
                   Tạo mã VietQR nhận tiền
                 </h2>

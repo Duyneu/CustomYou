@@ -101,8 +101,8 @@ export default function HabitsPage() {
       </div>
 
       {/* Danh sách thói quen */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
+      <div className="glass-card overflow-hidden">
+        <div className="px-5 py-3 border-b border-border/80 text-xs font-semibold text-muted-foreground flex justify-between items-center bg-purple-500/[0.04] dark:bg-white/[0.03]">
           <span>Tên thói quen</span>
           <span>Chuỗi kiên trì & Điểm danh</span>
         </div>
@@ -114,18 +114,18 @@ export default function HabitsPage() {
             Chưa có thói quen nào. Hãy thêm một thói quen tích cực (Đọc sách 20 phút, Tập gym...).
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {habits.map((habit) => {
               const isDoneToday = habit.logs.length > 0 && habit.logs[0].completed;
               return (
                 <div
                   key={habit.id}
-                  className="p-4 flex items-center justify-between hover:bg-muted/20 transition-colors"
+                  className="p-4 sm:p-5 flex items-center justify-between hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors"
                 >
                   <div className="space-y-0.5">
-                    <span className="text-sm font-medium text-foreground">{habit.name}</span>
+                    <span className="text-sm font-semibold text-foreground">{habit.name}</span>
                     <div className="flex items-center gap-3 text-xs text-muted-foreground font-mono">
-                      <span className="flex items-center gap-1">
+                      <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-orange-500/10 border border-orange-500/20 text-orange-600 dark:text-orange-400 font-semibold">
                         <Flame className="w-3.5 h-3.5 text-orange-500" />
                         Chuỗi hiện tại: {habit.currentStreak} ngày
                       </span>
@@ -159,17 +159,17 @@ export default function HabitsPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">Thêm thói quen mới</h2>
-              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground">
+              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}

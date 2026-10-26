@@ -128,28 +128,28 @@ export default function AccountsPage() {
       </div>
 
       {/* Tổng tài sản tóm tắt */}
-      <div className="p-5 rounded-xl border border-border bg-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="glass-card p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span className="text-xs text-muted-foreground block">Tổng số dư khả dụng</span>
-          <span className="text-2xl font-bold font-mono tracking-tight text-foreground">
+          <span className="text-xs text-muted-foreground block font-medium">Tổng số dư khả dụng</span>
+          <span className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-foreground drop-shadow-xs">
             {formatVND(totalBalance.toString())}
           </span>
         </div>
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <div>
-            Số tài khoản: <span className="font-mono text-foreground font-medium">{accounts.length}</span>
+            Số tài khoản: <span className="font-mono text-foreground font-semibold">{accounts.length}</span>
           </div>
-          <div className="h-4 w-px bg-border" />
-          <div className="flex items-center gap-1">
-            <Shield className="w-3.5 h-3.5 text-muted-foreground" />
+          <div className="h-4 w-px bg-border/80" />
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-500/[0.06] dark:bg-white/[0.05] border border-purple-500/15 dark:border-white/10 text-purple-700 dark:text-purple-300 font-mono text-[11px]">
+            <Shield className="w-3.5 h-3.5" />
             <span>Mã hóa AES-256</span>
           </div>
         </div>
       </div>
 
       {/* Danh sách tài khoản */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-5 py-3 border-b border-border text-xs font-medium text-muted-foreground flex justify-between items-center">
+      <div className="glass-card overflow-hidden">
+        <div className="px-5 py-3 border-b border-border/80 text-xs font-semibold text-muted-foreground flex justify-between items-center bg-purple-500/[0.04] dark:bg-white/[0.03]">
           <span>Tên và nguồn tiền</span>
           <span>Số dư khả dụng</span>
         </div>
@@ -161,11 +161,11 @@ export default function AccountsPage() {
             Chưa có tài khoản nào. Nhấn "Thêm tài khoản" để bắt đầu theo dõi.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {accounts.map((acc) => (
-              <div key={acc.id} className="px-5 py-3.5 flex items-center justify-between hover:bg-muted/20 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="text-muted-foreground shrink-0">
+              <div key={acc.id} className="px-5 py-3.5 flex items-center justify-between hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-purple-500/10 dark:bg-white/[0.06] border border-purple-500/20 dark:border-white/10 flex items-center justify-center text-purple-600 dark:text-purple-300 shrink-0 shadow-xs">
                     {acc.type === "BANK" && <Building2 className="w-4 h-4" />}
                     {acc.type === "E_WALLET" && <CreditCard className="w-4 h-4" />}
                     {acc.type === "CASH" && <Banknote className="w-4 h-4" />}
@@ -190,12 +190,12 @@ export default function AccountsPage() {
                     <div className="text-sm font-semibold font-mono text-foreground">
                       {formatVND(acc.balance)}
                     </div>
-                    <div className="text-[11px] text-muted-foreground">VND</div>
+                    <div className="text-[11px] text-muted-foreground font-mono">VND</div>
                   </div>
 
                   <button
                     onClick={() => handleDeleteAccount(acc.id)}
-                    className="p-1.5 rounded text-muted-foreground hover:text-red-600 transition-colors"
+                    className="p-1.5 rounded-lg text-muted-foreground hover:text-red-500 hover:bg-red-500/10 transition-colors"
                     title="Xóa tài khoản"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -209,20 +209,20 @@ export default function AccountsPage() {
 
       {/* Modal Thêm tài khoản */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">Thêm nguồn tiền mới</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}
@@ -234,8 +234,10 @@ export default function AccountsPage() {
                   <button
                     type="button"
                     onClick={() => setType("BANK")}
-                    className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                      type === "BANK" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                    className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                      type === "BANK"
+                        ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                        : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                     }`}
                   >
                     Ngân hàng
@@ -243,8 +245,10 @@ export default function AccountsPage() {
                   <button
                     type="button"
                     onClick={() => setType("E_WALLET")}
-                    className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                      type === "E_WALLET" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                    className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                      type === "E_WALLET"
+                        ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                        : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                     }`}
                   >
                     Ví điện tử
@@ -252,8 +256,10 @@ export default function AccountsPage() {
                   <button
                     type="button"
                     onClick={() => setType("CASH")}
-                    className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                      type === "CASH" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                    className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                      type === "CASH"
+                        ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                        : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                     }`}
                   >
                     Tiền mặt

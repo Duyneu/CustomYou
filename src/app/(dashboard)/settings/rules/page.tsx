@@ -161,8 +161,8 @@ export default function RulesPage() {
       </div>
 
       {/* Rules List */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
+      <div className="glass-card overflow-hidden">
+        <div className="px-4 py-3 border-b border-border/70 bg-purple-500/[0.04] dark:bg-white/[0.03] text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
           <span className="col-span-3">Tên quy tắc</span>
           <span className="col-span-4">Điều kiện so khớp</span>
           <span className="col-span-3">Danh mục áp dụng</span>
@@ -176,11 +176,11 @@ export default function RulesPage() {
             Chưa có quy tắc nào. Nhấn "Thêm quy tắc" để tự động hóa phân loại chi tiêu.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {rules.map((rule) => (
               <div
                 key={rule.id}
-                className="px-4 py-3 grid grid-cols-12 gap-2 items-center hover:bg-muted/30 transition-colors text-xs"
+                className="px-4 py-3 grid grid-cols-12 gap-2 items-center hover:bg-purple-500/[0.06] dark:hover:bg-white/[0.04] transition-colors text-xs"
               >
                 <div className="col-span-3 font-medium text-foreground">
                   {rule.name}
@@ -204,7 +204,7 @@ export default function RulesPage() {
                     className="text-xs text-muted-foreground hover:text-foreground font-mono"
                   >
                     {rule.isActive ? (
-                      <span className="text-emerald-600 dark:text-emerald-400">Đang bật</span>
+                      <span className="text-emerald-600 dark:text-emerald-400 font-medium">Đang bật</span>
                     ) : (
                       <span className="text-muted-foreground">Tắt</span>
                     )}
@@ -212,7 +212,7 @@ export default function RulesPage() {
 
                   <button
                     onClick={() => handleDeleteRule(rule.id)}
-                    className="p-1 text-muted-foreground hover:text-red-600 transition-colors"
+                    className="p-1 text-muted-foreground hover:text-red-600 dark:hover:text-red-400 transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                   </button>
@@ -225,20 +225,20 @@ export default function RulesPage() {
 
       {/* Modal Thêm quy tắc */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/65 backdrop-blur-sm p-4 animate-in fade-in duration-200">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/70">
               <h2 className="text-base font-semibold text-foreground">Tạo quy tắc phân loại</h2>
               <button
                 onClick={() => setShowModal(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground p-1 rounded-md hover:bg-purple-500/10 dark:hover:bg-white/10 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-lg bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs">
                 {error}
               </div>
             )}
@@ -260,11 +260,11 @@ export default function RulesPage() {
                   <select
                     value={operator}
                     onChange={(e: any) => setOperator(e.target.value)}
-                    className="w-full h-9 text-xs px-2.5 rounded-md border border-input bg-background text-foreground"
+                    className="w-full h-9 text-xs px-2.5 rounded-md border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/20"
                   >
-                    <option value="CONTAINS">Chứa từ khóa</option>
-                    <option value="STARTS_WITH">Bắt đầu bằng</option>
-                    <option value="REGEX">Regular Expression</option>
+                    <option value="CONTAINS" className="bg-card text-foreground">Chứa từ khóa</option>
+                    <option value="STARTS_WITH" className="bg-card text-foreground">Bắt đầu bằng</option>
+                    <option value="REGEX" className="bg-card text-foreground">Regular Expression</option>
                   </select>
                 </div>
 
@@ -284,11 +284,11 @@ export default function RulesPage() {
                 <select
                   value={targetCategoryId}
                   onChange={(e) => setTargetCategoryId(e.target.value)}
-                  className="w-full h-9 text-xs px-2.5 rounded-md border border-input bg-background text-foreground"
+                  className="w-full h-9 text-xs px-2.5 rounded-md border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground focus:outline-none focus:ring-2 focus:ring-purple-500/20"
                   required
                 >
                   {categories.map((c) => (
-                    <option key={c.id} value={c.id}>{c.name} ({c.type === "EXPENSE" ? "Chi" : "Thu"})</option>
+                    <option key={c.id} value={c.id} className="bg-card text-foreground">{c.name} ({c.type === "EXPENSE" ? "Chi" : "Thu"})</option>
                   ))}
                 </select>
               </div>
@@ -302,7 +302,7 @@ export default function RulesPage() {
                 />
               </div>
 
-              <div className="flex gap-2 pt-2 border-t border-border">
+              <div className="flex gap-2 pt-3 border-t border-border/70">
                 <Button
                   type="button"
                   variant="outline"

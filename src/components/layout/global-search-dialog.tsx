@@ -55,11 +55,11 @@ export function GlobalSearchDialog() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/65 backdrop-blur-md p-4 animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/40 dark:bg-black/65 backdrop-blur-md p-4 animate-in fade-in duration-150">
       <div className="glass-overlay rounded-2xl max-w-lg w-full overflow-hidden">
         {/* Search Input Bar with Glass Specular Edge */}
-        <div className="p-3.5 border-b border-white/10 flex items-center gap-3">
-          <Search className="w-4 h-4 text-purple-400 shrink-0" />
+        <div className="p-3.5 border-b border-border/70 flex items-center gap-3">
+          <Search className="w-4 h-4 text-purple-600 dark:text-purple-400 shrink-0" />
           <input
             autoFocus
             type="text"
@@ -70,7 +70,7 @@ export function GlobalSearchDialog() {
           />
           <button
             onClick={() => setOpen(false)}
-            className="text-muted-foreground hover:text-white p-1 rounded-lg hover:bg-white/[0.08] transition-colors"
+            className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors"
             aria-label="Đóng tìm kiếm"
           >
             <X className="w-4 h-4" />
@@ -78,7 +78,7 @@ export function GlobalSearchDialog() {
         </div>
 
         {/* Search Results */}
-        <div className="max-h-80 overflow-y-auto divide-y divide-white/[0.06] p-2">
+        <div className="max-h-80 overflow-y-auto divide-y divide-border/50 p-2">
           {filtered.length === 0 ? (
             <div className="p-8 text-center text-xs text-muted-foreground">
               Không tìm thấy kết quả nào phù hợp với "{query}".
@@ -90,14 +90,14 @@ export function GlobalSearchDialog() {
                 <div
                   key={idx}
                   onClick={() => handleSelect(item.href)}
-                  className="p-2.5 rounded-xl flex items-center justify-between hover:bg-white/[0.08] hover:border hover:border-white/10 cursor-pointer transition-all duration-150 group"
+                  className="p-2.5 rounded-xl flex items-center justify-between hover:bg-purple-500/10 dark:hover:bg-white/[0.08] hover:border hover:border-purple-500/20 dark:hover:border-white/10 cursor-pointer transition-all duration-150 group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-lg bg-white/[0.06] border border-white/10 flex items-center justify-center text-purple-300 group-hover:text-white group-hover:bg-purple-600/40 transition-colors">
+                    <div className="w-7 h-7 rounded-lg bg-purple-500/10 dark:bg-white/[0.06] border border-purple-500/20 dark:border-white/10 flex items-center justify-center text-purple-600 dark:text-purple-300 group-hover:text-white group-hover:bg-purple-600/70 transition-colors">
                       <Icon className="w-3.5 h-3.5" />
                     </div>
                     <div>
-                      <div className="text-xs font-medium text-foreground group-hover:text-white transition-colors">{item.title}</div>
+                      <div className="text-xs font-medium text-foreground group-hover:text-purple-900 dark:group-hover:text-white transition-colors">{item.title}</div>
                       <div className="text-[10px] text-muted-foreground font-mono">{item.category}</div>
                     </div>
                   </div>

@@ -137,13 +137,18 @@ export default function SecuritySettingsPage() {
       )}
 
       {/* 2FA Card */}
-      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
-        <div className="flex items-center justify-between pb-3 border-b border-border">
-          <div className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-            <h2 className="text-sm font-semibold text-foreground">
-              Xác thực hai lớp (TOTP Authenticator)
-            </h2>
+      <div className="p-6 rounded-2xl glass-card space-y-5">
+        <div className="flex items-center justify-between pb-3 border-b border-border/70">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
+              <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            </div>
+            <div>
+              <h2 className="text-sm font-semibold text-foreground">
+                Xác thực hai lớp (TOTP Authenticator)
+              </h2>
+              <p className="text-[11px] text-muted-foreground">Bảo vệ tài khoản với thuật toán RFC 6238</p>
+            </div>
           </div>
           <Badge variant={setupStep === "ENABLED" ? "success" : "outline"} className="text-xs font-mono">
             {setupStep === "ENABLED" ? "Đã kích hoạt" : "Chưa bật"}
@@ -153,7 +158,7 @@ export default function SecuritySettingsPage() {
         {setupStep === "IDLE" && (
           <div className="space-y-3">
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Khi bật xác thực 2 lớp, mỗi lần đăng nhập vào MyHub ngoài mật khẩu bạn sẽ cần nhập thêm mã số 6 chữ số từ ứng dụng trên điện thoại.
+              Khi bật xác thực 2 lớp, mỗi lần đăng nhập vào MyHub ngoài mật khẩu bạn sẽ cần nhập thêm mã số 6 chữ số từ ứng dụng trên điện thoại (Google Authenticator, Apple Passwords, hoặc 1Password).
             </p>
             <Button onClick={handleStartSetup} disabled={loading} size="sm" className="h-8 text-xs">
               {loading ? "Đang tạo mã..." : "Thiết lập xác thực 2 lớp ngay"}
@@ -162,21 +167,21 @@ export default function SecuritySettingsPage() {
         )}
 
         {setupStep === "SCAN" && qrCodeUrl && (
-          <div className="space-y-4 pt-2">
+          <div className="space-y-4 pt-1">
             <p className="text-xs text-muted-foreground">
-              Bước 1: Mở ứng dụng Google Authenticator trên điện thoại và quét mã QR bên dưới, hoặc nhập khóa thủ công.
+              Bước 1: Mở ứng dụng Authenticator trên điện thoại và quét mã QR bên dưới, hoặc nhập khóa thủ công.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-lg bg-muted/20 border border-border">
-              <img src={qrCodeUrl} alt="2FA QR Code" className="w-40 h-40 rounded bg-white p-2 border border-border" />
-              <div className="space-y-2 text-xs">
+            <div className="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-xl bg-purple-500/[0.04] dark:bg-white/[0.03] border border-border/70">
+              <img src={qrCodeUrl} alt="2FA QR Code" className="w-40 h-40 rounded-lg bg-white p-2 border border-border/60 shadow-sm" />
+              <div className="space-y-3 text-xs w-full">
                 <div>
-                  <span className="text-muted-foreground block mb-0.5">Khóa bí mật thủ công:</span>
+                  <span className="text-muted-foreground block mb-1">Khóa bí mật thủ công:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-medium text-foreground text-sm select-all bg-muted/60 px-2 py-0.5 rounded border border-border">
+                    <span className="font-mono font-medium text-foreground text-xs select-all bg-purple-500/10 dark:bg-white/10 px-2.5 py-1 rounded-md border border-purple-500/20 dark:border-white/15">
                       {secretKey}
                     </span>
-                    <Button type="button" variant="outline" size="sm" onClick={copySecret} className="h-6 px-2 text-[11px]">
+                    <Button type="button" variant="outline" size="sm" onClick={copySecret} className="h-7 px-2.5 text-[11px]">
                       {copiedKey ? <Check className="w-3 h-3 text-emerald-500 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
                       {copiedKey ? "Đã chép" : "Sao chép"}
                     </Button>
@@ -184,13 +189,13 @@ export default function SecuritySettingsPage() {
                 </div>
                 <div>
                   <span className="text-muted-foreground block">Tài khoản:</span>
-                  <span className="font-mono text-foreground">admin@example.com</span>
+                  <span className="font-mono text-foreground font-medium">admin@example.com</span>
                 </div>
               </div>
             </div>
 
             {/* Bước 2: Nhập mã xác nhận */}
-            <form onSubmit={handleVerify2FA} className="space-y-3 max-w-sm">
+            <form onSubmit={handleVerify2FA} className="space-y-3 max-w-sm pt-1">
               <label className="text-xs font-medium text-foreground">
                 Bước 2: Nhập mã 6 chữ số hiển thị trên ứng dụng để kích hoạt
               </label>
@@ -199,11 +204,11 @@ export default function SecuritySettingsPage() {
                   required
                   placeholder="123456"
                   maxLength={6}
-                  className="font-mono tracking-widest text-center text-sm h-8"
+                  className="font-mono tracking-widest text-center text-sm h-9"
                   value={verifyCode}
                   onChange={(e) => setVerifyCode(e.target.value)}
                 />
-                <Button type="submit" size="sm" disabled={loading} className="h-8 text-xs shrink-0">
+                <Button type="submit" size="sm" disabled={loading} className="h-9 text-xs shrink-0">
                   {loading ? "Kiểm tra..." : "Xác nhận & Bật"}
                 </Button>
                 <Button
@@ -211,7 +216,7 @@ export default function SecuritySettingsPage() {
                   variant="ghost"
                   size="sm"
                   onClick={() => setSetupStep("IDLE")}
-                  className="h-8 text-xs shrink-0 text-muted-foreground"
+                  className="h-9 text-xs shrink-0 text-muted-foreground"
                 >
                   Hủy
                 </Button>
@@ -220,14 +225,14 @@ export default function SecuritySettingsPage() {
 
             {/* Mã dự phòng */}
             {backupCodes.length > 0 && (
-              <div className="p-3 rounded-lg bg-muted/40 border border-border space-y-1">
+              <div className="p-4 rounded-xl bg-purple-500/[0.04] dark:bg-white/[0.03] border border-border/70 space-y-2">
                 <span className="text-xs font-semibold text-foreground">Mã dự phòng khẩn cấp:</span>
                 <p className="text-[11px] text-muted-foreground">
-                  Lưu các mã này ở nơi an toàn. Mỗi mã chỉ dùng được 1 lần nếu mất điện thoại:
+                  Lưu các mã này ở nơi an toàn. Mỗi mã chỉ dùng được 1 lần nếu mất thiết bị:
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-xs text-foreground">
                   {backupCodes.map((c, i) => (
-                    <div key={i} className="p-1 rounded bg-background border border-border text-center">
+                    <div key={i} className="p-1.5 rounded-lg bg-card border border-border/70 text-center font-medium shadow-xs">
                       {c}
                     </div>
                   ))}
@@ -239,8 +244,8 @@ export default function SecuritySettingsPage() {
 
         {setupStep === "ENABLED" && (
           <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
-              <Check className="w-4 h-4 shrink-0" />
+            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-800 dark:text-emerald-300 flex items-center gap-2.5">
+              <Check className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
               <span>Xác thực 2 lớp (TOTP RFC 6238) đã được kích hoạt và đang bảo vệ tài khoản của bạn.</span>
             </div>
             <div className="flex items-center gap-3 pt-1">
@@ -248,7 +253,7 @@ export default function SecuritySettingsPage() {
                 <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
                 Thiết lập lại mã 2FA mới
               </Button>
-              <Button onClick={handleDisable2FA} disabled={loading} variant="ghost" size="sm" className="h-8 text-xs text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/30">
+              <Button onClick={handleDisable2FA} disabled={loading} variant="ghost" size="sm" className="h-8 text-xs text-red-600 hover:text-red-700 hover:bg-red-500/10 dark:hover:bg-red-500/20">
                 <PowerOff className="w-3.5 h-3.5 mr-1.5" />
                 Tắt xác thực 2 lớp
               </Button>

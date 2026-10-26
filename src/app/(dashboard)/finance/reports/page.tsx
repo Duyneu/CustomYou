@@ -75,38 +75,38 @@ export default function ReportsPage() {
 
       {/* 3 Thẻ chỉ số tổng kết 6 tháng */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-xl border border-border bg-card">
-          <div className="text-xs text-muted-foreground">Tổng thu nhập 6 tháng</div>
-          <div className="text-xl font-semibold font-mono tracking-tight text-foreground mt-1 tabular-nums">
+        <div className="glass-card p-5">
+          <div className="text-xs text-muted-foreground font-medium">Tổng thu nhập 6 tháng</div>
+          <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-foreground mt-1 tabular-nums drop-shadow-xs">
             {formatVND(totalIncome6M.toString())}
           </div>
         </div>
 
-        <div className="p-5 rounded-xl border border-border bg-card">
-          <div className="text-xs text-muted-foreground">Tổng chi tiêu 6 tháng</div>
-          <div className="text-xl font-semibold font-mono tracking-tight text-foreground mt-1 tabular-nums">
+        <div className="glass-card p-5">
+          <div className="text-xs text-muted-foreground font-medium">Tổng chi tiêu 6 tháng</div>
+          <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-foreground mt-1 tabular-nums drop-shadow-xs">
             {formatVND(totalExpense6M.toString())}
           </div>
         </div>
 
-        <div className="p-5 rounded-xl border border-border bg-card">
-          <div className="text-xs text-muted-foreground">Dòng tiền thuần tích lũy</div>
-          <div className={`text-xl font-semibold font-mono tracking-tight mt-1 tabular-nums ${net6M >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"}`}>
+        <div className="glass-card p-5">
+          <div className="text-xs text-muted-foreground font-medium">Dòng tiền thuần tích lũy</div>
+          <div className={`text-xl sm:text-2xl font-bold font-mono tracking-tight mt-1 tabular-nums drop-shadow-xs ${net6M >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"}`}>
             {formatVND(net6M.toString())}
           </div>
         </div>
       </div>
 
       {/* Biểu đồ xu hướng 6 tháng */}
-      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-border">
+      <div className="glass-card p-5 space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-border/80">
           <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-foreground" />
+            <TrendingUp className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             <h2 className="text-sm font-semibold text-foreground">
               Thu chi & dòng tiền theo tháng
             </h2>
           </div>
-          <span className="text-xs text-muted-foreground font-mono">6 tháng gần nhất</span>
+          <span className="text-xs text-muted-foreground font-mono px-2 py-0.5 rounded-md bg-purple-500/10 dark:bg-white/[0.05] border border-purple-500/15 dark:border-white/10">6 tháng gần nhất</span>
         </div>
 
         {!hasData && !loading && mounted && (
@@ -147,10 +147,10 @@ export default function ReportsPage() {
       </div>
 
       {/* Cơ cấu danh mục chi tiêu */}
-      <div className="p-5 rounded-xl border border-border bg-card space-y-4">
-        <div className="flex items-center justify-between pb-2 border-b border-border">
+      <div className="glass-card p-5 space-y-4">
+        <div className="flex items-center justify-between pb-3 border-b border-border/80">
           <div className="flex items-center gap-2">
-            <PieIcon className="w-4 h-4 text-foreground" />
+            <PieIcon className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             <h2 className="text-sm font-semibold text-foreground">
               Phân bổ chi tiêu tháng này
             </h2>

@@ -10,11 +10,11 @@ const buttonVariants = cva(
         default:
           "bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-600 text-white font-medium shadow-[0_4px_16px_rgba(168,85,247,0.35),inset_0_1px_1px_rgba(255,255,255,0.35)] border border-white/20 hover:brightness-110 active:scale-[0.985]",
         secondary:
-          "bg-white/[0.08] dark:bg-white/[0.07] border border-white/15 text-foreground hover:bg-white/[0.14] active:scale-[0.985]",
+          "bg-purple-500/10 dark:bg-white/[0.07] border border-purple-500/20 dark:border-white/15 text-foreground hover:bg-purple-500/15 dark:hover:bg-white/[0.14] active:scale-[0.985]",
         outline:
-          "border border-white/15 bg-white/[0.03] text-foreground hover:bg-white/[0.08] hover:border-white/30 active:scale-[0.985] shadow-xs",
+          "border border-purple-500/20 dark:border-white/15 bg-white/40 dark:bg-white/[0.03] text-foreground hover:bg-purple-500/10 dark:hover:bg-white/[0.08] hover:border-purple-500/35 dark:hover:border-white/30 active:scale-[0.985] shadow-xs",
         ghost:
-          "text-muted-foreground hover:text-foreground hover:bg-white/[0.06] active:scale-[0.985]",
+          "text-muted-foreground hover:text-foreground hover:bg-purple-500/10 dark:hover:bg-white/[0.06] active:scale-[0.985]",
         destructive:
           "bg-red-600/85 hover:bg-red-500 text-white border border-red-400/30 shadow-[0_4px_16px_rgba(239,68,68,0.35),inset_0_1px_1px_rgba(255,255,255,0.3)] active:scale-[0.985]",
         link:

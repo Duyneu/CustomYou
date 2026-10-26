@@ -45,7 +45,7 @@ export function TopNavbar() {
         {/* Left: Contextual Title & Current Date/Time */}
         <div className="pl-12 lg:pl-0 flex items-center gap-2.5">
           <Link href="/dashboard" className="hidden sm:flex lg:hidden items-center gap-2">
-            <div className="relative w-6 h-6 rounded-md overflow-hidden border border-white/20 bg-[#180733] shadow-sm">
+            <div className="relative w-6 h-6 rounded-md overflow-hidden border border-purple-500/20 dark:border-white/20 bg-purple-900/10 dark:bg-[#180733] shadow-sm">
               <Image
                 src="/logo-mark.png"
                 alt="Custom You"
@@ -58,7 +58,7 @@ export function TopNavbar() {
           <span className="text-sm font-semibold tracking-tight text-foreground drop-shadow-sm">
             Bảng điều khiển cá nhân
           </span>
-          <span className="text-xs text-muted-foreground tabular-nums font-mono hidden md:inline px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/10">
+          <span className="text-xs text-muted-foreground tabular-nums font-mono hidden md:inline px-2 py-0.5 rounded-md bg-purple-500/[0.05] dark:bg-white/[0.04] border border-purple-500/15 dark:border-white/10">
             {currentDateTime}
           </span>
         </div>
@@ -70,12 +70,12 @@ export function TopNavbar() {
             onClick={() => {
               window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", ctrlKey: true }));
             }}
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-white/15 bg-white/[0.04] text-muted-foreground text-xs hover:text-foreground hover:border-white/30 hover:bg-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] transition-all duration-150 active:scale-95"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-purple-500/20 dark:border-white/15 bg-purple-500/[0.04] dark:bg-white/[0.04] text-muted-foreground text-xs hover:text-foreground hover:border-purple-500/40 dark:hover:border-white/30 hover:bg-purple-500/[0.08] dark:hover:bg-white/[0.08] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)] transition-all duration-150 active:scale-95"
             aria-label="Tìm kiếm nhanh toàn hệ thống"
           >
-            <Search className="w-3.5 h-3.5 text-purple-400" />
+            <Search className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
             <span>Tìm kiếm</span>
-            <kbd className="px-1.5 py-0.5 rounded-md bg-white/[0.08] border border-white/15 text-[10px] text-muted-foreground font-mono">
+            <kbd className="px-1.5 py-0.5 rounded-md bg-purple-500/10 dark:bg-white/[0.08] border border-purple-500/20 dark:border-white/15 text-[10px] text-muted-foreground font-mono">
               Ctrl K
             </kbd>
           </button>
@@ -85,13 +85,13 @@ export function TopNavbar() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
-            className="h-8 w-8 rounded-xl border border-white/10 bg-white/[0.03] text-muted-foreground hover:text-foreground hover:bg-white/[0.08] hover:border-white/25 active:scale-95 transition-all"
+            className="h-8 w-8 rounded-xl border border-purple-500/15 dark:border-white/10 bg-purple-500/[0.03] dark:bg-white/[0.03] text-muted-foreground hover:text-foreground hover:bg-purple-500/[0.08] dark:hover:bg-white/[0.08] hover:border-purple-500/30 dark:hover:border-white/25 active:scale-95 transition-all"
             title="Chuyển chế độ sáng và tối"
           >
             {theme === "dark" ? (
               <Sun className="w-4 h-4 text-amber-300" />
             ) : (
-              <Moon className="w-4 h-4 text-purple-400" />
+              <Moon className="w-4 h-4 text-purple-600" />
             )}
           </Button>
 
@@ -100,10 +100,10 @@ export function TopNavbar() {
             variant="ghost"
             size="sm"
             onClick={() => signOut({ callbackUrl: "/login" })}
-            className="text-xs text-muted-foreground hover:text-foreground h-8 px-2.5 rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/25 active:scale-95 transition-all"
+            className="text-xs text-muted-foreground hover:text-foreground h-8 px-2.5 rounded-xl border border-purple-500/15 dark:border-white/10 bg-purple-500/[0.03] dark:bg-white/[0.03] hover:bg-purple-500/[0.08] dark:hover:bg-white/[0.08] hover:border-purple-500/30 dark:hover:border-white/25 active:scale-95 transition-all"
             title="Đăng xuất"
           >
-            <LogOut className="w-3.5 h-3.5 mr-1.5 text-purple-300" />
+            <LogOut className="w-3.5 h-3.5 mr-1.5 text-purple-600 dark:text-purple-300" />
             <span>Đăng xuất</span>
           </Button>
         </div>

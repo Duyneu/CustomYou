@@ -115,24 +115,24 @@ export default function DebtsPage() {
 
       {/* Tóm tắt 2 bên */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-5 rounded-xl border border-border bg-card space-y-1">
-          <span className="text-xs text-muted-foreground">Người khác nợ bạn (Cần thu)</span>
-          <div className="text-2xl font-bold font-mono tracking-tight text-foreground tabular-nums">
+        <div className="glass-card p-5 sm:p-6 space-y-1">
+          <span className="text-xs text-muted-foreground font-medium">Người khác nợ bạn (Cần thu)</span>
+          <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-foreground tabular-nums drop-shadow-xs">
             {formatVND(totalLent.toString())}
           </div>
         </div>
 
-        <div className="p-5 rounded-xl border border-border bg-card space-y-1">
-          <span className="text-xs text-muted-foreground">Bạn nợ người khác (Cần trả)</span>
-          <div className="text-2xl font-bold font-mono tracking-tight text-foreground tabular-nums">
+        <div className="glass-card p-5 sm:p-6 space-y-1">
+          <span className="text-xs text-muted-foreground font-medium">Bạn nợ người khác (Cần trả)</span>
+          <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-foreground tabular-nums drop-shadow-xs">
             {formatVND(totalBorrowed.toString())}
           </div>
         </div>
       </div>
 
       {/* Danh sách khoản nợ */}
-      <div className="rounded-xl border border-border bg-card overflow-hidden">
-        <div className="px-4 py-3 border-b border-border text-xs font-medium text-muted-foreground grid grid-cols-12 gap-2">
+      <div className="glass-card overflow-hidden">
+        <div className="px-4 py-3 border-b border-border/80 text-xs font-semibold text-muted-foreground grid grid-cols-12 gap-2 bg-purple-500/[0.04] dark:bg-white/[0.03]">
           <span className="col-span-4">Đối tác & Ghi chú</span>
           <span className="col-span-3">Hạn thanh toán</span>
           <span className="col-span-3 text-right">Số tiền còn lại</span>
@@ -146,13 +146,13 @@ export default function DebtsPage() {
             Không có khoản nợ hoặc cho vay nào cần theo dõi.
           </div>
         ) : (
-          <div className="divide-y divide-border">
+          <div className="divide-y divide-border/60">
             {debts.map((debt) => {
               const remaining = BigInt(debt.totalAmount) - BigInt(debt.paidAmount);
               return (
                 <div
                   key={debt.id}
-                  className="px-4 py-3 grid grid-cols-12 gap-2 items-center hover:bg-muted/20 transition-colors text-xs"
+                  className="px-4 py-3 grid grid-cols-12 gap-2 items-center hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors text-xs"
                 >
                   <div className="col-span-4 min-w-0">
                     <div className="font-semibold text-foreground flex items-center gap-2">
@@ -188,17 +188,17 @@ export default function DebtsPage() {
 
       {/* Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="bg-card border border-border rounded-xl p-6 max-w-md w-full shadow-lg space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-border">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 dark:bg-black/70 backdrop-blur-md p-4 animate-in fade-in duration-150">
+          <div className="glass-overlay rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-border/80">
               <h2 className="text-base font-semibold text-foreground">Thêm khoản nợ / cho vay</h2>
-              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground">
+              <button onClick={() => setShowModal(false)} className="text-muted-foreground hover:text-foreground p-1 rounded-lg hover:bg-purple-500/10 dark:hover:bg-white/[0.08] transition-colors">
                 <X className="w-4 h-4" />
               </button>
             </div>
 
             {error && (
-              <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/30 text-red-700 dark:text-red-300 text-xs">
                 {error}
               </div>
             )}
@@ -208,8 +208,10 @@ export default function DebtsPage() {
                 <button
                   type="button"
                   onClick={() => setType("LENT")}
-                  className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                    type === "LENT" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                  className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                    type === "LENT"
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                      : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                   }`}
                 >
                   Cho người khác vay
@@ -217,8 +219,10 @@ export default function DebtsPage() {
                 <button
                   type="button"
                   onClick={() => setType("BORROWED")}
-                  className={`py-2 px-3 text-xs rounded-md border font-medium ${
-                    type === "BORROWED" ? "border-foreground bg-foreground text-background" : "border-border text-foreground hover:bg-muted"
+                  className={`py-2 px-3 text-xs rounded-xl border font-medium transition-all ${
+                    type === "BORROWED"
+                      ? "bg-gradient-to-r from-purple-600 to-fuchsia-600 text-white border-purple-500/40 shadow-xs"
+                      : "border-border/80 text-foreground bg-purple-500/[0.04] dark:bg-white/[0.03] hover:bg-purple-500/10 dark:hover:bg-white/[0.08]"
                   }`}
                 >
                   Tôi vay người khác

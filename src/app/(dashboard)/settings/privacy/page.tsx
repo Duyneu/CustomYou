@@ -75,21 +75,26 @@ export default function PrivacySettingsPage() {
       </div>
 
       {/* Thông tin chính sách bảo mật */}
-      <div className="p-5 rounded-xl border border-border bg-card space-y-3">
-        <div className="flex items-center gap-2">
-          <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-          <h2 className="text-sm font-semibold text-foreground">
-            Cam kết quyền riêng tư dữ liệu
-          </h2>
+      <div className="p-6 rounded-2xl glass-card space-y-3">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center">
+            <Shield className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <div>
+            <h2 className="text-sm font-semibold text-foreground">
+              Cam kết quyền riêng tư dữ liệu
+            </h2>
+            <p className="text-[11px] text-muted-foreground">Bảo vệ thông tin cá nhân và dữ liệu số</p>
+          </div>
         </div>
-        <p className="text-xs text-muted-foreground leading-relaxed">
+        <p className="text-xs text-muted-foreground leading-relaxed pt-1">
           MyHub được thiết kế theo mô hình single-user cá nhân độc lập. Mọi dữ liệu tài chính, số tài khoản ngân hàng đều được mã hóa bằng thuật toán chuẩn công nghiệp AES-256-GCM. Không có bên thứ ba nào có quyền truy cập vào thông tin của bạn.
         </p>
       </div>
 
       {/* Xuất dữ liệu cá nhân */}
-      <div className="p-5 rounded-xl border border-border bg-card space-y-3">
-        <div className="flex items-center justify-between pb-2 border-b border-border">
+      <div className="p-6 rounded-2xl glass-card space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h3 className="text-sm font-semibold text-foreground">
               Xuất toàn bộ dữ liệu cá nhân (Data Portability)
@@ -103,7 +108,7 @@ export default function PrivacySettingsPage() {
             onClick={handleExportData}
             disabled={downloading}
             size="sm"
-            className="gap-1.5 h-8 text-xs shrink-0"
+            className="gap-1.5 h-9 text-xs shrink-0"
           >
             <Download className="w-3.5 h-3.5" />
             {downloading ? "Đang trích xuất..." : "Tải file dữ liệu JSON"}
@@ -112,12 +117,17 @@ export default function PrivacySettingsPage() {
       </div>
 
       {/* Xóa toàn bộ dữ liệu */}
-      <div className="p-5 rounded-lg border border-red-200 dark:border-red-900/40 bg-card space-y-4">
-        <div className="flex items-center gap-2 text-red-600 dark:text-red-400">
-          <AlertTriangle className="w-4 h-4" />
-          <h3 className="text-sm font-semibold">
-            Vùng nguy hiểm: Xóa toàn bộ dữ liệu (Right to be Forgotten)
-          </h3>
+      <div className="p-6 rounded-2xl glass-card border-red-500/30 dark:border-red-500/25 space-y-4">
+        <div className="flex items-center gap-2.5 text-red-600 dark:text-red-400">
+          <div className="w-8 h-8 rounded-lg bg-red-500/15 border border-red-500/30 flex items-center justify-center">
+            <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400" />
+          </div>
+          <div>
+            <h3 className="text-sm font-semibold">
+              Vùng nguy hiểm: Xóa toàn bộ dữ liệu (Right to be Forgotten)
+            </h3>
+            <p className="text-[11px] text-muted-foreground">Thao tác này sẽ xóa vĩnh viễn và không thể khôi phục</p>
+          </div>
         </div>
 
         <p className="text-xs text-muted-foreground leading-relaxed">
@@ -125,14 +135,14 @@ export default function PrivacySettingsPage() {
         </p>
 
         {purgeError && (
-          <div className="p-2.5 rounded bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 text-red-600 dark:text-red-300 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs">
             {purgeError}
           </div>
         )}
 
         {purgeSuccess && (
-          <div className="p-2.5 rounded bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
-            <Check className="w-4 h-4 shrink-0" />
+          <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs flex items-center gap-2">
+            <Check className="w-4 h-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
             <span>{purgeSuccess}</span>
           </div>
         )}
@@ -144,14 +154,14 @@ export default function PrivacySettingsPage() {
             required
             value={purgePassword}
             onChange={(e) => setPurgePassword(e.target.value)}
-            className="h-8 text-xs max-w-sm"
+            className="h-9 text-xs max-w-sm"
           />
           <Button
             type="submit"
             variant="destructive"
             size="sm"
             disabled={purging}
-            className="h-8 text-xs gap-1.5 shrink-0"
+            className="h-9 text-xs gap-1.5 shrink-0"
           >
             <Trash2 className="w-3.5 h-3.5" />
             {purging ? "Đang xử lý xóa..." : "Xác nhận xóa vĩnh viễn"}
