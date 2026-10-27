@@ -65,7 +65,8 @@ export function TodayTodosCard({ initialTodos = [] }: { initialTodos?: TodoItem[
     }
   };
 
-  const completedCount = todos.filter((t) => t.status === "COMPLETED").length;
+  const safeTodos = Array.isArray(todos) ? todos : [];
+  const completedCount = safeTodos.filter((t) => t.status === "COMPLETED").length;
 
   return (
     <div className="glass-card p-6 flex flex-col justify-between space-y-4">
@@ -78,7 +79,7 @@ export function TodayTodosCard({ initialTodos = [] }: { initialTodos?: TodoItem[
           <div>
             <h2 className="text-sm font-semibold text-foreground">Việc cần làm hôm nay</h2>
             <p className="text-[11px] text-muted-foreground font-mono">
-              Đã xong {completedCount}/{todos.length} nhiệm vụ
+              Đã xong {completedCount}/{safeTodos.length} nhiệm vụ
             </p>
           </div>
         </div>
@@ -114,12 +115,12 @@ export function TodayTodosCard({ initialTodos = [] }: { initialTodos?: TodoItem[
 
       {/* Todos List */}
       <div className="space-y-2 min-h-[140px]">
-        {todos.length === 0 ? (
+        {safeTodos.length === 0 ? (
           <p className="text-xs text-muted-foreground text-center py-6">
             Tuyệt vời! Không còn việc tồn đọng hôm nay.
           </p>
         ) : (
-          todos.slice(0, 5).map((todo) => {
+          safeTodos.slice(0, 5).map((todo) => {
             const isDone = todo.status === "COMPLETED";
 
             return (

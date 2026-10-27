@@ -132,9 +132,18 @@ export default function StudyHubPage() {
         fetch("/api/study/materials"),
       ]);
 
-      if (resC.ok) setCourses(await resC.json());
-      if (resL.ok) setLogs(await resL.json());
-      if (resM.ok) setMaterials(await resM.json());
+      if (resC.ok) {
+        const cData = await resC.json();
+        setCourses(Array.isArray(cData) ? cData : Array.isArray(cData?.courses) ? cData.courses : []);
+      }
+      if (resL.ok) {
+        const lData = await resL.json();
+        setLogs(Array.isArray(lData) ? lData : Array.isArray(lData?.logs) ? lData.logs : []);
+      }
+      if (resM.ok) {
+        const mData = await resM.json();
+        setMaterials(Array.isArray(mData) ? mData : Array.isArray(mData?.materials) ? mData.materials : []);
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -261,7 +270,11 @@ export default function StudyHubPage() {
     }
   };
 
-  const totalCredits = courses.reduce((sum, c) => sum + (c.credits || 0), 0);
+  const safeCourses = Array.isArray(courses) ? courses : [];
+  const safeLogs = Array.isArray(logs) ? logs : [];
+  const safeMaterials = Array.isArray(materials) ? materials : [];
+
+  const totalCredits = safeCourses.reduce((sum, c) => sum + (c.credits || 0), 0);
 
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-10">
@@ -273,7 +286,7 @@ export default function StudyHubPage() {
             <span>Nhật ký học tập & Học phần</span>
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5 font-mono">
-            Quản lý {courses.length} môn học ({totalCredits} tín chỉ) · Theo dõi tiến độ & tài liệu ôn thi.
+            Quản lý {safeCourses.length} môn học ({totalCredits} tín chỉ) · Theo dõi tiến độ & tài liệu ôn thi.
           </p>
         </div>
 
@@ -319,7 +332,7 @@ export default function StudyHubPage() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Nhật ký buổi học ({logs.length})
+          Nhật ký buổi học ({safeLogs.length})
         </button>
         <button
           onClick={() => setActiveTab("materials")}
@@ -329,14 +342,14 @@ export default function StudyHubPage() {
               : "text-muted-foreground hover:text-foreground"
           }`}
         >
-          Tài liệu ôn tập ({materials.length})
+          Tài liệu ôn tập ({safeMaterials.length})
         </button>
       </div>
 
       {/* ----------------- TAB 1: MÔN HỌC & TIẾN ĐỘ ----------------- */}
       {activeTab === "courses" && (
         <div className="space-y-4">
-          {courses.length === 0 ? (
+          {safeCourses.length === 0 ? (
             <div className="glass-card p-12 text-center space-y-3">
               <p className="text-sm text-muted-foreground">
                 Chưa có môn học nào được thiết lập cho học kỳ này.
@@ -347,7 +360,7 @@ export default function StudyHubPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {courses.map((course) => {
+              {safeCourses.map((course) => {
                 const progress = Math.min(
                   100,
                   Math.round((course.completedLessons / (course.totalLessons || 15)) * 100)
@@ -447,7 +460,7 @@ export default function StudyHubPage() {
       {/* ----------------- TAB 2: NHẬT KÝ BUỔI HỌC ----------------- */}
       {activeTab === "journal" && (
         <div className="space-y-4">
-          {logs.length === 0 ? (
+          {safeLogs.length === 0 ? (
             <div className="glass-card p-12 text-center space-y-3">
               <p className="text-sm text-muted-foreground">Chưa có nhật ký buổi học nào được ghi lại.</p>
               <Button onClick={() => setShowLogModal(true)} size="sm">
@@ -456,7 +469,7 @@ export default function StudyHubPage() {
             </div>
           ) : (
             <div className="space-y-3">
-              {logs.map((log) => {
+              {safeLogs.map((log) => {
                 const dateFormatted = new Date(log.date).toLocaleDateString("vi-VN", {
                   weekday: "short",
                   day: "2-digit",
@@ -532,7 +545,7 @@ export default function StudyHubPage() {
       {/* ----------------- TAB 3: TÀI LIỆU ÔN TẬP ----------------- */}
       {activeTab === "materials" && (
         <div className="space-y-4">
-          {materials.length === 0 ? (
+          {safeMaterials.length === 0 ? (
             <div className="glass-card p-12 text-center space-y-3">
               <p className="text-sm text-muted-foreground">Chưa có tài liệu ôn tập nào được lưu trữ.</p>
               <Button onClick={() => setShowMaterialModal(true)} size="sm">
@@ -541,7 +554,7 @@ export default function StudyHubPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {materials.map((mat) => (
+              {safeMaterials.map((mat) => (
                 <div
                   key={mat.id}
                   className="glass-card p-5 space-y-3 flex flex-col justify-between group"
@@ -772,7 +785,7 @@ export default function StudyHubPage() {
                   className="w-full h-9 text-xs px-2.5 rounded-md border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground"
                 >
                   <option value="" className="bg-card">-- Tự học / Không theo môn --</option>
-                  {courses.map((c) => (
+                  {safeCourses.map((c) => (
                     <option key={c.id} value={c.id} className="bg-card">
                       {c.name} ({c.code || "Môn học"})
                     </option>
@@ -867,7 +880,7 @@ export default function StudyHubPage() {
                   className="w-full h-9 text-xs px-2.5 rounded-md border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground"
                 >
                   <option value="" className="bg-card">-- Tài liệu chung / Kỹ năng --</option>
-                  {courses.map((c) => (
+                  {safeCourses.map((c) => (
                     <option key={c.id} value={c.id} className="bg-card">
                       {c.name} ({c.code || "Môn học"})
                     </option>

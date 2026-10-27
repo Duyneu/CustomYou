@@ -111,24 +111,27 @@ export default function CombinedTrackerPage() {
 
       if (resTx.ok) {
         const data = await resTx.json();
-        setTransactions(data.transactions || data || []);
+        setTransactions(Array.isArray(data.transactions) ? data.transactions : Array.isArray(data) ? data : []);
       }
       if (resHabit.ok) {
-        setHabits(await resHabit.json());
+        const hData = await resHabit.json();
+        setHabits(Array.isArray(hData.habits) ? hData.habits : Array.isArray(hData) ? hData : []);
       }
       if (resCat.ok) {
         const catData = await resCat.json();
-        setCategories(catData);
-        if (catData.length > 0 && !txForm.categoryId) {
-          const expenseCat = catData.find((c: any) => c.type === "EXPENSE");
+        const catList = Array.isArray(catData.categories) ? catData.categories : Array.isArray(catData) ? catData : [];
+        setCategories(catList);
+        if (catList.length > 0 && !txForm.categoryId) {
+          const expenseCat = catList.find((c: any) => c.type === "EXPENSE");
           if (expenseCat) setTxForm((prev) => ({ ...prev, categoryId: expenseCat.id }));
         }
       }
       if (resAcc.ok) {
         const accData = await resAcc.json();
-        setAccounts(accData);
-        if (accData.length > 0 && !txForm.accountId) {
-          setTxForm((prev) => ({ ...prev, accountId: accData[0].id }));
+        const accList = Array.isArray(accData.accounts) ? accData.accounts : Array.isArray(accData) ? accData : [];
+        setAccounts(accList);
+        if (accList.length > 0 && !txForm.accountId) {
+          setTxForm((prev) => ({ ...prev, accountId: accList[0].id }));
         }
       }
     } catch (e) {
@@ -248,9 +251,14 @@ export default function CombinedTrackerPage() {
     }
   };
 
+  const safeTransactions = Array.isArray(transactions) ? transactions : [];
+  const safeHabits = Array.isArray(habits) ? habits : [];
+  const safeCategories = Array.isArray(categories) ? categories : [];
+  const safeAccounts = Array.isArray(accounts) ? accounts : [];
+
   // 1. Chuẩn bị dữ liệu cho Biểu đồ phân bổ chi tiêu (Donut Chart)
   const expenseByCategory: { [name: string]: number } = {};
-  transactions
+  safeTransactions
     .filter((t) => t.type === "EXPENSE")
     .forEach((t) => {
       const name = t.category?.name || "Chi khác";
@@ -272,9 +280,9 @@ export default function CombinedTrackerPage() {
     last7DaysMap[key] = { date: displayLabel, expense: 0, income: 0 };
   }
 
-  transactions.forEach((t) => {
-    const dayKey = t.date.split("T")[0];
-    if (last7DaysMap[dayKey]) {
+  safeTransactions.forEach((t) => {
+    const dayKey = t.date?.split("T")[0];
+    if (dayKey && last7DaysMap[dayKey]) {
       if (t.type === "EXPENSE") last7DaysMap[dayKey].expense += Number(t.amount);
       if (t.type === "INCOME") last7DaysMap[dayKey].income += Number(t.amount);
     }
@@ -283,11 +291,11 @@ export default function CombinedTrackerPage() {
   const barData = Object.values(last7DaysMap);
 
   // Tổng quan chi tiêu tháng
-  const totalExpense = transactions
+  const totalExpense = safeTransactions
     .filter((t) => t.type === "EXPENSE")
     .reduce((sum, t) => sum + Number(t.amount), 0);
 
-  const totalIncome = transactions
+  const totalIncome = safeTransactions
     .filter((t) => t.type === "INCOME")
     .reduce((sum, t) => sum + Number(t.amount), 0);
 
@@ -407,7 +415,7 @@ export default function CombinedTrackerPage() {
                   onChange={(e) => setTxForm({ ...txForm, categoryId: e.target.value })}
                   className="w-full h-9 text-xs px-2.5 rounded-xl border border-purple-500/20 dark:border-white/15 bg-white/70 dark:bg-white/[0.04] text-foreground"
                 >
-                  {categories
+                  {safeCategories
                     .filter((c) => c.type === txForm.type)
                     .map((c) => (
                       <option key={c.id} value={c.id} className="bg-card">
@@ -564,12 +572,12 @@ export default function CombinedTrackerPage() {
                 Giao dịch ghi nhận gần nhất
               </h3>
               <span className="text-xs text-muted-foreground font-mono">
-                {transactions.length} bản ghi
+                {safeTransactions.length} bản ghi
               </span>
             </div>
 
             <div className="divide-y divide-border/60">
-              {transactions.slice(0, 8).map((t) => (
+              {safeTransactions.slice(0, 8).map((t) => (
                 <div
                   key={t.id}
                   className="px-5 py-3 flex items-center justify-between text-xs hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.03] transition-colors"
@@ -646,9 +654,9 @@ export default function CombinedTrackerPage() {
 
           {/* Danh sách thói quen & Điểm danh tuần */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {habits.map((habit) => {
+            {safeHabits.map((habit) => {
               const isDoneToday =
-                habit.logs.some((l) => l.date === todayStr && l.completed);
+                habit.logs?.some((l) => l.date === todayStr && l.completed);
 
               return (
                 <div

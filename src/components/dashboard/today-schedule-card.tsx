@@ -57,7 +57,8 @@ export function TodayScheduleCard({ initialCourses = [] }: { initialCourses?: Co
     }
   }, [initialCourses]);
 
-  const coursesOnDay = courses.filter((c) => c.dayOfWeek === selectedDay);
+  const safeCourses = Array.isArray(courses) ? courses : [];
+  const coursesOnDay = safeCourses.filter((c) => c.dayOfWeek === selectedDay);
 
   return (
     <div className="glass-card p-6 flex flex-col justify-between space-y-4">

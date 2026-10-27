@@ -75,6 +75,38 @@ export default async function DashboardPage() {
       select: { id: true, title: true, content: true, updatedAt: true },
     });
 
+    // Chuẩn hóa & serialize dữ liệu sạch để tránh lỗi Date/BigInt khi truyền sang Client Components
+    const serializedCourses = courses.map((c) => ({
+      id: c.id,
+      name: c.name,
+      code: c.code,
+      instructor: c.instructor,
+      room: c.room,
+      dayOfWeek: c.dayOfWeek,
+      startTime: c.startTime,
+      endTime: c.endTime,
+      color: c.color,
+      completedLessons: c.completedLessons,
+      totalLessons: c.totalLessons,
+    }));
+
+    const serializedTodos = todos.map((t) => ({
+      id: t.id,
+      title: t.title,
+      priority: t.priority,
+      status: t.status,
+      dueDate: t.dueDate ? t.dueDate.toISOString() : null,
+    }));
+
+    const serializedNote = quickNote
+      ? {
+          id: quickNote.id,
+          title: quickNote.title,
+          content: quickNote.content,
+          updatedAt: quickNote.updatedAt.toISOString(),
+        }
+      : null;
+
     // 6. Thống kê chi tiêu tháng phục vụ widget tóm tắt
     const now = new Date();
     const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
@@ -101,16 +133,16 @@ export default async function DashboardPage() {
         {/* Row 2: Lịch học hôm nay & Danh sách việc cần làm */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
           <div className="lg:col-span-7">
-            <TodayScheduleCard initialCourses={courses as any} />
+            <TodayScheduleCard initialCourses={serializedCourses} />
           </div>
           <div className="lg:col-span-5">
-            <TodayTodosCard initialTodos={todos as any} />
+            <TodayTodosCard initialTodos={serializedTodos} />
           </div>
         </div>
 
         {/* Row 3: Ghi chú nhanh & Điểm danh thói quen */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <QuickScratchpadCard initialNote={quickNote as any} />
+          <QuickScratchpadCard initialNote={serializedNote} />
           <HabitsCheckinCard initialHabits={habitsFormatted} />
         </div>
 

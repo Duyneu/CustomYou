@@ -45,7 +45,8 @@ export function HabitsCheckinCard({ initialHabits = [] }: { initialHabits?: Habi
     }
   };
 
-  const completedCount = habits.filter((h) => h.isCompletedToday).length;
+  const safeHabits = Array.isArray(habits) ? habits : [];
+  const completedCount = safeHabits.filter((h) => h.isCompletedToday).length;
 
   return (
     <div className="glass-card p-6 flex flex-col justify-between space-y-4">
@@ -58,13 +59,13 @@ export function HabitsCheckinCard({ initialHabits = [] }: { initialHabits?: Habi
           <div>
             <h2 className="text-sm font-semibold text-foreground">Thói quen hôm nay</h2>
             <p className="text-[11px] text-muted-foreground font-mono">
-              Đã điểm danh {completedCount}/{habits.length} thói quen
+              Đã điểm danh {completedCount}/{safeHabits.length} thói quen
             </p>
           </div>
         </div>
 
         <Link
-          href="/productivity/habits"
+          href="/tracker"
           className="text-xs text-muted-foreground hover:text-purple-600 dark:hover:text-purple-300 flex items-center gap-1 transition-colors"
         >
           <span>Chi tiết thói quen</span>
@@ -74,12 +75,12 @@ export function HabitsCheckinCard({ initialHabits = [] }: { initialHabits?: Habi
 
       {/* Habit items */}
       <div className="space-y-2 min-h-[140px]">
-        {habits.length === 0 ? (
+        {safeHabits.length === 0 ? (
           <p className="text-xs text-muted-foreground text-center py-6">
             Chưa có thói quen nào. Hãy thêm thói quen mới để xây dựng kỷ luật!
           </p>
         ) : (
-          habits.map((habit) => (
+          safeHabits.map((habit) => (
             <div
               key={habit.id}
               className="flex items-center justify-between py-2 px-2.5 rounded-xl hover:bg-purple-500/[0.05] dark:hover:bg-white/[0.04] transition-colors gap-2"
