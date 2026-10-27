@@ -27,19 +27,19 @@ Sao chép `.env.example` thành `.env` và điền cấu hình:
 # Database URL (PostgreSQL / Neon Cloud)
 DATABASE_URL="postgresql://username:password@your-neon-host.aws.neon.tech/myhub?sslmode=require"
 
-# NextAuth
+# NextAuth Configuration
 NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="0000000000000000000000000000000000000000000000000000000000000000"
+NEXTAUTH_SECRET="<generate-random-32-byte-hex-string>"
 
 # Khóa chủ mã hóa AES-256-GCM (64 ký tự Hex = 32 bytes)
-ENCRYPTION_MASTER_KEY="1111111111111111111111111111111111111111111111111111111111111111"
+ENCRYPTION_MASTER_KEY="<generate-64-character-hex-string>"
 
 # Webhook Secret (Dùng cho Casso / SePay)
-BANK_WEBHOOK_SECRET="REDACTED_SECRET"
+BANK_WEBHOOK_SECRET="<generate-webhook-secret-token>"
 
 # Tài khoản mặc định khi chạy seed
 DEFAULT_ADMIN_EMAIL="admin@example.com"
-DEFAULT_ADMIN_PASSWORD="REDACTED_PASS"
+DEFAULT_ADMIN_PASSWORD="<choose-a-strong-password>"
 ```
 
 ### 2. Đồng bộ Database & Khởi tạo Dữ liệu mẫu (Seed)
@@ -90,8 +90,8 @@ MyHub thiết kế sẵn kiến trúc **BankProvider Adapter** để tích hợp
 
 ## 🔑 Quyền Truy Cập Chủ Sở Hữu (Single-User Lock)
 
-Hệ thống được thiết lập chế độ bảo mật nghiêm ngặt chỉ dành riêng cho một chủ nhân duy nhất:
-- **Email chủ nhân**: `admin@example.com`
+Hệ thống được thiết lập chế độ bảo mật nghiêm ngặt chỉ dành riêng cho chủ nhân được cấu hình trong biến môi trường:
+- **Email chủ nhân**: Được chỉ định thông qua biến môi trường `DEFAULT_ADMIN_EMAIL` trong `.env`.
 - Mọi nỗ lực đăng nhập bằng bất kỳ tài khoản email nào khác đều sẽ bị từ chối truy cập ngay lập tức.
 - **Bảo mật 2FA**: Có thể kích hoạt thêm tại `/settings/security` qua ứng dụng Google Authenticator.
 

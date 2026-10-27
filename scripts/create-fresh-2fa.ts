@@ -7,7 +7,11 @@ import path from "path";
 import { encrypt } from "../src/lib/crypto";
 
 async function main() {
-  const email = "admin@example.com";
+  const email = (process.env.ADMIN_EMAIL || process.env.DEFAULT_ADMIN_EMAIL || "").trim().toLowerCase();
+  if (!email) {
+    console.error("Vui lòng cấu hình DEFAULT_ADMIN_EMAIL trong .env");
+    process.exit(1);
+  }
   const user = await prisma.user.findFirst({
     where: { email },
   });

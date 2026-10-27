@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 
 function LoginForm() {
-  const [username, setUsername] = useState("admin@example.com");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [twoFactorCode, setTwoFactorCode] = useState("");
@@ -250,7 +250,7 @@ function LoginForm() {
                     autoComplete="username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="admin@example.com"
+                    placeholder="email@example.com"
                     className="auth-input w-full bg-transparent px-2.5 py-3 text-sm text-white placeholder:text-white/35 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 font-sans drop-shadow-xs"
                   />
                 </div>
@@ -336,7 +336,7 @@ function LoginForm() {
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                   <span>Máy chủ trực tuyến</span>
                 </div>
-                <span>Chủ nhân: admin@example.com</span>
+                <span>Bảo mật đơn người dùng</span>
               </div>
             </>
           ) : (

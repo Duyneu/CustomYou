@@ -3,7 +3,11 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || "admin@example.com";
+  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL;
+  if (!adminEmail) {
+    console.error("Lỗi: Vui lòng cấu hình DEFAULT_ADMIN_EMAIL trong .env");
+    return;
+  }
   const user = await prisma.user.findUnique({ where: { email: adminEmail } });
 
   if (!user) {

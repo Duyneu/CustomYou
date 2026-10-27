@@ -47,7 +47,14 @@ export async function POST(
 
   const secretKey = providerConfig?.encryptedSecretKey
     ? decrypt(providerConfig.encryptedSecretKey)
-    : process.env.BANK_WEBHOOK_SECRET || "REDACTED_SECRET";
+    : process.env.BANK_WEBHOOK_SECRET;
+
+  if (!secretKey) {
+    return NextResponse.json(
+      { error: "Webhook Secret chưa được cấu hình trên hệ thống." },
+      { status: 500 }
+    );
+  }
 
   // 2. Xác thực chữ ký / API Token
   const authResult = await provider.verifySignature(req.headers, rawBody, secretKey);

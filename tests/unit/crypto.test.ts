@@ -4,7 +4,7 @@ import { encrypt, decrypt, maskAccountNumber } from "../../src/lib/crypto";
 describe("Crypto Module (AES-256-GCM)", () => {
   beforeAll(() => {
     process.env.ENCRYPTION_MASTER_KEY =
-      "1111111111111111111111111111111111111111111111111111111111111111";
+      "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
   });
 
   it("mã hóa và giải mã chính xác chuỗi bí mật", () => {

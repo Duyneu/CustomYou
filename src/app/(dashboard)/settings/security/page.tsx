@@ -1,12 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { ShieldCheck, KeyRound, QrCode, AlertCircle, Check, Copy, RefreshCw, PowerOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 
 export default function SecuritySettingsPage() {
+  const { data: session } = useSession();
   const [setupStep, setSetupStep] = useState<"IDLE" | "SCAN" | "ENABLED">("IDLE");
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
   const [secretKey, setSecretKey] = useState<string | null>(null);
@@ -189,7 +191,7 @@ export default function SecuritySettingsPage() {
                 </div>
                 <div>
                   <span className="text-muted-foreground block">Tài khoản:</span>
-                  <span className="font-mono text-foreground font-medium">admin@example.com</span>
+                  <span className="font-mono text-foreground font-medium">{session?.user?.email || "Chủ hệ thống"}</span>
                 </div>
               </div>
             </div>

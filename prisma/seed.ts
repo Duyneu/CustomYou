@@ -6,8 +6,13 @@ const prisma = new PrismaClient();
 async function main() {
   console.log("🌱 Bắt đầu khởi tạo dữ liệu mẫu cho MyHub...");
 
-  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL || "admin@example.com";
-  const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD || "REDACTED_PASS";
+  const adminEmail = process.env.DEFAULT_ADMIN_EMAIL;
+  const adminPassword = process.env.DEFAULT_ADMIN_PASSWORD;
+
+  if (!adminEmail || !adminPassword) {
+    console.error("Lỗi: Vui lòng cấu hình DEFAULT_ADMIN_EMAIL và DEFAULT_ADMIN_PASSWORD trong .env trước khi chạy seed.");
+    process.exit(1);
+  }
 
   // Dọn dẹp tài khoản demo cũ nếu có
   const oldAdmin = await prisma.user.findUnique({ where: { email: "admin@myhub.local" } });

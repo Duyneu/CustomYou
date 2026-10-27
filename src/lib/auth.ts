@@ -6,7 +6,56 @@ import { authenticator } from "otplib";
 import { prisma } from "./prisma";
 import { decrypt } from "./crypto";
 
-export const ALLOWED_OWNER_EMAIL = "admin@example.com";
+// Lấy email chủ hệ thống từ biến môi trường
+export function getAllowedOwnerEmail(): string {
+  return (
+    process.env.ADMIN_EMAIL ||
+    process.env.DEFAULT_ADMIN_EMAIL ||
+    ""
+  ).trim().toLowerCase();
+}
+
+// -------------------------------------------------------------
+// Rate Limiting đăng nhập để chống tấn công Brute-force
+// -------------------------------------------------------------
+interface RateLimitRecord {
+  attempts: number;
+  lockUntil: number;
+}
+const loginAttempts = new Map<string, RateLimitRecord>();
+const MAX_ATTEMPTS = 5;
+const LOCK_TIME_MS = 15 * 60 * 1000; // 15 phút
+
+function checkRateLimit(key: string): void {
+  const now = Date.now();
+  const record = loginAttempts.get(key);
+  if (record && record.lockUntil > now) {
+    const minutesRemaining = Math.ceil((record.lockUntil - now) / 60000);
+    throw new Error(
+      `Tài khoản tạm thời bị khóa do nhiều lần đăng nhập không hợp lệ. Vui lòng thử lại sau ${minutesRemaining} phút.`
+    );
+  }
+}
+
+function recordFailedAttempt(key: string): void {
+  const now = Date.now();
+  const record = loginAttempts.get(key) || { attempts: 0, lockUntil: 0 };
+
+  if (record.lockUntil <= now && record.attempts >= MAX_ATTEMPTS) {
+    record.attempts = 0;
+    record.lockUntil = 0;
+  }
+
+  record.attempts += 1;
+  if (record.attempts >= MAX_ATTEMPTS) {
+    record.lockUntil = now + LOCK_TIME_MS;
+  }
+  loginAttempts.set(key, record);
+}
+
+function resetFailedAttempts(key: string): void {
+  loginAttempts.delete(key);
+}
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -30,78 +79,42 @@ export const authOptions: NextAuthOptions = {
         }
 
         const cleanEmail = credentials.email.trim().toLowerCase();
+        const rateLimitKey = `login_${cleanEmail}`;
 
-        // Kiểm soát đơn người dùng: Chỉ cho phép admin@example.com hoặc tài khoản admin cũ
-        const isOwner =
-          cleanEmail === "admin@example.com" ||
-          cleanEmail === "admin@myhub.local" ||
-          cleanEmail === (process.env.DEFAULT_ADMIN_EMAIL || "").trim().toLowerCase();
+        // Kiểm tra Brute-Force Rate Limit
+        checkRateLimit(rateLimitKey);
 
-        if (!isOwner) {
-          throw new Error("Truy cập bị từ chối: Bảng điều khiển MyHub chỉ dành riêng cho chủ nhân.");
+        // Kiểm tra danh tính chủ hệ thống nếu có cấu hình email chủ
+        const ownerEmail = getAllowedOwnerEmail();
+        if (ownerEmail && cleanEmail !== ownerEmail) {
+          recordFailedAttempt(rateLimitKey);
+          throw new Error("Tài khoản hoặc mật khẩu không chính xác.");
         }
 
-        // Tìm người dùng trong database
-        let user = await prisma.user.findFirst({
-          where: {
-            OR: [
-              { email: "admin@example.com" },
-              { email: cleanEmail },
-              { email: "admin@myhub.local" },
-            ],
-          },
+        // Tìm người dùng trong database theo đúng email đã nhập
+        const user = await prisma.user.findUnique({
+          where: { email: cleanEmail },
         });
 
-        // Nếu người dùng chưa tồn tại, tự động tạo tài khoản chủ nhân
+        // Nếu người dùng không tồn tại, trả lỗi chung để tránh user enumeration
         if (!user) {
-          const passwordHash = await bcrypt.hash(credentials.password, 12);
-          user = await prisma.user.create({
-            data: {
-              email: "admin@example.com",
-              name: "Hữu Duy",
-              passwordHash,
-              twoFactorEnabled: false,
-              settings: {
-                create: {
-                  fiscalMonthStartDay: 1,
-                  currency: "VND",
-                  locale: "vi",
-                  theme: "dark",
-                  accentColor: "violet",
-                  budgetAlertThreshold: 80,
-                },
-              },
-            },
-          });
+          recordFailedAttempt(rateLimitKey);
+          throw new Error("Tài khoản hoặc mật khẩu không chính xác.");
         }
 
-        // Đảm bảo email của người dùng luôn là admin@example.com
-        if (user.email !== "admin@example.com") {
-          user = await prisma.user.update({
-            where: { id: user.id },
-            data: { email: "admin@example.com", name: "Hữu Duy" },
-          });
-        }
-
-        // Kiểm tra mật khẩu
-        let isPasswordValid = await bcrypt.compare(
+        // Kiểm tra mật khẩu thuần túy bằng bcrypt
+        const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.passwordHash
         );
 
-        // Đảm bảo mật khẩu REDACTED_PASS luôn khớp và cập nhật hash nếu cần
-        if (!isPasswordValid && credentials.password === "REDACTED_PASS") {
-          const newHash = await bcrypt.hash("REDACTED_PASS", 12);
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { passwordHash: newHash },
-          });
-          isPasswordValid = true;
-        }
-
         if (!isPasswordValid) {
+          recordFailedAttempt(rateLimitKey);
           throw new Error("Tài khoản hoặc mật khẩu không chính xác.");
         }
+
+        // Reset bộ đếm brute-force khi mật khẩu chính xác
+        resetFailedAttempts(rateLimitKey);
 
         // Kiểm tra xác thực hai lớp (2FA) nếu tài khoản thực sự đã kích hoạt
         if (user.twoFactorEnabled && user.twoFactorSecret) {
@@ -140,7 +153,7 @@ export const authOptions: NextAuthOptions = {
           return {
             id: user.id,
             email: user.email,
-            name: user.name || "Hữu Duy",
+            name: user.name || "Chủ tài khoản",
             twoFactorEnabled: true,
             twoFactorVerified: true,
           };
@@ -150,7 +163,7 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          name: user.name || "Hữu Duy",
+          name: user.name || "Chủ tài khoản",
           twoFactorEnabled: false,
           twoFactorVerified: true,
         };
@@ -186,5 +199,5 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET || "0000000000000000000000000000000000000000000000000000000000000000",
+  secret: process.env.NEXTAUTH_SECRET,
 };

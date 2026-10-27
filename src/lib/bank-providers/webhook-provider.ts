@@ -1,6 +1,19 @@
 import crypto from "crypto";
 import { BankProvider, BankProviderVerificationResult, NormalizedTransaction } from "./types";
 
+/**
+ * So sánh an toàn chống tấn công Timing Attacks (Constant-Time String Comparison)
+ */
+function timingSafeEqualStr(a: string, b: string): boolean {
+  const bufA = Buffer.from(a, "utf8");
+  const bufB = Buffer.from(b, "utf8");
+  if (bufA.length !== bufB.length) {
+    crypto.timingSafeEqual(bufA, bufA);
+    return false;
+  }
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
 export class SePayWebhookProvider implements BankProvider {
   name = "SEPAY";
 
@@ -15,7 +28,7 @@ export class SePayWebhookProvider implements BankProvider {
     }
 
     const cleanToken = authHeader.replace(/^Bearer\s+/i, "").trim();
-    if (cleanToken !== secretKey) {
+    if (!timingSafeEqualStr(cleanToken, secretKey)) {
       return { isValid: false, error: "API Key hoặc Token SePay không khớp" };
     }
 
@@ -60,7 +73,7 @@ export class CassoWebhookProvider implements BankProvider {
     }
 
     // Nếu secretKey khớp trực tiếp với Secure Token của Casso
-    if (signature === secretKey) {
+    if (timingSafeEqualStr(signature, secretKey)) {
       return { isValid: true };
     }
 
@@ -70,7 +83,7 @@ export class CassoWebhookProvider implements BankProvider {
       .update(rawBody)
       .digest("hex");
 
-    if (computedHmac === signature) {
+    if (timingSafeEqualStr(computedHmac, signature)) {
       return { isValid: true };
     }
 

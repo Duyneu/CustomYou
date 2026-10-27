@@ -8,9 +8,12 @@ const TAG_LENGTH = 16;
  * Lấy khóa chủ 32-byte (256 bits) từ biến môi trường
  */
 function getMasterKey(): Buffer {
-  const masterKeyHex =
-    process.env.ENCRYPTION_MASTER_KEY ||
-    "1111111111111111111111111111111111111111111111111111111111111111";
+  const masterKeyHex = process.env.ENCRYPTION_MASTER_KEY;
+  if (!masterKeyHex) {
+    throw new Error(
+      "Biến môi trường ENCRYPTION_MASTER_KEY chưa được cấu hình. Cần 32 bytes (64 ký tự hex)."
+    );
+  }
   
   const key = Buffer.from(masterKeyHex, "hex");
   if (key.length !== 32) {

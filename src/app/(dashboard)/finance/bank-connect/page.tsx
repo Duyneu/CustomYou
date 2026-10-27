@@ -25,6 +25,7 @@ export default function BankConnectPage() {
 
   // Webhook Test simulation state
   const [simulating, setSimulating] = useState(false);
+  const [simulationToken, setSimulationToken] = useState("");
   const [simResult, setSimResult] = useState<string | null>(null);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export default function BankConnectPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Bearer REDACTED_SECRET",
+          ...(simulationToken ? { Authorization: `Bearer ${simulationToken}` } : {}),
         },
         body: JSON.stringify({
           id: `SIM_${Date.now()}`,
@@ -162,15 +163,21 @@ export default function BankConnectPage() {
 
             {/* Test Simulation Button */}
             <div className="pt-3 border-t border-border/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <span className="text-xs text-muted-foreground font-medium">
-                Kiểm tra giả lập Webhook tới hệ thống:
-              </span>
+              <div className="flex-1 w-full sm:w-auto">
+                <Input
+                  type="password"
+                  placeholder="Nhập BANK_WEBHOOK_SECRET để thử nghiệm..."
+                  value={simulationToken}
+                  onChange={(e) => setSimulationToken(e.target.value)}
+                  className="h-8 text-xs font-mono"
+                />
+              </div>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleSimulateWebhook}
-                disabled={simulating}
-                className="gap-1.5 h-8 text-xs shrink-0"
+                disabled={simulating || !simulationToken}
+                className="gap-1.5 h-8 text-xs shrink-0 w-full sm:w-auto"
               >
                 <Zap className="w-3.5 h-3.5" />
                 {simulating ? "Đang gửi..." : "Gửi thử nghiệm (+250k)"}
