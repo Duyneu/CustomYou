@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SessionProvider } from "@/components/providers/session-provider";
+import { DomGuard } from "@/components/providers/dom-guard";
 
 const inter = Inter({ subsets: ["latin", "vietnamese"] });
 
@@ -28,34 +29,11 @@ export default function RootLayout({
     <html lang="vi" translate="no" className="notranslate" suppressHydrationWarning>
       <head>
         <meta name="google" content="notranslate" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              if (typeof window !== "undefined") {
-                const origRemove = Node.prototype.removeChild;
-                Node.prototype.removeChild = function(child) {
-                  if (child.parentNode !== this) {
-                    if (child.parentNode) return child.parentNode.removeChild(child);
-                    return child;
-                  }
-                  return origRemove.call(this, child);
-                };
-                const origInsert = Node.prototype.insertBefore;
-                Node.prototype.insertBefore = function(newNode, refNode) {
-                  if (refNode && refNode.parentNode !== this) {
-                    if (refNode.parentNode) return refNode.parentNode.insertBefore(newNode, refNode);
-                    return newNode;
-                  }
-                  return origInsert.call(this, newNode, refNode);
-                };
-              }
-            `,
-          }}
-        />
       </head>
       <body className={inter.className}>
         <SessionProvider>
           <ThemeProvider defaultTheme="dark">
+            <DomGuard />
             <div className="min-h-screen bg-background text-foreground antialiased">
               {children}
             </div>
