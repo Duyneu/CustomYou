@@ -46,7 +46,7 @@ export function TodayScheduleCard({ initialCourses = [] }: { initialCourses?: Co
         const res = await fetch("/api/study/courses");
         if (res.ok) {
           const data = await res.json();
-          setCourses(data);
+          setCourses(Array.isArray(data) ? data : Array.isArray(data?.courses) ? data.courses : []);
         }
       } catch (e) {
         // bỏ qua

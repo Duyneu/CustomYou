@@ -14,40 +14,36 @@ export function LiveClockCard({ userName = "Hữu Duy" }: { userName?: string })
     return () => clearInterval(timer);
   }, []);
 
-  if (!time) {
-    return (
-      <div className="glass-card p-6 h-full flex flex-col justify-between animate-pulse">
-        <div className="h-4 w-32 bg-white/10 rounded" />
-        <div className="h-10 w-48 bg-white/10 rounded my-4" />
-        <div className="h-4 w-40 bg-white/10 rounded" />
-      </div>
-    );
-  }
+  const hours = time ? time.getHours() : 0;
+  const minutes = time ? String(time.getMinutes()).padStart(2, "0") : "--";
+  const seconds = time ? String(time.getSeconds()).padStart(2, "0") : "--";
+  const formattedHours = time ? String(hours).padStart(2, "0") : "--";
 
-  const hours = time.getHours();
-  const minutes = String(time.getMinutes()).padStart(2, "0");
-  const seconds = String(time.getSeconds()).padStart(2, "0");
-  const formattedHours = String(hours).padStart(2, "0");
-
-  let greeting = "Chào buổi sáng";
+  let greeting = "Chào bạn";
   let greetingSub = "Khởi đầu ngày mới tràn đầy năng lượng & tập trung!";
-  if (hours >= 11 && hours < 14) {
-    greeting = "Chào buổi trưa";
-    greetingSub = "Dành thời gian nghỉ ngơi nạp lại năng lượng nhé.";
-  } else if (hours >= 14 && hours < 18) {
-    greeting = "Chào buổi chiều";
-    greetingSub = "Tiếp tục hoàn thành các mục tiêu học tập hôm nay.";
-  } else if (hours >= 18) {
-    greeting = "Chào buổi tối";
-    greetingSub = "Ôn lại kiến thức trong ngày và thư giãn.";
+  if (time) {
+    if (hours >= 11 && hours < 14) {
+      greeting = "Chào buổi trưa";
+      greetingSub = "Dành thời gian nghỉ ngơi nạp lại năng lượng nhé.";
+    } else if (hours >= 14 && hours < 18) {
+      greeting = "Chào buổi chiều";
+      greetingSub = "Tiếp tục hoàn thành các mục tiêu học tập hôm nay.";
+    } else if (hours >= 18) {
+      greeting = "Chào buổi tối";
+      greetingSub = "Ôn lại kiến thức trong ngày và thư giãn.";
+    } else {
+      greeting = "Chào buổi sáng";
+    }
   }
 
-  const dateStr = time.toLocaleDateString("vi-VN", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const dateStr = time
+    ? time.toLocaleDateString("vi-VN", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "Đang đồng bộ ngày...";
 
   return (
     <div className="glass-card p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden group">
